@@ -17,6 +17,11 @@
     <strong>Ready to create an app?</strong>
     <ion-button expand="block" (click)="doLogin()">Google Sign-in</ion-button>
     <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-    <p>Response: {{ userDetails }}</p>
+    <div *ngIf="userEmail === ''">Login to see more</div>
+    <div *ngIf="userEmail !== ''">
+      <p>Email: {{ userEmail }}</p>
+      <p>Score: {{ score }}</p>
+      <ion-button (click)="increaseScore()">Increase score</ion-button>
+    </div>
   </div>
 </ion-content>
