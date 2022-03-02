@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "392755499145",
+    "project_id": "login-capacitor-3a7a0",
+    "storage_bucket": "login-capacitor-3a7a0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:392755499145:android:736a5a62c55f5d1dd03658",
+        "android_client_info": {
+          "package_name": "org.m2gi.todo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "392755499145-4hotsfbuvqq38nr09asson17o0o7g794.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.m2gi.todo",
+            "certificate_hash": "e39479af1de132d31e5617b7c296174bfcb1ffb0"
+          }
+        },
+        {
+          "client_id": "392755499145-e534ubmap9lf96hd83fioukua4sf4vjq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgKBYCFtfmpnBc7OKOeSFrzFoQ_HxKz80"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "392755499145-e534ubmap9lf96hd83fioukua4sf4vjq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

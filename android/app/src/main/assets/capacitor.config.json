@@ -1,0 +1,16 @@
+{
+	"appId": "org.m2gi.todo",
+	"appName": "IonNgCapGoogleLogin",
+	"webDir": "www",
+	"bundledWebRuntime": false,
+	"plugins": {
+		"GoogleAuth": {
+			"scopes": [
+				"profile",
+				"email"
+			],
+			"serverClientId": "392755499145-e534ubmap9lf96hd83fioukua4sf4vjq.apps.googleusercontent.com",
+			"forceCodeForRefreshToken": true
+		}
+	}
+}
