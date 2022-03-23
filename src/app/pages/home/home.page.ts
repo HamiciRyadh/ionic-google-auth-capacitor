@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {Router} from "@angular/router";
+import {ModalController} from "@ionic/angular";
+import {CreateProjectComponent} from "../../modals/create-project/create-project.component";
 
 @Component({
   selector: 'app-home',
@@ -10,7 +12,9 @@ import {Router} from "@angular/router";
 export class HomePage implements OnInit {
 
   constructor(private router: Router,
-              private userService: UserService) { }
+              private userService: UserService,
+              private modalController: ModalController) {}
+
 
 
   ngOnInit() {
@@ -23,7 +27,11 @@ export class HomePage implements OnInit {
       })
   }
 
-  modalCreateProject(): void{
-    console.log('Open modal Create Project');
+  async modalCreateProject(): Promise<void>{
+    const modal = await this.modalController.create({
+      component: CreateProjectComponent,
+      swipeToClose: true,
+    });
+    await modal.present();
   }
 }
