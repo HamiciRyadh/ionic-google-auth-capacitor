@@ -1,0 +1,46 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="this.redirectToLogin()" text="LogIn"></ion-back-button>
+    </ion-buttons>
+    <ion-title>register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <form [formGroup]="registerForm"
+        (ngSubmit)="this.register()"
+        class="form__login">
+    <ion-img class="logo__primary" src="{{'assets/logo/logo.svg'}}"></ion-img>
+
+    <ion-input placeholder="Full name"
+               formControlName="fullName"
+               class="input__primary">
+    </ion-input>
+    <ion-input placeholder="Email"
+               formControlName="email"
+               class="input__primary">
+    </ion-input>
+    <ion-input placeholder="Tel* (optionnel)"
+               formControlName="telephone"
+               class="input__primary">
+    </ion-input>
+    <ion-input placeholder="Password"
+               formControlName="password"
+               type="password"
+               class="input__primary">
+    </ion-input>
+    <ion-input placeholder="Confirm password"
+               formControlName="confirmPassword"
+               type="password"
+               class="input__primary">
+    </ion-input>
+
+    <ion-button class="button__primary"
+                type="submit"
+                [disabled]="!registerForm.valid">
+      Sign Up
+    </ion-button>
+  </form>
+</ion-content>

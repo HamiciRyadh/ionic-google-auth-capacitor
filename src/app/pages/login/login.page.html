@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="loginForm"
+        (ngSubmit)="this.loginWithEmailPassword()"
+        class="form__login">
+    <ion-img class="logo__primary" src="{{'assets/logo/logo.svg'}}"></ion-img>
+
+    <ion-input class="input__primary"
+               placeholder="Email"
+               formControlName="email">
+    </ion-input>
+    <ion-input class="input__primary"
+               placeholder="Password"
+               formControlName="password"
+               type="password">
+    </ion-input>
+
+    <ion-label class="message__primary"
+               (click)="this.redirectToPasswordRecovery()">
+      Forgot password?
+    </ion-label>
+    <ion-button class="button__primary"
+                type="submit"
+                [disabled]="!loginForm.valid">
+      Log In
+    </ion-button>
+    <ion-card-content class="social__login">
+      <ion-img class="logo__secondary"
+               src="{{'assets/logo/google_logo.png'}}"
+               (click)="this.loginWithGoogle()"></ion-img>
+      <ion-img class="logo__secondary"
+               src="{{'assets/logo/github_logo.png'}}"
+               (click)="this.loginWithGithub()"></ion-img>
+    </ion-card-content>
+
+    <ion-label class="message__primary">
+      Don't have an account? Create one!
+    </ion-label>
+    <ion-button class="button__primary"
+                color="light"
+                (click)="this.redirectToRegister()" >
+      Sign Up page
+    </ion-button>
+  </form>
+</ion-content>

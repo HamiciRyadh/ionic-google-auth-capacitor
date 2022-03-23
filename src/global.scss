@@ -24,3 +24,57 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+/* Login Page */
+.logo__primary{
+  height: 100px;
+  margin-bottom: 50px;
+}
+
+.form__login{
+  margin-top: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.button__primary {
+  background: var(--jira-color-primary);
+  border: 1px solid var(--jira-color-primary);
+  border-radius: 5px;
+  width: 80%;
+  margin-top: 20px;
+}
+
+.input__primary {
+  border-radius: 5px;
+  border: 1px solid rgb(179, 186, 197);
+  background: white;
+  color: black;
+  max-height: 50px!important;
+  width: 80%;
+  margin-top: 10px;
+  text-indent: 10px;
+}
+
+.message__primary{
+  width: 80%;
+  padding-top: 5px;
+}
+
+.social__login{
+  display: flex;
+  width: 80%;
+  justify-content: center;
+  padding: 0;
+  margin: 10px 0px 25px 0;
+}
+
+.logo__secondary{
+  height: 50px;
+  border: 1px solid var(--jira-color-primary);
+  padding: 5px;
+  border-radius: 5px;
+  margin: 0 20px 0 20px ;
+}
