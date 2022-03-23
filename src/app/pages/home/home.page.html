@@ -15,10 +15,39 @@
         </ion-img>
       </ion-button>
     </ion-buttons>
-    <ion-title>home</ion-title>
+    <ion-title>ACCUEIL</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  Hello Home
+
+  <!-- Personal Projects!-->
+  <ion-list class="list__project__container">
+    <ion-list-header class="list__header">Mes Projets</ion-list-header>
+    <ion-item>
+      <ion-label class="list__project">Projet 1</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label class="list__project">Projet Ecom</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Other Projects!-->
+  <ion-list class="list__project__container">
+    <ion-list-header class="list__header">Autres Projets</ion-list-header>
+    <ion-item>
+      <ion-label class="list__project">Projet Yellow</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label class="list__project">Projet X</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- fab placed to the (vertical) center and end -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="secondary"
+                    (click)="this.modalCreateProject()">
+      <ion-icon name="add" ></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

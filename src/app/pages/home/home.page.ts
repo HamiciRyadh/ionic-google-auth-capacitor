@@ -22,4 +22,8 @@ export class HomePage implements OnInit {
         this.router.navigate(['/login']).then(() =>{});
       })
   }
+
+  modalCreateProject(): void{
+    console.log('Open modal Create Project');
+  }
 }
