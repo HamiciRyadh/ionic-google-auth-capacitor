@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-register',
@@ -11,7 +12,8 @@ export class RegisterPage implements OnInit {
   registerForm: FormGroup;
 
   constructor(private fb: FormBuilder,
-              private router: Router,) { }
+              private router: Router,
+              private userService: UserService) { }
 
   ngOnInit() {
     this.registerForm = this.fb.group({
@@ -29,13 +31,9 @@ export class RegisterPage implements OnInit {
     const telephone = this.registerForm.get('telephone').value;
     const password = this.registerForm.get('password').value;
     const confirmPassword = this.registerForm.get('confirmPassword').value;
-    console.log('TODO: Register with Email Password');
-
-    console.log('fullName :',fullName);
-    console.log('email :',email);
-    console.log('telephone :',telephone);
-    console.log('password :',password);
-    console.log('confirmPassword :',confirmPassword);
+    if(password === confirmPassword){
+      this.userService.createAccount(fullName, email, telephone,password);
+    }
   }
 
   redirectToLogin():void {

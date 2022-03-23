@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,8 @@ export class LoginPage implements OnInit {
   loginForm: FormGroup ;
 
   constructor(private router: Router,
-              private fb: FormBuilder,) { }
+              private fb: FormBuilder,
+              private userService: UserService) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -23,9 +25,7 @@ export class LoginPage implements OnInit {
   loginWithEmailPassword(): void {
     const email = this.loginForm.get('email').value;
     const password = this.loginForm.get('password').value;
-    console.log('TODO: Login with Email Password');
-    console.log('email :',email);
-    console.log('password :',password);
+    this.userService.logIn(email, password);
   }
 
   loginWithGoogle(): void {

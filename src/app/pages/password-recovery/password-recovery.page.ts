@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-password-recovery',
@@ -11,7 +12,8 @@ export class PasswordRecoveryPage implements OnInit {
   passwordRecoveryForm: FormGroup;
 
   constructor(private fb: FormBuilder,
-              private router: Router,) { }
+              private router: Router,
+              private userService: UserService) { }
 
   ngOnInit() {
     this.passwordRecoveryForm = this.fb.group({
@@ -21,7 +23,7 @@ export class PasswordRecoveryPage implements OnInit {
 
   recoverPassword(): void {
     const email = this.passwordRecoveryForm.get('email').value;
-    console.log('email :',email);
+    this.userService.recoverPassword(email);
   }
 
   redirectToLogin(): void{
