@@ -27,6 +27,10 @@ export class UserService {
     }
   }
 
+  async logOut(): Promise<void>{
+    await firebase.auth().signOut();
+  }
+
   async recoverPassword(email: string): Promise<void>{
     await firebase.auth().sendPasswordResetEmail(email);
   }

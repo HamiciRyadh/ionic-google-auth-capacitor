@@ -22,12 +22,20 @@ export class LoginPage implements OnInit {
     });
   }
 
+  initLoginForm(): void{
+    this.loginForm.controls['email'].setValue('');
+    this.loginForm.controls['password'].setValue('');
+  }
+
   loginWithEmailPassword(): void {
     const email = this.loginForm.get('email').value;
     const password = this.loginForm.get('password').value;
     this.userService.logIn(email, password)
       .then(()=>{
-        this.router.navigate(['/home']).then(()=>{});
+        this.router.navigate(['/home'])
+          .then(()=>{
+            this.initLoginForm();
+          });
       });
   }
 
@@ -40,10 +48,16 @@ export class LoginPage implements OnInit {
   }
 
   redirectToPasswordRecovery(): void {
-    this.router.navigate(['/password-recovery']).then(() => {});
+    this.router.navigate(['/password-recovery'])
+      .then(() => {
+        this.initLoginForm();
+      });
   }
 
   redirectToRegister(): void {
-    this.router.navigate(['/register']).then(() => {});
+    this.router.navigate(['/register'])
+      .then(() => {
+        this.initLoginForm();
+      });
   }
 }
