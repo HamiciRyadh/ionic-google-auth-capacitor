@@ -23,7 +23,10 @@ export class PasswordRecoveryPage implements OnInit {
 
   recoverPassword(): void {
     const email = this.passwordRecoveryForm.get('email').value;
-    this.userService.recoverPassword(email);
+    this.userService.recoverPassword(email)
+      .then(()=>{
+        this.router.navigate(['/login']).then(()=>{});
+      });
   }
 
   redirectToLogin(): void{

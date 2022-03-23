@@ -25,7 +25,10 @@ export class LoginPage implements OnInit {
   loginWithEmailPassword(): void {
     const email = this.loginForm.get('email').value;
     const password = this.loginForm.get('password').value;
-    this.userService.logIn(email, password);
+    this.userService.logIn(email, password)
+      .then(()=>{
+        this.router.navigate(['/home']).then(()=>{});
+      });
   }
 
   loginWithGoogle(): void {

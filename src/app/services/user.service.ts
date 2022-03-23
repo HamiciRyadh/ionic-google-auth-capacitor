@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import firebase from "firebase/compat/app";
 
 @Injectable({
   providedIn: 'root'
@@ -7,25 +8,26 @@ export class UserService {
 
   constructor() { }
 
-  createAccount(fullName:string, email: string, telephone:string, password: string): void{
-    console.log('TODO: Register with Email Password');
-
-    console.log('fullName :',fullName);
-    console.log('email :',email);
-    console.log('telephone :',telephone);
-    console.log('password :',password);
+  async createAccount(fullName:string, email: string, telephone:string, password: string): Promise<void>{
+    const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+    if(userCredential){
+      const user = userCredential.user;
+      await firebase.auth().currentUser.sendEmailVerification();
+      await firebase.auth().currentUser.updateProfile({displayName: fullName});
+      // Todo: Add user to fireStore
+      await firebase.auth().signOut();
+    }
   }
 
-  logIn(email: string, password: string): void{
-    console.log('TODO: Login with Email Password');
-
-    console.log('email :',email);
-    console.log('password :',password);
+  async logIn(email: string, password: string): Promise<void>{
+    const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+    if(userCredential){
+      const user = userCredential.user;
+      // Todo: Get user from fireStore
+    }
   }
 
-  recoverPassword(email: string): void{
-    console.log('TODO: Recover Password');
-
-    console.log('email :',email);
+  async recoverPassword(email: string): Promise<void>{
+    await firebase.auth().sendPasswordResetEmail(email);
   }
 }
