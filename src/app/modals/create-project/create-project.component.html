@@ -19,10 +19,23 @@
                placeholder="Project name"
                formControlName="name">
     </ion-input>
-    <ion-input class="input__primary"
+    <ion-textarea class="textarea__primary"
                placeholder="description"
                formControlName="description">
-    </ion-input>
+    </ion-textarea>
+
+    <div class="add__user">
+      <ion-input class="add__user__input"
+                 placeholder="user email"
+                 formControlName="email">
+      </ion-input>
+      <ion-icon class="add__user__icon"
+                size="large"
+                color="primary"
+                name="person-add-outline"
+                (click)="this.addUser()">
+      </ion-icon>
+    </div>
 
     <ion-button class="button__primary"
                 type="submit"

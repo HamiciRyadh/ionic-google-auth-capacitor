@@ -9,6 +9,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 })
 export class CreateProjectComponent implements OnInit {
   projectForm: FormGroup ;
+  listUsers: string[] = [];
 
   constructor(private modalController: ModalController,
               private fb: FormBuilder) { }
@@ -17,7 +18,14 @@ export class CreateProjectComponent implements OnInit {
     this.projectForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
+      email: ['', [Validators.email]],
     });
+  }
+
+  addUser(){
+    const email = this.projectForm.get('email').value;
+    this.listUsers.push(email);
+    this.projectForm.controls['email'].setValue('');
   }
 
   createProject(): void {
@@ -28,6 +36,7 @@ export class CreateProjectComponent implements OnInit {
       console.log("Project created!");
       console.log("name :",name);
       console.log("description :",description);
+      console.log("list Users :",this.listUsers);
 
     });
   }

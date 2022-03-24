@@ -55,7 +55,18 @@
   max-height: 50px!important;
   width: 80%;
   margin-top: 10px;
-  text-indent: 10px;
+  padding-left: 10px !important;
+}
+
+.textarea__primary{
+  border-radius: 5px;
+  border: 1px solid rgb(179, 186, 197);
+  background: white;
+  color: black;
+  height: 70px !important;
+  width: 80%;
+  margin-top: 10px;
+  padding-left: 10px !important;
 }
 
 .message__primary{
@@ -96,3 +107,28 @@
 .list__project{
   font-size: 22px !important;
 }
+
+/* Modal create Project */
+
+.add__user{
+  display: flex;
+  width: 80%;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.add__user__input{
+  border-radius: 5px;
+  border: 1px solid rgb(179, 186, 197);
+  background: white;
+  color: black;
+  max-height: 50px!important;
+  width: 80%;
+  padding-left: 10px !important;
+}
+
+.add__user__icon{
+  margin-left: 5px;
+}
+
+
