@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
-import {UserService} from "../../services/user.service";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -13,29 +13,35 @@ export class LoginPage implements OnInit {
 
   constructor(private router: Router,
               private fb: FormBuilder,
-              private userService: UserService) { }
-
-  ngOnInit() {
+              private userService: UserService,
+              private activeRoute: ActivatedRoute) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
+    activeRoute.queryParams.subscribe(val => {
+      if (val?.verifyEmail === 'true') {
+        this.initLoginForm(...this.userService.getLoginCredentials());
+      }
+    });
   }
 
-  initLoginForm(): void{
-    this.loginForm.controls['email'].setValue('');
-    this.loginForm.controls['password'].setValue('');
+  ngOnInit() {}
+
+  initLoginForm(email = '', password = ''): void {
+    this.loginForm.controls['email'].setValue(email);
+    this.loginForm.controls['password'].setValue(password);
   }
 
   loginWithEmailPassword(): void {
     const email = this.loginForm.get('email').value;
     const password = this.loginForm.get('password').value;
     this.userService.logIn(email, password)
-      .then(()=>{
-        this.router.navigate(['/home'])
-          .then(()=>{
-            this.initLoginForm();
-          });
+      .then((isLoggedIn)=> {
+        if (isLoggedIn) {
+          this.router.navigate(['/home'])
+            .then(()=> this.initLoginForm());
+        }
       });
   }
 
@@ -49,15 +55,11 @@ export class LoginPage implements OnInit {
 
   redirectToPasswordRecovery(): void {
     this.router.navigate(['/password-recovery'])
-      .then(() => {
-        this.initLoginForm();
-      });
+      .then(() => this.initLoginForm());
   }
 
   redirectToRegister(): void {
     this.router.navigate(['/register'])
-      .then(() => {
-        this.initLoginForm();
-      });
+      .then(() => this.initLoginForm());
   }
 }
