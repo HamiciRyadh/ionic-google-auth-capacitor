@@ -23,9 +23,22 @@ export class CreateProjectComponent implements OnInit {
   }
 
   addUser(){
+    const invalid = this.projectForm.get('email').invalid;
     const email = this.projectForm.get('email').value;
-    this.listUsers.push(email);
-    this.projectForm.controls['email'].setValue('');
+    const index = this.listUsers.indexOf(email);
+    if(index === -1 && !invalid){
+      this.listUsers.push(email);
+      this.projectForm.controls['email'].setValue('');
+    }else if(index !== -1){
+      this.projectForm.controls['email'].setValue('');
+    }else if (invalid){
+      // Todo: show error message!
+    }
+  }
+
+  deleteUser(email): void {
+    const index = this.listUsers.indexOf(email);
+    this.listUsers.splice(index,1);
   }
 
   createProject(): void {
