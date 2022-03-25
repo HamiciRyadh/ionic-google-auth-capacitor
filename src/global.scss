@@ -144,3 +144,18 @@
   color: black !important;
 }
 
+/* Profile Page*/
+
+.profile__header{
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  padding: 20px 0px;
+  width: 80%;
+  margin: 0 10%;
+  font-size: 24px;
+}
+
+.image__icon__profile{
+  height: 80px;
+}

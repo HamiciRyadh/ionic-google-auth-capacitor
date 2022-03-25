@@ -8,13 +8,35 @@
 </ion-header>
 
 <ion-content>
-  <ion-label>
-    {{this.user.email}}
-  </ion-label>
-  <ion-label>
-    {{this.user.displayName}}
-  </ion-label>
-  <ion-label>
-    {{this.user.uid}}
-  </ion-label>
+  <div class="profile__header">
+    <ion-img class="image__icon__profile"
+             src="{{'assets/icon/user.png'}}">
+    </ion-img>
+    <ion-label>
+      {{this.user.email}}
+    </ion-label>
+  </div>
+  <form [formGroup]="profileForm"
+        (ngSubmit)="this.updateUser()"
+        class="form__login">
+    <ion-label class="message__primary">
+      Username
+    </ion-label>
+    <ion-input placeholder="Full name"
+               formControlName="fullName"
+               class="input__primary">
+    </ion-input>
+    <ion-label class="message__primary">
+      Phone number
+    </ion-label>
+    <ion-input placeholder="telephone"
+               formControlName="telephone"
+               class="input__primary">
+    </ion-input>
+    <ion-button class="button__primary"
+                type="submit"
+                [disabled]="!profileForm.valid">
+      Update
+    </ion-button>
+  </form>
 </ion-content>

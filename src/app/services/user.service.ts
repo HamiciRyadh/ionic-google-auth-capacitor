@@ -75,6 +75,14 @@ export class UserService {
     await sendPasswordResetEmail(this.auth, email);
   }
 
+  public updateUser(user: User): void{
+    // this.afs.collection<User>('users').doc(user.uid).update(user).then(() => {
+    //   console.log('User updated!');
+    // }).catch(() => {
+    //   console.error('Error updating user!');
+    // });
+  }
+
   getLoginCredentials(): string[] {
     return [this.email ?? '', this.password ?? ''];
   }
