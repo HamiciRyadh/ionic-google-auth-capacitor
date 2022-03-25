@@ -78,4 +78,8 @@ export class UserService {
   getLoginCredentials(): string[] {
     return [this.email ?? '', this.password ?? ''];
   }
+
+  getUser(): User {
+    return this.user;
+  }
 }

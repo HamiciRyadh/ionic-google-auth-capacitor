@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { HomePageRoutingModule } from './home-routing.module';
 
 import { HomePage } from './home.page';
-import {CreateProjectComponent} from "../../modals/create-project/create-project.component";
+import {CreateProjectComponent} from '../../modals/create-project/create-project.component';
 
 @NgModule({
   imports: [

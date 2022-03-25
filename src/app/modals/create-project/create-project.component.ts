@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {ModalController} from "@ionic/angular";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ModalController} from '@ionic/angular';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-create-project',
@@ -46,10 +46,10 @@ export class CreateProjectComponent implements OnInit {
     const name = this.projectForm.get('name').value;
     const description = this.projectForm.get('description').value;
     this.modalController.dismiss().then(() => {
-      console.log("Project created!");
-      console.log("name :",name);
-      console.log("description :",description);
-      console.log("list Users :",this.listUsers);
+      console.log('Project created!');
+      console.log('name :',name);
+      console.log('description :',description);
+      console.log('list Users :',this.listUsers);
 
     });
   }
