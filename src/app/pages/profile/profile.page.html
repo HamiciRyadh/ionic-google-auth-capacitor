@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="this.redirectToHome()" text="LogIn"></ion-back-button>
+    </ion-buttons>
+    <ion-title>profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-label>
+    {{this.userService.currentUser.email}}
+  </ion-label>
+  <ion-label>
+    {{this.userService.currentUser.nom}}
+  </ion-label>
+  <ion-label>
+    {{this.userService.currentUser.uid}}
+  </ion-label>
+</ion-content>

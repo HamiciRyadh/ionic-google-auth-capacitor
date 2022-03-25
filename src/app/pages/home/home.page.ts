@@ -20,6 +20,10 @@ export class HomePage implements OnInit {
   ngOnInit() {
   }
 
+  redirectToProfile(): void{
+    this.router.navigate(['/profile']).then(() =>{});
+  }
+
   logOut(): void{
     this.userService.logOut()
       .then(()=>{
@@ -33,5 +37,13 @@ export class HomePage implements OnInit {
       swipeToClose: true,
     });
     await modal.present();
+  }
+
+  public deleteProject(): void{
+    console.log('TODO: Delete Project');
+  }
+
+  public leaveProject(): void{
+    console.log('TODO: Leave Project');
   }
 }
