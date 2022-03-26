@@ -28,8 +28,7 @@ export class ProfilePage implements OnInit {
   public updateUser(): void {
     const fullName = this.profileForm.get('fullName').value;
     const telephone = this.profileForm.get('telephone').value;
-    // TODO: Update the user in firestore and firebase Auth.
-    // this.user.nom = fullName;
+    // this.user.name = fullName;
     // this.user.phoneNumber = telephone;
     // this.userService.updateUser(this.user);
     this.redirectToHome();

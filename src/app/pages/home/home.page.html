@@ -2,16 +2,13 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button (click)="this.redirectToProfile()">
-        <ion-img class="image__icon"
-                 src="{{'assets/icon/user.png'}}">
+        <ion-img class="image__icon" src="{{'assets/icon/user.png'}}">
         </ion-img>
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button color="danger"
-                  (click)="this.logOut()">
-        <ion-img class="image__icon"
-                 src="{{'assets/icon/logout.png'}}">
+      <ion-button color="danger" (click)="this.logOut()">
+        <ion-img class="image__icon" src="{{'assets/icon/logout.png'}}">
         </ion-img>
       </ion-button>
     </ion-buttons>
@@ -21,42 +18,30 @@
 
 <ion-content>
 
+  <ion-text *ngIf="userProjects.length === 0 && otherProjects.length === 0">
+    Aucun projet à afficher.
+  </ion-text>
   <!-- Personal Projects!-->
-  <ion-list class="list__project__container">
+  <ion-list class="list__project__container" *ngIf="userProjects.length > 0">
     <ion-list-header class="list__header">Mes Projets</ion-list-header>
-    <ion-item-sliding>
+    <ion-item-sliding *ngFor="let project of userProjects" >
       <ion-item>
-        <ion-label class="list__project">Projet 1</ion-label>
+        <ion-label class="list__project">{{ project.name }}</ion-label>
+        <ion-text>{{ project.description }}</ion-text>
       </ion-item>
       <ion-item-options side="end">
-        <ion-item-option (click)="this.deleteProject()" color="danger">Delete</ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
-
-    <ion-item-sliding>
-      <ion-item>
-        <ion-label class="list__project">Projet Ecom</ion-label>
-      </ion-item>
-      <ion-item-options side="end">
-        <ion-item-option (click)="this.deleteProject()" color="danger">Delete</ion-item-option>
+        <ion-item-option (click)="this.deleteProject(project)" color="danger">Delete</ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
 
   <!-- Other Projects!-->
-  <ion-list class="list__project__container">
+  <ion-list class="list__project__container" *ngIf="otherProjects.length > 0">
     <ion-list-header class="list__header">Autres Projets</ion-list-header>
-    <ion-item-sliding>
+    <ion-item-sliding *ngFor="let project of otherProjects" >
       <ion-item>
-        <ion-label class="list__project">Projet Yellow</ion-label>
-      </ion-item>
-      <ion-item-options side="end">
-        <ion-item-option (click)="this.leaveProject()" color="warning">Leave</ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
-    <ion-item-sliding>
-      <ion-item>
-        <ion-label class="list__project">Projet X</ion-label>
+        <ion-label class="list__project">{{ project.name }}</ion-label>
+        <ion-text>{{ project.description }}</ion-text>
       </ion-item>
       <ion-item-options side="end">
         <ion-item-option (click)="this.leaveProject()" color="warning">Leave</ion-item-option>
@@ -66,9 +51,8 @@
 
   <!-- fab placed to the (vertical) center and end -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="primary"
-                    (click)="this.modalCreateProject()">
-      <ion-icon name="add" ></ion-icon>
+    <ion-fab-button color="primary" (click)="this.modalCreateProject()">
+      <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>

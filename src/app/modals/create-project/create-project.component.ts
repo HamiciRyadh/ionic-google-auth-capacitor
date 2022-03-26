@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Project} from '../../models/project';
+import {ProjectService} from '../../services/project.service';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-create-project',
@@ -12,6 +15,8 @@ export class CreateProjectComponent implements OnInit {
   listUsers: string[] = [];
 
   constructor(private modalController: ModalController,
+              private projectService: ProjectService,
+              private userService: UserService,
               private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -26,6 +31,7 @@ export class CreateProjectComponent implements OnInit {
     const invalid = this.projectForm.get('email').invalid;
     const email = this.projectForm.get('email').value;
     const index = this.listUsers.indexOf(email);
+
     if(index === -1 && !invalid){
       this.listUsers.push(email);
       this.projectForm.controls['email'].setValue('');
@@ -42,19 +48,19 @@ export class CreateProjectComponent implements OnInit {
   }
 
   createProject(): void {
-
     const name = this.projectForm.get('name').value;
     const description = this.projectForm.get('description').value;
-    this.modalController.dismiss().then(() => {
+    this.projectService.createProject(new Project(name, description, this.userService.getUser().uid))
+      .then(() => this.exit())
+      .then(() => {
       console.log('Project created!');
       console.log('name :',name);
       console.log('description :',description);
       console.log('list Users :',this.listUsers);
-
-    });
+    }).catch(console.log);
   }
 
-  exit(): void{
+  exit(): void {
     this.modalController.dismiss().then(() => {});
   }
 }

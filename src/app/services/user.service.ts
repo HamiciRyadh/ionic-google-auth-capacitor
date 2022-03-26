@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {collection, doc, Firestore, onSnapshot, setDoc} from '@angular/fire/firestore';
+import {collection, doc, Firestore, getDoc, setDoc, updateDoc} from '@angular/fire/firestore';
 import {
   Auth,
   createUserWithEmailAndPassword,
@@ -8,6 +8,7 @@ import {
   updateProfile
 } from '@angular/fire/auth';
 import {User} from '@firebase/auth';
+import {Observable} from 'rxjs';
 
 
 @Injectable({
@@ -16,13 +17,20 @@ import {User} from '@firebase/auth';
 export class UserService {
 
   private user: User;
+  private mUser: Observable<User>;
   // Necessary to store the user's email and password to to fill the fields of the login page after the registration
   // process without needing to request the user to retype them.
   private email: string;
   private password: string;
 
   constructor(private db: Firestore, private auth: Auth) {
-    this.auth.onAuthStateChanged(newUser => this.user = newUser);
+    this.mUser = new Observable<User>(subscriber => {
+      this.auth.onAuthStateChanged(newUser => {
+        this.user = newUser;
+        subscriber.next(newUser);
+        console.log('New user: ', newUser);
+      });
+    });
   }
 
   async createAccount(fullName: string, email: string, telephone: string, password: string): Promise<void>{
@@ -71,16 +79,19 @@ export class UserService {
     await signOut(this.auth);
   }
 
+  async findByEmail(email: string): Promise<User> {
+    const snapshot = await getDoc(doc(this.db, 'users', email));
+    return snapshot.data() as User;
+  }
+
   async recoverPassword(email: string): Promise<void> {
     await sendPasswordResetEmail(this.auth, email);
   }
 
   public updateUser(user: User): void{
-    // this.afs.collection<User>('users').doc(user.uid).update(user).then(() => {
-    //   console.log('User updated!');
-    // }).catch(() => {
-    //   console.error('Error updating user!');
-    // });
+    updateDoc(doc(collection(this.db, 'users'), user.email), {
+      ...user,
+    });
   }
 
   getLoginCredentials(): string[] {
@@ -89,5 +100,9 @@ export class UserService {
 
   getUser(): User {
     return this.user;
+  }
+
+  getObservableUser(): Observable<User> {
+    return this.mUser;
   }
 }

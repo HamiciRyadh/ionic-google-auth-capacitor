@@ -3,6 +3,8 @@ import {UserService} from '../../services/user.service';
 import {Router} from '@angular/router';
 import {ModalController} from '@ionic/angular';
 import {CreateProjectComponent} from '../../modals/create-project/create-project.component';
+import {ProjectService} from '../../services/project.service';
+import {Project} from '../../models/project';
 
 @Component({
   selector: 'app-home',
@@ -11,13 +13,22 @@ import {CreateProjectComponent} from '../../modals/create-project/create-project
 })
 export class HomePage implements OnInit {
 
+  userProjects = [];
+  otherProjects = [];
+
   constructor(private router: Router,
               private userService: UserService,
+              private projectService: ProjectService,
               private modalController: ModalController) {}
 
-
-
   ngOnInit() {
+    this.userService.getObservableUser().subscribe(user => {
+      this.projectService.getRelatedProjects(user).subscribe(projects => {
+        this.userProjects = projects.filter(val => val.admin === user.uid);
+        this.otherProjects = projects.filter(val => val.admin !== user.uid);
+        console.log(projects, this.userProjects, this.otherProjects);
+      });
+    });
   }
 
   redirectToProfile(): void{
@@ -25,10 +36,7 @@ export class HomePage implements OnInit {
   }
 
   logOut(): void{
-    this.userService.logOut()
-      .then(()=>{
-        this.router.navigate(['/login']).then(() =>{});
-      });
+    this.userService.logOut().then(() => this.router.navigate(['/login']));
   }
 
   async modalCreateProject(): Promise<void>{
@@ -39,8 +47,8 @@ export class HomePage implements OnInit {
     await modal.present();
   }
 
-  public deleteProject(): void{
-    console.log('TODO: Delete Project');
+  public deleteProject(project: Project): void{
+    this.projectService.deleteProject(project);
   }
 
   public leaveProject(): void{
