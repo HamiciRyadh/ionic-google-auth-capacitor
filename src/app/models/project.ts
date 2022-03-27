@@ -1,6 +1,7 @@
 import {Ticket} from './ticket';
 
 export class Project {
+  id: string;
   name: string;
   description: string;
   tickets: Ticket[];
@@ -10,6 +11,7 @@ export class Project {
 
 
   constructor(name: string, description: string, uid: string) {
+    this.id = '';
     this.name = name;
     this.description = description;
     this.admin = uid;

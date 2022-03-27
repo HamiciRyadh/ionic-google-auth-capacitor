@@ -25,7 +25,7 @@
   <ion-list class="list__project__container" *ngIf="userProjects.length > 0">
     <ion-list-header class="list__header">Mes Projets</ion-list-header>
     <ion-item-sliding *ngFor="let project of userProjects" >
-      <ion-item>
+      <ion-item (click)="this.redirectToProject(project)">
         <ion-label class="list__project">{{ project.name }}</ion-label>
         <ion-text>{{ project.description }}</ion-text>
       </ion-item>
@@ -39,7 +39,7 @@
   <ion-list class="list__project__container" *ngIf="otherProjects.length > 0">
     <ion-list-header class="list__header">Autres Projets</ion-list-header>
     <ion-item-sliding *ngFor="let project of otherProjects" >
-      <ion-item>
+      <ion-item (click)="this.redirectToProject(project)">
         <ion-label class="list__project">{{ project.name }}</ion-label>
         <ion-text>{{ project.description }}</ion-text>
       </ion-item>
