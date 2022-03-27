@@ -41,7 +41,7 @@ export class HomePage implements OnInit {
   }
 
   logOut(): void{
-    this.userService.logOut().then(() => this.router.navigate(['/login']));
+    this.userService.logout().then(() => this.router.navigate(['/login']));
   }
 
   async modalCreateProject(): Promise<void>{

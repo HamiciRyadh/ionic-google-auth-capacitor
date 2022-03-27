@@ -52,7 +52,7 @@ export class UserService {
         photoUrl: '',
       });
       // Disconnect the user so that he has to log in after verifying his email address
-      await this.logOut();
+      await this.logout();
     }
   }
 
@@ -75,7 +75,7 @@ export class UserService {
     }
   }
 
-  async logOut(): Promise<void>{
+  async logout(): Promise<void>{
     await signOut(this.auth);
   }
 

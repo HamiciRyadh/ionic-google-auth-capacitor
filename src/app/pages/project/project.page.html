@@ -1,9 +1,13 @@
+<app-menu></app-menu>
 <ion-header>
   <ion-toolbar>
-    <ion-title>project</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Projet</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-<ion-text *ngIf="this.project !== undefined">{{this.project.name}}</ion-text>
+  <ion-text *ngIf="this.project !== undefined">{{this.project.name}}</ion-text>
 </ion-content>

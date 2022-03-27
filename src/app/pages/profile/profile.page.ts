@@ -31,11 +31,5 @@ export class ProfilePage implements OnInit {
     // this.user.name = fullName;
     // this.user.phoneNumber = telephone;
     // this.userService.updateUser(this.user);
-    this.redirectToHome();
   }
-
-  public redirectToHome(): void {
-    this.router.navigate(['/home']).then(() => {});
-  }
-
 }
