@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {MenuController} from '@ionic/angular';
 import {UserService} from '../../services/user.service';
+import {ProjectService} from '../../services/project.service';
+import {User} from '@firebase/auth';
+import {Project} from '../../models/project';
 
 @Component({
   selector: 'app-menu',
@@ -10,11 +13,18 @@ import {UserService} from '../../services/user.service';
 })
 export class MenuComponent implements OnInit {
 
+  user: User;
+  project: Project;
+
   constructor(private router: Router,
               private userService: UserService,
+              private projectService: ProjectService,
               private menu: MenuController) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.userService.getObservableUser().subscribe(user => this.user = user);
+    this.projectService.selectedProject.subscribe(project => this.project = project);
+  }
 
   redirectToProfile(): void {
     this.router.navigate(['/profile']).then(() => this.closeMenu());

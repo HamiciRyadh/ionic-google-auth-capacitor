@@ -3,11 +3,11 @@
     <ion-toolbar>
       <ion-item>
         <ion-avatar slot="start" (click)="this.redirectToProfile()">
-          <img src="{{'assets/icon/user.png'}}">
+          <img src="{{ this.user?.photoURL ?? 'assets/icon/user.png'}}" alt="Photo de profile">
         </ion-avatar>
         <ion-label>
-          <h2>Email/Nom</h2>
-          <p>Projet</p>
+          <h2> {{ this.user?.email }}</h2>
+          <p> {{ this.project?.name }}</p>
         </ion-label>
       </ion-item>
     </ion-toolbar>
