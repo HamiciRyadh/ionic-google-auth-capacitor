@@ -12,7 +12,7 @@ import {
   where
 } from '@angular/fire/firestore';
 import {User} from '@firebase/auth';
-import {Observable, Subscriber} from 'rxjs';
+import {Observable, ReplaySubject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -20,11 +20,10 @@ import {Observable, Subscriber} from 'rxjs';
 export class ProjectService {
 
   projects: Project[];
-  selectedProject: Observable<Project>;
-  private selectedProjectSubscriber: Subscriber<Project>;
+  private readonly selectedProject: ReplaySubject<Project>;
 
   constructor(private db: Firestore) {
-    this.selectedProject = new Observable(subscriber => this.selectedProjectSubscriber = subscriber);
+    this.selectedProject = new ReplaySubject(1);
   }
 
   createProject(project: Project): Promise<boolean> {
@@ -56,8 +55,12 @@ export class ProjectService {
   selectProject(project: Project): void {
     const docRef = doc(this.db, 'projects', project.id);
     onSnapshot(docRef, snapshot => {
-      this.selectedProjectSubscriber.next(snapshot.data() as Project);
+      this.selectedProject.next(snapshot.data() as Project);
     });
+  }
+
+  getSelectedProject(): Observable<Project> {
+    return this.selectedProject;
   }
 
   deleteProject(project: Project): Promise<boolean> {

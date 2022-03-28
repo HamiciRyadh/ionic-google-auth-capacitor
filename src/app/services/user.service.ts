@@ -8,7 +8,7 @@ import {
   updateProfile
 } from '@angular/fire/auth';
 import {User} from '@firebase/auth';
-import {Observable} from 'rxjs';
+import {Observable, ReplaySubject} from 'rxjs';
 
 
 @Injectable({
@@ -17,19 +17,18 @@ import {Observable} from 'rxjs';
 export class UserService {
 
   private user: User;
-  private mUser: Observable<User>;
+  private readonly mUser: ReplaySubject<User>;
   // Necessary to store the user's email and password to to fill the fields of the login page after the registration
   // process without needing to request the user to retype them.
   private email: string;
   private password: string;
 
   constructor(private db: Firestore, private auth: Auth) {
-    this.mUser = new Observable<User>(subscriber => {
-      this.auth.onAuthStateChanged(newUser => {
-        this.user = newUser;
-        subscriber.next(newUser);
-        console.log('New user: ', newUser);
-      });
+    this.mUser = new ReplaySubject(1);
+    this.auth.onAuthStateChanged(newUser => {
+      this.user = newUser;
+      this.mUser.next(newUser);
+      console.log('New user: ', newUser);
     });
   }
 
