@@ -47,7 +47,7 @@ const routes: Routes = [
     data: { authGuardPipe: redirectUnauthorizedToLogin }
   },
   {
-    path: 'project',
+    path: 'project/:projectId',
     loadChildren: () => import('./pages/project/project.module').then( m => m.ProjectPageModule),
     canActivate: [AuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin }
@@ -70,7 +70,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin }
   },
-
+//  TODO: Handle 404 not found path: '**'
 ];
 
 @NgModule({

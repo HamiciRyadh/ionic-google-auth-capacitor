@@ -37,7 +37,7 @@ export class HomePage implements OnInit {
   }
 
   redirectToProject(project: Project): void{
-    this.router.navigate(['/project']).then(() => this.projectService.selectProject(project));
+    this.router.navigate([`/project/${project.id}`]).then();
   }
 
   logOut(): void{
