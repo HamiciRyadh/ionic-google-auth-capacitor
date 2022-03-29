@@ -23,7 +23,7 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
     this.userService.getObservableUser().subscribe(user => this.user = user);
-    this.projectService.getSelectedProject().subscribe(project => this.project = project);
+    this.projectService.getSelectedProjectObservable().subscribe(project => this.project = project);
   }
 
   redirectToProfile(): void {

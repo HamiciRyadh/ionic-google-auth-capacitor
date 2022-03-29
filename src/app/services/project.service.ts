@@ -5,7 +5,6 @@ import {
   deleteDoc,
   doc,
   Firestore,
-  getDocs,
   onSnapshot,
   query,
   setDoc,
@@ -19,11 +18,12 @@ import {Observable, ReplaySubject} from 'rxjs';
 })
 export class ProjectService {
 
-  projects: Project[];
-  private readonly selectedProject: ReplaySubject<Project>;
+  private selectedProject: Project;
+  private readonly mSelectedProject: ReplaySubject<Project>;
 
   constructor(private db: Firestore) {
-    this.selectedProject = new ReplaySubject(1);
+    this.mSelectedProject = new ReplaySubject(1);
+    this.mSelectedProject.subscribe(project => this.selectedProject = project);
   }
 
   createProject(project: Project): Promise<boolean> {
@@ -40,7 +40,7 @@ export class ProjectService {
   }
 
   getRelatedProjects(user: User): Observable<Project[]> {
-    const result = new Observable<Project[]>(subscriber => {
+    return new Observable<Project[]>(subscriber => {
       const q = query(collection(this.db, 'projects'), where('canRead', 'array-contains', user.uid));
       onSnapshot(q, querySnapshot => {
         const a = [];
@@ -48,18 +48,20 @@ export class ProjectService {
         subscriber.next(a);
       });
     });
-    result.subscribe(value => this.projects = value);
-    return result;
   }
 
   selectProject(projectId: string): void {
     const docRef = doc(this.db, 'projects', projectId);
     onSnapshot(docRef, snapshot => {
-      this.selectedProject.next(snapshot.data() as Project);
+      this.mSelectedProject.next(snapshot.data() as Project);
     });
   }
 
-  getSelectedProject(): Observable<Project> {
+  getSelectedProjectObservable(): Observable<Project> {
+    return this.mSelectedProject;
+  }
+
+  getSelectedProject(): Project {
     return this.selectedProject;
   }
 

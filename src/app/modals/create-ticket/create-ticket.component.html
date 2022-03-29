@@ -13,27 +13,40 @@
 
 <ion-content>
   <form [formGroup]="this.ticketForm" (ngSubmit)="this.createTicker()" class="form__login">
-    <ion-input class="input__primary" placeholder="Nom" formControlName="name"></ion-input>
-    <ion-textarea class="textarea__primary" placeholder="Description" formControlName="description"></ion-textarea>
-    <ion-radio-group formControlName="type">
-      <ion-list-header>
+    <ion-list>
+      <ion-item>
+        <ion-input class="input__primary" placeholder="Nom" formControlName="name"></ion-input>
+      </ion-item>
+
+      <ion-item>
+       <ion-textarea class="textarea__primary" placeholder="Description" formControlName="description"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
         <ion-label>Type</ion-label>
-      </ion-list-header>
-
-      <ion-item>
-        <ion-label>Tache</ion-label>
-        <ion-radio slot="start" value="task"></ion-radio>
+        <ion-select interface="popover" formControlName="type" >
+          <ion-select-option value="task">Tache</ion-select-option>
+          <ion-select-option value="bug">Bug</ion-select-option>
+        </ion-select>
       </ion-item>
 
       <ion-item>
-        <ion-label>Bug</ion-label>
-        <ion-radio slot="start" value="bug"></ion-radio>
+        <ion-label>Responsable</ion-label>
+        <ion-select interface="popover" formControlName="owner">
+          <ion-select-option *ngFor="let user of this.projectParticipants" value="{{user.uid}}">{{user.email}}</ion-select-option>
+        </ion-select>
       </ion-item>
-    </ion-radio-group>
-    <ion-input class="add__user__input" placeholder="Responsable" formControlName="ownerEmail"></ion-input>
-    <ion-input class="input__primary" placeholder="Priorité" formControlName="priority"></ion-input>
 
+      <ion-item>
+        <ion-label>Priorité</ion-label>
+        <ion-select interface="popover" formControlName="priority" >
+          <ion-select-option value="high">Haute</ion-select-option>
+          <ion-select-option value="medium">Moyenne</ion-select-option>
+          <ion-select-option value="low">Basse</ion-select-option>
+        </ion-select>
+      </ion-item>
 
+    </ion-list>
     <ion-button class="button__primary" type="submit" [disabled]="!this.ticketForm.valid">
       Ajouter
     </ion-button>

@@ -25,7 +25,7 @@ export class ProjectPage implements OnInit {
   ngOnInit() {
     const routeParams = this.route.snapshot.paramMap;
     this.projectService.selectProject(routeParams.get('projectId'));
-    this.projectService.getSelectedProject().subscribe(selectedProject => this.project = selectedProject);
+    this.projectService.getSelectedProjectObservable().subscribe(selectedProject => this.project = selectedProject);
   }
 
   redirectToTicket(ticket: Ticket): void {

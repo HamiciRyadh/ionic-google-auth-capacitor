@@ -35,9 +35,9 @@ export class CreateProjectComponent implements OnInit {
 
     if(index === -1 && !invalid){
       this.listUsers.push(email);
-      this.projectForm.controls['email'].setValue('');
+      this.projectForm.controls.email.setValue('');
     }else if(index !== -1){
-      this.projectForm.controls['email'].setValue('');
+      this.projectForm.controls.email.setValue('');
     }else if (invalid){
       // Todo: show error message!
     }

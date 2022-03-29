@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {collection, doc, Firestore, getDoc, setDoc, updateDoc} from '@angular/fire/firestore';
+import {collection, doc, Firestore, getDoc, onSnapshot, query, setDoc, updateDoc, where} from '@angular/fire/firestore';
 import {
   Auth,
   createUserWithEmailAndPassword,
@@ -9,6 +9,7 @@ import {
 } from '@angular/fire/auth';
 import {User} from '@firebase/auth';
 import {Observable, ReplaySubject} from 'rxjs';
+import {ProjectService} from './project.service';
 
 
 @Injectable({
@@ -18,17 +19,31 @@ export class UserService {
 
   private user: User;
   private readonly mUser: ReplaySubject<User>;
+  private readonly mUsers: ReplaySubject<User[]>;
   // Necessary to store the user's email and password to to fill the fields of the login page after the registration
   // process without needing to request the user to retype them.
   private email: string;
   private password: string;
 
-  constructor(private db: Firestore, private auth: Auth) {
+  constructor(private db: Firestore,
+              private auth: Auth,
+              private projectService: ProjectService) {
     this.mUser = new ReplaySubject(1);
+    this.mUsers = new ReplaySubject<User[]>(1);
+
     this.auth.onAuthStateChanged(newUser => {
       this.user = newUser;
       this.mUser.next(newUser);
-      console.log('New user: ', newUser);
+    });
+
+    this.projectService.getSelectedProjectObservable().subscribe(selectedProject => {
+      const projectUsers = [...new Set([...selectedProject.canRead,...selectedProject.canWrite])];
+      const q = query(collection(this.db, 'users'), where('uid', 'in', projectUsers));
+      onSnapshot(q, querySnapshot => {
+        const a: User[] = [];
+        querySnapshot.forEach(res => a.push(res.data() as User));
+        this.mUsers.next(a);
+      });
     });
   }
 
@@ -103,5 +118,9 @@ export class UserService {
 
   getObservableUser(): Observable<User> {
     return this.mUser;
+  }
+
+  getObservableUsers(): Observable<User[]> {
+    return this.mUsers;
   }
 }

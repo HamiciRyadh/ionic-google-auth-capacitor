@@ -1,13 +1,30 @@
+import {Project} from './project';
+
 export class Ticket {
-  id: string;         //(projectName-NumTicket)
-  nom: string;
+  id: string;
+  label: string;         //(projectName-NumTicket)
+  name: string;
   description: string;
-  type: string;       // (Bug,Tache)
-  status: string;     // (Ouvert, En cours, bloqué, terminé)
-  priorite: string;   // (High, Medium, Low)
-  duree: string;
-  responsable: string;
+  type: string;       // (bug/task)
+  status: string;     // (open, started, blocked, finished)
+  priority: string;   // (high, medium, low)
+  owner: string;
   createdBy: string;
   creationDateTime: Date;
-  listePiecesJointes: string[];
+  attachments: string[];
+
+  constructor(name: string, description: string, type: string, priority: string, ownerUid: string, creatorUid,
+              project: Project) {
+    this.id = '';
+    this.label = project.name + '-' + project.tickets.length;
+    this.name = name;
+    this.description = description;
+    this.type = type;
+    this.status = 'open';
+    this.priority = priority;
+    this.owner = ownerUid;
+    this.createdBy = creatorUid;
+    this.creationDateTime = new Date(); //TODO: Use timestamp UTC to unify.
+    this.attachments = [];
+  }
 }
