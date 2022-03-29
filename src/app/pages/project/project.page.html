@@ -22,4 +22,11 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
+
+  <!-- fab placed to the (vertical) center and end -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary" (click)="this.modalCreateTicket()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

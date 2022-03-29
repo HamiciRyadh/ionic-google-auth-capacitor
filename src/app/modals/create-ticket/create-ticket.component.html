@@ -1,3 +1,41 @@
-<p>
-  create-ticket works!
-</p>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="this.closeModal()">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      Nouveau Ticket
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="this.ticketForm" (ngSubmit)="this.createTicker()" class="form__login">
+    <ion-input class="input__primary" placeholder="Nom" formControlName="name"></ion-input>
+    <ion-textarea class="textarea__primary" placeholder="Description" formControlName="description"></ion-textarea>
+    <ion-radio-group formControlName="type">
+      <ion-list-header>
+        <ion-label>Type</ion-label>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label>Tache</ion-label>
+        <ion-radio slot="start" value="task"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Bug</ion-label>
+        <ion-radio slot="start" value="bug"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+    <ion-input class="add__user__input" placeholder="Responsable" formControlName="ownerEmail"></ion-input>
+    <ion-input class="input__primary" placeholder="Priorité" formControlName="priority"></ion-input>
+
+
+    <ion-button class="button__primary" type="submit" [disabled]="!this.ticketForm.valid">
+      Ajouter
+    </ion-button>
+  </form>
+</ion-content>

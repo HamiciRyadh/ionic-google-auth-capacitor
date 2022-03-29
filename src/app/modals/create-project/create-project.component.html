@@ -6,36 +6,22 @@
       </ion-button>
     </ion-buttons>
     <ion-title>
-      Create Project
+      Nouveau Projet
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="projectForm"
-        (ngSubmit)="this.createProject()"
-        class="form__login">
-    <ion-input class="input__primary"
-               placeholder="Project name"
-               formControlName="name">
-    </ion-input>
-    <ion-textarea class="textarea__primary"
-               placeholder="description"
-               formControlName="description">
-    </ion-textarea>
+  <form [formGroup]="projectForm" (ngSubmit)="this.createProject()" class="form__login">
+    <ion-input class="input__primary" placeholder="Nom" formControlName="name"></ion-input>
+    <ion-textarea class="textarea__primary" placeholder="Description" formControlName="description"></ion-textarea>
 
     <ion-label class="message__primary" >
-      Collaborators:
+      Membres:
     </ion-label>
     <div class="add__user">
-      <ion-input class="add__user__input"
-                 placeholder="user email"
-                 formControlName="email">
-      </ion-input>
-      <ion-icon class="add__user__icon"
-                size="large"
-                color="primary"
-                name="person-add-outline"
+      <ion-input class="add__user__input" placeholder="Email" formControlName="email"></ion-input>
+      <ion-icon class="add__user__icon" size="large" color="primary" name="person-add-outline"
                 (click)="this.addUser()">
       </ion-icon>
     </div>
@@ -51,10 +37,8 @@
       </ion-item-sliding>
     </ion-list>
 
-    <ion-button class="button__primary"
-                type="submit"
-                [disabled]="!projectForm.valid">
-      Create Project
+    <ion-button class="button__primary" type="submit" [disabled]="!projectForm.valid">
+      Ajouter
     </ion-button>
   </form>
 </ion-content>

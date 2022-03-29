@@ -4,6 +4,9 @@ import {Project} from '../../models/project';
 import {Ticket} from '../../models/ticket';
 import {Router} from '@angular/router';
 import {TicketService} from '../../services/ticket.service';
+import {CreateProjectComponent} from '../../modals/create-project/create-project.component';
+import {ModalController} from '@ionic/angular';
+import {CreateTicketComponent} from "../../modals/create-ticket/create-ticket.component";
 
 @Component({
   selector: 'app-project',
@@ -14,6 +17,7 @@ export class ProjectPage implements OnInit {
 
   project: Project;
   constructor(private router: Router,
+              private modalController: ModalController,
               private projectService: ProjectService,
               private ticketService: TicketService) { }
 
@@ -27,5 +31,13 @@ export class ProjectPage implements OnInit {
 
   deleteTicket(ticket: Ticket): void {
     console.log('TODO: Delete ticket');
+  }
+
+  async modalCreateTicket(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: CreateTicketComponent,
+      swipeToClose: true,
+    });
+    await modal.present();
   }
 }
