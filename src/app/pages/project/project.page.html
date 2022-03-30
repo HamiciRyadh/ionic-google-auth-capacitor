@@ -12,10 +12,10 @@
   <!-- Project's tickets !-->
   <ion-list class="list__project__container" *ngIf="this.project !== undefined">
     <ion-list-header class="list__header">{{this.project.name}}</ion-list-header>
-    <ion-item-sliding *ngFor="let ticket of this.project.tickets" >
+    <ion-item-sliding *ngFor="let ticket of this.tickets" >
       <ion-item (click)="this.redirectToTicket(ticket)">
-        <ion-label class="list__project">{{ ticket.name }}</ion-label>
-        <ion-text>{{ ticket.description }}</ion-text>
+        <ion-label class="list__project">{{ ticket.name }} f</ion-label>
+        <ion-text>{{ ticket.description }} ff</ion-text>
       </ion-item>
       <ion-item-options side="end">
         <ion-item-option (click)="this.deleteTicket(ticket)" color="danger">Delete</ion-item-option>
