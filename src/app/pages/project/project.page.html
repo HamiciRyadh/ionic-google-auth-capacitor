@@ -13,8 +13,36 @@
     <ion-list-header class="list__header">{{this.project.name}}</ion-list-header>
     <ion-item-sliding *ngFor="let ticket of this.tickets" >
       <ion-item (click)="this.redirectToTicket(ticket)">
-        <ion-label class="list__project">{{ ticket.label }} : {{ ticket.name }}</ion-label>
-        <ion-text>{{ ticket.description }}</ion-text>
+          <div class="ticket__container__header__element">
+            <ion-img *ngIf="ticket.type === 'task'"
+                     class="image__icon"
+                     src="{{'assets/icon/task.svg'}}">
+            </ion-img>
+            <ion-img *ngIf="ticket.type === 'bug'"
+                     class="image__icon"
+                     src="{{'assets/icon/bug.svg'}}">
+            </ion-img>
+            <ion-card-title>{{ticket.name}}</ion-card-title>
+          </div>
+          <div slot="end" class="ticket__container__header__element">
+            <ion-img *ngIf="ticket.priority === 'high'"
+                     class="image__icon"
+                     src="{{'assets/icon/high.svg'}}">
+            </ion-img>
+            <ion-img *ngIf="ticket.priority === 'medium'"
+                     class="image__icon"
+                     src="{{'assets/icon/medium.svg'}}">
+            </ion-img>
+            <ion-img *ngIf="ticket.priority === 'low'"
+                     class="image__icon"
+                     src="{{'assets/icon/low.svg'}}">
+            </ion-img>
+            <ion-label class="ticket__status {{ticket.status}}" >
+              {{ticket.status}}
+            </ion-label>
+            <ion-img class="image__icon" src="{{'assets/icon/user.png'}}">
+            </ion-img>
+          </div>
       </ion-item>
       <ion-item-options side="end">
         <ion-item-option (click)="this.deleteTicket(ticket)" color="danger"><ion-icon slot="icon-only" name="trash-outline"></ion-icon></ion-item-option>

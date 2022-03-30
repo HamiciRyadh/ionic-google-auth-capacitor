@@ -169,22 +169,22 @@
   flex-direction: column;
 }
 
-.ticket__container__header, .ticket__container__header__right{
+.ticket__container__header, .ticket__container__header__element{
   display: flex;
   align-items: center;
 }
 
 .ticket__container__header{
-  justify-content: space-between;
+  justify-content: space-between !important;
+  flex-wrap: wrap;
 }
 
 .ticket__title{
-  font-size: 30px;
+  font-size: 24px;
 }
 
 .ticket__subtitle{
   font-size: 20px;
-  background: gainsboro;
   border-radius: 5px;
   padding: 5px;
 }
@@ -193,39 +193,42 @@
   margin: 5px;
   padding: 2px 5px;
   width: fit-content;
-  border-radius: 15px;
+  border-radius: 5px;
   display: flex;
   align-items: center;
+  font-weight: bold;
+  font-size: 16px;
 }
 
 .open{
-  background: cornflowerblue;
+  color: #42526E !important;
+  background-color: #DFE1E6 !important;
 }
 
 .started{
-  background: #e8e854;
+  color: #0747A6 !important;
+  background-color: #DEEBFF !important;
 }
 
 .blocked{
- background: #e54343;
+  background: #ff7373 !important;
+  color: #de350b !important;
 }
 
 .finished{
-  background: greenyellow;
-}
-
-.ticket__container__type{
-  display: flex;
-  align-items: center;
-  background: gainsboro;
-  margin: 5px 0 5px 0;
-  padding: 2px 5px;
-  width: fit-content;
-  border-radius: 15px;
-  display: flex;
-  align-items: center;
+  background: #E3FCEF !important;
+  color: #006644 !important;
 }
 
 .ticket__label{
   margin-left: 5px;
+}
+
+.ticket__container__creator{
+  display: flex;
+  align-items: center;
+}
+
+.ticket__container__creator > ion-img {
+  margin: 0 5px;
 }

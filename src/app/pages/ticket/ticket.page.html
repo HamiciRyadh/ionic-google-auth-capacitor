@@ -11,41 +11,52 @@
 </ion-header>
 
 <ion-content *ngIf="this.ticket">
-  <div class="ticket__container">
-    <div class="ticket__container__header">
-      <div>
-        <ion-label class="ticket__title">{{this.ticket.name}}</ion-label>
+  <ion-card>
+    <ion-card-header>
+      <div class="ticket__container__header">
+        <div class="ticket__container__header__element">
+          <ion-img *ngIf="this.ticket.type === 'task'"
+                   class="image__icon"
+                   src="{{'assets/icon/task.svg'}}">
+          </ion-img>
+          <ion-img *ngIf="this.ticket.type === 'bug'"
+                   class="image__icon"
+                   src="{{'assets/icon/bug.svg'}}">
+          </ion-img>
+          <ion-card-title>{{this.ticket.name}}</ion-card-title>
+        </div>
+        <div class="ticket__container__header__element">
+          <ion-img *ngIf="this.ticket.priority === 'high'"
+                   class="image__icon"
+                   src="{{'assets/icon/high.svg'}}">
+          </ion-img>
+          <ion-img *ngIf="this.ticket.priority === 'medium'"
+                   class="image__icon"
+                   src="{{'assets/icon/medium.svg'}}">
+          </ion-img>
+          <ion-img *ngIf="this.ticket.priority === 'low'"
+                   class="image__icon"
+                   src="{{'assets/icon/low.svg'}}">
+          </ion-img>
+          <ion-label class="ticket__status {{this.ticket.status}}" >
+            {{this.ticket.status}}
+          </ion-label>
+          <ion-img class="image__icon" src="{{'assets/icon/user.png'}}">
+          </ion-img>
+        </div>
       </div>
-      <div  class="ticket__container__header__right">
-        <ion-icon *ngIf="this.ticket.priority === 'high'"
-                  size="large"
-                  color="success"
-                  name="chevron-up-outline">
-        </ion-icon>
-        <ion-icon class="icon__priority" *ngIf="this.ticket.priority === 'medium'"
-                  size="large"
-                  color="warning"
-                  name="remove-outline">
-        </ion-icon>
-        <ion-icon *ngIf="this.ticket.priority === 'low'"
-                  size="large"
-                  color="danger"
-                  name="chevron-down-outline">
-        </ion-icon>
-        <ion-label class="ticket__status {{this.ticket.status}}" >
-          {{this.ticket.status}}
-        </ion-label>
-        <ion-img class="image__icon" src="{{'assets/icon/user.png'}}">
-        </ion-img>
-      </div>
-    </div>
-    <ion-label class="ticket__subtitle">{{this.ticket.description}}</ion-label>
-    <div class="ticket__container__type {{this.ticket.type}}">
-      <ion-icon *ngIf="this.ticket.type === 'task'" name="build-outline"></ion-icon>
-      <ion-icon *ngIf="this.ticket.type === 'bug'" name="bug-outline"></ion-icon>
-      <ion-label class="ticket__label">{{this.ticket.type}}</ion-label>
-    </div>
-  </div>
+    </ion-card-header>
+
+    <ion-card-content>
+      {{this.ticket.description}}
+    </ion-card-content>
+    <ion-card-content class="ticket__container__creator">
+      <ion-label>Created by:</ion-label>
+      <ion-img class="image__icon" src="{{'assets/icon/user.png'}}">
+      </ion-img>
+      <ion-label>Walid BOUKRIS</ion-label>
+    </ion-card-content>
+  </ion-card>
   <ion-list class="list__project__container">
     <ion-list-header class="list__header">Attachments:</ion-list-header>
   </ion-list>
