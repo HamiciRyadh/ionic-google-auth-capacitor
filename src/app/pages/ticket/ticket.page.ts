@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-ticket',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TicketPage implements OnInit {
 
-  constructor() { }
+  private projectId = '';
+  constructor(private router: Router,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
+    const routeParams = this.route.snapshot.paramMap;
+    this.projectId = routeParams.get('projectId');
   }
 
+  goBackToProject(): void {
+    this.router.navigate([`/projects/${this.projectId}`], {replaceUrl: true}).then();
+  }
 }

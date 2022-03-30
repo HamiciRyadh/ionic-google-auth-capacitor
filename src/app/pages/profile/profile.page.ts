@@ -20,8 +20,8 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
     this.user = this.userService.getUser();
     this.profileForm = this.fb.group({
-      fullName: [this.user.displayName, [Validators.required]],
-      telephone: [this.user.phoneNumber],
+      fullName: [this.user?.displayName ?? '', [Validators.required]],
+      telephone: [this.user?.phoneNumber] ?? '',
     });
   }
 

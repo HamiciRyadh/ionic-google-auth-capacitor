@@ -31,22 +31,23 @@ export class MenuComponent implements OnInit {
   }
 
   redirectToHome(): void {
-    this.router.navigate(['/home']).then(() => this.closeMenu());
+    this.router.navigate(['/projects']).then(() => this.closeMenu());
   }
 
   redirectToTickets(): void {
-    this.router.navigate(['/project']).then(() => this.closeMenu());
+    this.router.navigate([`/projects/${this.project.id}`]).then(() => this.closeMenu());
   }
 
   redirectToMembers(): void {
-    this.router.navigate(['/members']).then(() => this.closeMenu());
+    this.router.navigate([`/projects/${this.project.id}/members`]).then(() => this.closeMenu());
   }
 
   redirectToParameters(): void {
-    this.router.navigate(['/parameters']).then(() => this.closeMenu());
+    this.router.navigate([`/projects/${this.project.id}/parameters`]).then(() => this.closeMenu());
   }
 
   logout(): void {
+    // TODO: Clear routing history
     this.userService.logout().then(() => this.router.navigate(['/login']));
   }
 

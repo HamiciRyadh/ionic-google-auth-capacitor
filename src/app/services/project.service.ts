@@ -11,19 +11,17 @@ import {
   where
 } from '@angular/fire/firestore';
 import {User} from '@firebase/auth';
-import {Observable, ReplaySubject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
 
-  private selectedProject: Project;
-  private readonly mSelectedProject: ReplaySubject<Project>;
+  private readonly mSelectedProject: BehaviorSubject<Project>;
 
   constructor(private db: Firestore) {
-    this.mSelectedProject = new ReplaySubject(1);
-    this.mSelectedProject.subscribe(project => this.selectedProject = project);
+    this.mSelectedProject = new BehaviorSubject(new Project('', '', ''));
   }
 
   createProject(project: Project): Promise<boolean> {
@@ -62,7 +60,7 @@ export class ProjectService {
   }
 
   getSelectedProject(): Project {
-    return this.selectedProject;
+    return this.mSelectedProject.getValue();
   }
 
   deleteProject(project: Project): Promise<boolean> {

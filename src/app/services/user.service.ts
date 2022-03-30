@@ -8,7 +8,7 @@ import {
   updateProfile
 } from '@angular/fire/auth';
 import {User} from '@firebase/auth';
-import {Observable, ReplaySubject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {ProjectService} from './project.service';
 
 
@@ -17,9 +17,8 @@ import {ProjectService} from './project.service';
 })
 export class UserService {
 
-  private user: User;
-  private readonly mUser: ReplaySubject<User>;
-  private readonly mUsers: ReplaySubject<User[]>;
+  private readonly mUser: BehaviorSubject<User>;
+  private readonly mUsers: BehaviorSubject<User[]>;
   // Necessary to store the user's email and password to to fill the fields of the login page after the registration
   // process without needing to request the user to retype them.
   private email: string;
@@ -28,11 +27,10 @@ export class UserService {
   constructor(private db: Firestore,
               private auth: Auth,
               private projectService: ProjectService) {
-    this.mUser = new ReplaySubject(1);
-    this.mUsers = new ReplaySubject<User[]>(1);
+    this.mUser = new BehaviorSubject(undefined);
+    this.mUsers = new BehaviorSubject<User[]>([]);
 
     this.auth.onAuthStateChanged(newUser => {
-      this.user = newUser;
       this.mUser.next(newUser);
     });
 
@@ -74,7 +72,7 @@ export class UserService {
     const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
     if(userCredential){
       if (userCredential.user.emailVerified) {
-        this.user = userCredential.user;
+        // this.user = userCredential.user;
         // Todo: Observe user from fireStore
         // const docRef = doc(this.db, 'users', email);
         // onSnapshot(docRef, snapshot => {
@@ -113,7 +111,7 @@ export class UserService {
   }
 
   getUser(): User {
-    return this.user;
+    return this.mUser.getValue();
   }
 
   getObservableUser(): Observable<User> {

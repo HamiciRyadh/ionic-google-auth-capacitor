@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {UserService} from '../../services/user.service';
+import {User} from '@firebase/auth';
 
 @Component({
   selector: 'app-members',
@@ -7,9 +10,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MembersPage implements OnInit {
 
-  constructor() { }
+  users: User[];
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              private userService: UserService) { }
 
   ngOnInit() {
+    const routeParams = this.route.snapshot.paramMap;
   }
 
 }

@@ -13,7 +13,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'projects',
     pathMatch: 'full'
   },
   {
@@ -35,7 +35,7 @@ const routes: Routes = [
     data: { authGuardPipe: redirectLoggedInToHome }
   },
   {
-    path: 'home',
+    path: 'projects',
     loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule),
     canActivate: [AuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin }
@@ -47,25 +47,25 @@ const routes: Routes = [
     data: { authGuardPipe: redirectUnauthorizedToLogin }
   },
   {
-    path: 'project/:projectId',
+    path: 'projects/:projectId',
     loadChildren: () => import('./pages/project/project.module').then( m => m.ProjectPageModule),
     canActivate: [AuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin }
   },
   {
-    path: 'members',
+    path: 'projects/:projectId/members',
     loadChildren: () => import('./pages/members/members.module').then( m => m.MembersPageModule),
     canActivate: [AuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin }
   },
   {
-    path: 'parameters',
+    path: 'projects/:projectId/parameters',
     loadChildren: () => import('./pages/parameters/parameters.module').then( m => m.ParametersPageModule),
     canActivate: [AuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin }
   },
   {
-    path: 'project/:projectId/ticket/:ticketId',
+    path: 'projects/:projectId/tickets/:ticketId',
     loadChildren: () => import('./pages/ticket/ticket.module').then( m => m.TicketPageModule),
     canActivate: [AuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin }

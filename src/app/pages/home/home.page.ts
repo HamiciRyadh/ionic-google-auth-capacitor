@@ -24,6 +24,7 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.userService.getObservableUser().subscribe(user => {
+      if (user === undefined) {return;}
       this.projectService.getRelatedProjects(user).subscribe(projects => {
         this.userProjects = projects.filter(val => val.admin === user.uid);
         this.otherProjects = projects.filter(val => val.admin !== user.uid);
@@ -37,7 +38,7 @@ export class HomePage implements OnInit {
   }
 
   redirectToProject(project: Project): void{
-    this.router.navigate([`/project/${project.id}`]).then();
+    this.router.navigate([`/projects/${project.id}`]).then();
   }
 
   logOut(): void{

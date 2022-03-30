@@ -29,8 +29,8 @@ export class LoginPage implements OnInit {
   ngOnInit() {}
 
   initLoginForm(email = '', password = ''): void {
-    this.loginForm.controls['email'].setValue(email);
-    this.loginForm.controls['password'].setValue(password);
+    this.loginForm.controls.email.setValue(email);
+    this.loginForm.controls.password.setValue(password);
   }
 
   loginWithEmailPassword(): void {
@@ -39,7 +39,8 @@ export class LoginPage implements OnInit {
     this.userService.logIn(email, password)
       .then((isLoggedIn)=> {
         if (isLoggedIn) {
-          this.router.navigate(['/home'])
+          // TODO: Clear all routing history.
+          this.router.navigate(['/projects'], {replaceUrl: true})
             .then(()=> this.initLoginForm());
         }
       });

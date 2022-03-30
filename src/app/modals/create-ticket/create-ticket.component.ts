@@ -35,7 +35,7 @@ export class CreateTicketComponent implements OnInit {
     });
 
     this.userService.getObservableUser().subscribe(user => {
-      this.userUid = user.uid;
+      this.userUid = user?.uid ?? '';
       this.ticketForm.controls.owner.setValue(this.userUid);
     });
     this.userService.getObservableUsers().subscribe(projectUsers => {
