@@ -68,6 +68,12 @@ export class UserService {
     }
   }
 
+  removeMember(user: User): Promise<boolean> {
+    // TODO: Remove from canRead and canWrite and check for tickets where that member was owner/creator and .. deal with it.
+    // TODO: Use a firestore transaction.
+    return undefined;
+  }
+
   async logIn(email: string, password: string): Promise<boolean> {
     const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
     if(userCredential){
