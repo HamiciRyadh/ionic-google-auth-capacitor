@@ -44,15 +44,15 @@ export class CreateTicketComponent implements OnInit {
   }
 
   async createTicker(): Promise<void> {
-    console.log(this.userUid);
+    const project = this.projectService.getSelectedProject();
     this.ticketService.addTicketToProject(new Ticket(this.ticketForm.get('name').value,
       this.ticketForm.get('description').value,
       this.ticketForm.get('type').value,
       this.ticketForm.get('priority').value,
       this.ticketForm.get('owner').value,
       this.userUid,
-      this.projectService.getSelectedProject()),
-      this.projectService.getSelectedProject())
+        project),
+      project)
       .then((success) => {
         const msg = success ? 'Ticket créé avec succès.' : 'Une erreur est survenue.';
         this.toastController.create({

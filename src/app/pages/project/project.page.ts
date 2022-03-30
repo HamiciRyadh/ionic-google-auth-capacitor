@@ -33,7 +33,7 @@ export class ProjectPage implements OnInit {
   }
 
   redirectToTicket(ticket: Ticket): void {
-    this.router.navigate([`/ticket/${ticket.id}`]).then(() =>{});
+    this.router.navigate([`/project/${this.project.id}/ticket/${ticket.id}`]).then(() =>{});
   }
 
   deleteTicket(ticket: Ticket): void {

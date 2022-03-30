@@ -65,7 +65,7 @@ const routes: Routes = [
     data: { authGuardPipe: redirectUnauthorizedToLogin }
   },
   {
-    path: 'ticket/:ticketId',
+    path: 'project/:projectId/ticket/:ticketId',
     loadChildren: () => import('./pages/ticket/ticket.module').then( m => m.TicketPageModule),
     canActivate: [AuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin }
