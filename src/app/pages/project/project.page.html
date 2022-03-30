@@ -18,7 +18,7 @@
         <ion-text>{{ ticket.description }}</ion-text>
       </ion-item>
       <ion-item-options side="end">
-        <ion-item-option (click)="this.deleteTicket(ticket)" color="danger">Delete</ion-item-option>
+        <ion-item-option (click)="this.deleteTicket(ticket)" color="danger"><ion-icon slot="icon-only" name="trash-outline"></ion-icon></ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
