@@ -35,6 +35,21 @@ export class TicketService {
     });
   }
 
+  getTicket(projectId:string, ticketId: string): Observable<Ticket> {
+    return new Observable<Ticket>(subscriber => {
+      const q = query(collection(this.db, 'projects', projectId, 'tickets'));
+      onSnapshot(q, querySnapshot => {
+        let a: Ticket;
+        querySnapshot.forEach((res) => {
+          if(res.id === ticketId){
+            a = res.data() as Ticket;
+          }
+        });
+        subscriber.next(a);
+      });
+    });
+  }
+
   deleteTicketFromProject(ticket: Ticket, projectId: string): Promise<boolean> {
     return deleteDoc(doc(this.db, 'projects', projectId, 'tickets', ticket.id))
       .then(() => true)

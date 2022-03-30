@@ -1,12 +1,54 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-icon name="arrow-back-outline" (click)="this.goBackToProject()"></ion-icon>
+      <ion-icon name="arrow-back-outline" color="primary" size="large" (click)="this.goBackToProject()"></ion-icon>
+    </ion-buttons>
+    <ion-buttons slot="end" (click)="this.goToEditTicket()">
+      <ion-icon name="create-outline" color="primary" size="large"></ion-icon>
     </ion-buttons>
     <ion-title>Ticket</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="this.ticket">
+  <div class="ticket__container">
+    <div class="ticket__container__header">
+      <div>
+        <ion-label class="ticket__title">{{this.ticket.name}}</ion-label>
+      </div>
+      <div  class="ticket__container__header__right">
+        <ion-icon *ngIf="this.ticket.priority === 'high'"
+                  size="large"
+                  color="success"
+                  name="chevron-up-outline">
+        </ion-icon>
+        <ion-icon class="icon__priority" *ngIf="this.ticket.priority === 'medium'"
+                  size="large"
+                  color="warning"
+                  name="remove-outline">
+        </ion-icon>
+        <ion-icon *ngIf="this.ticket.priority === 'low'"
+                  size="large"
+                  color="danger"
+                  name="chevron-down-outline">
+        </ion-icon>
+        <ion-label class="ticket__status {{this.ticket.status}}" >
+          {{this.ticket.status}}
+        </ion-label>
+        <ion-img class="image__icon" src="{{'assets/icon/user.png'}}">
+        </ion-img>
+      </div>
+    </div>
+    <ion-label class="ticket__subtitle">{{this.ticket.description}}</ion-label>
+    <div class="ticket__container__type {{this.ticket.type}}">
+      <ion-icon *ngIf="this.ticket.type === 'task'" name="build-outline"></ion-icon>
+      <ion-icon *ngIf="this.ticket.type === 'bug'" name="bug-outline"></ion-icon>
+      <ion-label class="ticket__label">{{this.ticket.type}}</ion-label>
+    </div>
+  </div>
+  <ion-list class="list__project__container">
+    <ion-list-header class="list__header">Attachments:</ion-list-header>
+  </ion-list>
+
 
 </ion-content>
