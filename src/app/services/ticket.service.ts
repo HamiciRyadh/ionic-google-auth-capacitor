@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Ticket} from '../models/ticket';
-import {collection, doc, Firestore, onSnapshot, query, setDoc, where} from '@angular/fire/firestore';
+import {collection, deleteDoc, doc, Firestore, onSnapshot, query, setDoc, where} from '@angular/fire/firestore';
 import {Project} from '../models/project';
 import {Observable} from 'rxjs';
 
@@ -24,7 +24,7 @@ export class TicketService {
       });
   }
 
-  getRelatedTickets(projectId: string): Observable<Ticket[]> {
+  getRelatedTicketsOfProject(projectId: string): Observable<Ticket[]> {
     return new Observable<Ticket[]>(subscriber => {
       const q = query(collection(this.db, 'projects', projectId, 'tickets'));
       onSnapshot(q, querySnapshot => {
@@ -33,5 +33,14 @@ export class TicketService {
         subscriber.next(a);
       });
     });
+  }
+
+  deleteTicketFromProject(ticket: Ticket, projectId: string): Promise<boolean> {
+    return deleteDoc(doc(this.db, 'projects', projectId, 'tickets', ticket.id))
+      .then(() => true)
+      .catch((err) => {
+        console.log(err);
+        return false;
+      });
   }
 }

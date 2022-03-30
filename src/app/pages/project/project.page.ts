@@ -4,7 +4,7 @@ import {Project} from '../../models/project';
 import {Ticket} from '../../models/ticket';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TicketService} from '../../services/ticket.service';
-import {ModalController} from '@ionic/angular';
+import {ModalController, ToastController} from '@ionic/angular';
 import {CreateTicketComponent} from '../../modals/create-ticket/create-ticket.component';
 
 @Component({
@@ -21,14 +21,15 @@ export class ProjectPage implements OnInit {
               private route: ActivatedRoute,
               private modalController: ModalController,
               private projectService: ProjectService,
-              private ticketService: TicketService) { }
+              private ticketService: TicketService,
+              private toastController: ToastController) { }
 
   ngOnInit() {
     const routeParams = this.route.snapshot.paramMap;
     const projectId = routeParams.get('projectId');
     this.projectService.selectProject(projectId);
     this.projectService.getSelectedProjectObservable().subscribe(selectedProject => this.project = selectedProject);
-    this.ticketService.getRelatedTickets(projectId).subscribe(relatedTickets => this.tickets = relatedTickets);
+    this.ticketService.getRelatedTicketsOfProject(projectId).subscribe(relatedTickets => this.tickets = relatedTickets);
   }
 
   redirectToTicket(ticket: Ticket): void {
@@ -36,7 +37,14 @@ export class ProjectPage implements OnInit {
   }
 
   deleteTicket(ticket: Ticket): void {
-    console.log('TODO: Delete ticket');
+    this.ticketService.deleteTicketFromProject(ticket, this.project.id)
+      .then(value => {
+        const msg = value ? 'Ticket supprimé avec succès.' : 'Une erreur est survenue.';
+        this.toastController.create({
+          message: msg,
+          duration: 2000
+        }).then(toast => toast.present());
+      });
   }
 
   async modalCreateTicket(): Promise<void> {
