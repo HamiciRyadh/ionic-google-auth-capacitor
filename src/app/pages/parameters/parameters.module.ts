@@ -14,8 +14,7 @@ import {SharedModule} from '../../shared/shared.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    ParametersPageRoutingModule,
-    SharedModule
+    ParametersPageRoutingModule
   ],
   declarations: [ParametersPage]
 })

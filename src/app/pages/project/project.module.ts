@@ -16,8 +16,7 @@ import {CreateTicketComponent} from '../../modals/create-ticket/create-ticket.co
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    ProjectPageRoutingModule,
-    SharedModule
+    ProjectPageRoutingModule
   ],
   declarations: [ProjectPage, CreateTicketComponent]
 })

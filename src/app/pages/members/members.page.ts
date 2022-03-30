@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from '../../services/user.service';
 import {User} from '@firebase/auth';
-import {ActivatedRoute, Router} from "@angular/router";
-import {ProjectService} from "../../services/project.service";
-import {Project} from "../../models/project";
+import {ActivatedRoute, Router} from '@angular/router';
+import {ProjectService} from '../../services/project.service';
+import {Project} from '../../models/project';
+import {AlertController} from '@ionic/angular';
 
 @Component({
   selector: 'app-members',
@@ -16,7 +17,8 @@ export class MembersPage implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private userService: UserService,
-              private projectService: ProjectService) { }
+              private projectService: ProjectService,
+              private alertController: AlertController) { }
 
   ngOnInit() {
     const routeParams = this.route.snapshot.paramMap;
@@ -38,7 +40,31 @@ export class MembersPage implements OnInit {
   //  TODO: Ajouter un membre en canRead seulement
   }
 
-  removeFromProject(user: User): void {
+  async removeFromProject(user: User): Promise<void> {
   //  TODO: Remove from canRead and canWrite and check for tickets where that member was owner/creator and .. deal with it.
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Confirm!',
+      message: 'Message <strong>text</strong>!!!',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          id: 'cancel-button',
+          handler: () => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Okay',
+          id: 'confirm-button',
+          handler: () => {
+            console.log('Confirm Okay');
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 }
