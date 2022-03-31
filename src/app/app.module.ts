@@ -11,6 +11,7 @@ import {environment} from '../environments/environment';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getAuth, provideAuth } from '@angular/fire/auth';
+import { getStorage, provideStorage } from '@angular/fire/storage';
 import {SharedModule} from './shared/shared.module';
 import { CallNumber } from '@awesome-cordova-plugins/call-number/ngx';
 import { WebIntent } from '@awesome-cordova-plugins/web-intent/ngx';
@@ -22,6 +23,7 @@ import { WebIntent } from '@awesome-cordova-plugins/web-intent/ngx';
     // Syntax from: https://www.npmjs.com/package/@angular/fire
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
     provideAuth(() => getAuth()), SharedModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, CallNumber, WebIntent],
   bootstrap: [AppComponent],
