@@ -21,33 +21,40 @@
   <ion-text *ngIf="userProjects.length === 0 && otherProjects.length === 0">
     Aucun projet à afficher.
   </ion-text>
+
   <!-- Personal Projects!-->
-  <ion-list class="list__project__container" *ngIf="userProjects.length > 0">
-    <ion-list-header class="list__header">Mes Projets</ion-list-header>
-    <ion-item-sliding *ngFor="let project of userProjects" >
-      <ion-item (click)="this.redirectToProject(project)">
-        <ion-label class="list__project">{{ project.name }}</ion-label>
-        <ion-text>{{ project.description }}</ion-text>
-      </ion-item>
-      <ion-item-options side="end">
-        <ion-item-option (click)="this.deleteProject(project)" color="danger"><ion-icon slot="icon-only" name="trash-outline"></ion-icon></ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
+  <ion-label class="list__header"
+             style="font-weight: bold; margin-left: 10px;"
+             *ngIf="this.userProjects.length > 0">
+    Mes Projets
+  </ion-label>
+
+  <ion-card *ngFor="let project of userProjects" (click)="this.redirectToProject(project)">
+    <ion-card-header>
+      <ion-card-title>{{project.name}}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content style="font-size: 20px">
+      {{project.description}}
+    </ion-card-content>
+  </ion-card>
 
   <!-- Other Projects!-->
-  <ion-list class="list__project__container" *ngIf="otherProjects.length > 0">
-    <ion-list-header class="list__header">Autres Projets</ion-list-header>
-    <ion-item-sliding *ngFor="let project of otherProjects" >
-      <ion-item (click)="this.redirectToProject(project)">
-        <ion-label class="list__project">{{ project.name }}</ion-label>
-        <ion-text>{{ project.description }}</ion-text>
-      </ion-item>
-      <ion-item-options side="end">
-        <ion-item-option (click)="this.leaveProject()" color="warning">Leave</ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
+  <ion-label class="list__header"
+             style="font-weight: bold;"
+             *ngIf="this.otherProjects.length > 0">
+    Autres Projets
+  </ion-label>
+
+  <ion-card *ngFor="let project of otherProjects" (click)="this.redirectToProject(project)">
+    <ion-card-header>
+      <ion-card-title>{{project.name}}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content style="font-size: 20px">
+      {{project.description}}
+    </ion-card-content>
+  </ion-card>
 
   <!-- fab placed to the (vertical) center and end -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
