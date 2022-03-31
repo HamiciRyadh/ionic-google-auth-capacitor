@@ -3,7 +3,7 @@ import {UserService} from '../../services/user.service';
 import {Router} from '@angular/router';
 import {User} from '@firebase/auth';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ToastController} from "@ionic/angular";
+import {ToastController} from '@ionic/angular';
 
 @Component({
   selector: 'app-profile',

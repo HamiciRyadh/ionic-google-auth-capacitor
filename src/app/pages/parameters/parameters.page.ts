@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {Project} from "../../models/project";
-import {ProjectService} from "../../services/project.service";
-import {UserService} from "../../services/user.service";
+import {ActivatedRoute, Router} from '@angular/router';
+import {Project} from '../../models/project';
+import {ProjectService} from '../../services/project.service';
+import {UserService} from '../../services/user.service';
+import {AlertController, ToastController} from '@ionic/angular';
 
 @Component({
   selector: 'app-parameters',
@@ -13,8 +14,11 @@ export class ParametersPage implements OnInit {
   project: Project;
 
   constructor(private projectService: ProjectService,
+              private router: Router,
               private route: ActivatedRoute,
-              private userService: UserService) { }
+              private userService: UserService,
+              private toastController: ToastController,
+              private alertController: AlertController) { }
 
   ngOnInit() {
     const routeParams = this.route.snapshot.paramMap;
@@ -23,19 +27,64 @@ export class ParametersPage implements OnInit {
     this.projectService.getSelectedProjectObservable().subscribe(selectedProject => this.project = selectedProject);
   }
 
-  quitterProjet(): void{
+  leaveProject(): void {
     if(this.isAdmin()){
-      console.log('Todo: Supprimer project!')
+      console.log('Todo: Supprimer project!');
     }else{
-      console.log('Todo: Quitter project!')
+      console.log('Todo: Quitter project!');
     }
   }
 
+  async deleteProject(): Promise<void> {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Attention !',
+      message: `Pour confirmer la suppression du projet veuillez saisir son nom <strong>"${this.project.name}"</strong>.`,
+      inputs: [
+        {
+          name: 'projectName',
+          type: 'text',
+          placeholder: 'Nom du projet'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {}
+        }, {
+          text: 'Confirmer',
+          handler: (data) => {
+            if (data.projectName === this.project.name) {
+              this.projectService.deleteProject(this.project)
+                .then(value => {
+                  const msg = value ? 'Projet supprimé avec succès.' : 'Une erreur est survenue.';
+                  this.toastController.create({
+                    message: msg,
+                    duration: 2000
+                  }).then(toast => toast.present())
+                    .then(() => this.router.navigate(['/projects'], {replaceUrl: true}));
+                });
+            } else {
+              this.toastController.create({
+                message: 'Projet non supprimé.',
+                duration: 2000
+              }).then(toast => toast.present());
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
   goToEditProject(): void{
-    console.log('Todo: Edit project!')
+    console.log('Todo: Edit project!');
   }
 
   isAdmin(): boolean {
-    return this.project.admin === this.userService.getUser().uid;
+    return this.project.admin === this.userService.getUser()?.uid;
   }
 }
