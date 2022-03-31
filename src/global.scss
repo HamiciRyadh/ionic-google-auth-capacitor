@@ -232,3 +232,16 @@
 .ticket__container__creator > ion-img {
   margin: 0 5px;
 }
+
+/* Parameter Page*/
+
+.button__quit__project{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+
+.button__quit__project > ion-button {
+  width: 50%;
+}
