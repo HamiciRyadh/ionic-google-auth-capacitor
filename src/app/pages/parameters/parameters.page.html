@@ -3,10 +3,37 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
+    <ion-buttons *ngIf="this.isAdmin()" slot="end" (click)="this.goToEditProject()">
+      <ion-icon slot="icon-only" name="create-outline" color="primary"></ion-icon>
+    </ion-buttons>
     <ion-title>Paramètres</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        {{this.project.name}}
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      {{this.project.description}}
+    </ion-card-content>
+    <ion-card-content class="ticket__container__creator">
+      <ion-label>Admin :</ion-label>
+      <ion-img class="image__icon" src="{{'assets/icon/user.png'}}">
+      </ion-img>
+      <ion-label>Walid BOUKRIS</ion-label>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-fab class="button__quit__project" vertical="bottom">
+    <ion-button color="danger"
+                expand="block"
+                (click)="this.quitterProjet()">
+      {{this.isAdmin()?'Supprimer ':'Quitter '}}projet
+    </ion-button>
+  </ion-fab>
 
 </ion-content>
