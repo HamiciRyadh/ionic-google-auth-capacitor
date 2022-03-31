@@ -24,7 +24,7 @@
       <ion-item-options side="end" *ngIf="this.userId === this.ownerId && this.ownerId !== user.uid">
         <ion-item-option (click)="this.removeFromProject(user)" color="danger"><ion-icon slot="icon-only" name="trash-outline"></ion-icon></ion-item-option>
       </ion-item-options>
-      <ion-item-options side="start">
+      <ion-item-options side="start" *ngIf="this.isPlatformAndroid()">
         <ion-item-option (click)="this.call(user)" color="success"><ion-icon slot="icon-only" name="call-outline"></ion-icon></ion-item-option>
       </ion-item-options>
     </ion-item-sliding>

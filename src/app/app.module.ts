@@ -8,10 +8,12 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import {environment} from '../environments/environment';
-import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getAuth, provideAuth } from '@angular/fire/auth';
-import {SharedModule} from "./shared/shared.module";
+import {SharedModule} from './shared/shared.module';
+import { CallNumber } from '@awesome-cordova-plugins/call-number/ngx';
+import { WebIntent } from '@awesome-cordova-plugins/web-intent/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,7 +23,7 @@ import {SharedModule} from "./shared/shared.module";
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth()), SharedModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, CallNumber, WebIntent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

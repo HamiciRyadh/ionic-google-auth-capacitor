@@ -4,7 +4,10 @@ import {User} from '@firebase/auth';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ProjectService} from '../../services/project.service';
 import {Project} from '../../models/project';
-import {AlertController, ToastController} from '@ionic/angular';
+import {AlertController, Platform, ToastController} from '@ionic/angular';
+import { CallNumber } from '@awesome-cordova-plugins/call-number/ngx';
+import { AppLauncher } from '@capacitor/app-launcher';
+import { WebIntent } from '@awesome-cordova-plugins/web-intent/ngx';
 
 @Component({
   selector: 'app-members',
@@ -22,7 +25,9 @@ export class MembersPage implements OnInit {
               private userService: UserService,
               private projectService: ProjectService,
               private alertController: AlertController,
-              private toastController: ToastController) { }
+              private toastController: ToastController,
+              private callNumber: CallNumber,
+              public platform: Platform) { }
 
   ngOnInit() {
     const routeParams = this.route.snapshot.paramMap;
@@ -37,7 +42,16 @@ export class MembersPage implements OnInit {
     this.projectService.getSelectedProjectObservable().subscribe(project => this.ownerId = project?.admin ?? '');
   }
 
-  call(user: User): void {}
+  isPlatformAndroid(): boolean {
+    return this.platform.is('android');
+  }
+  async call(user: User): Promise<void> {
+    if (this.isPlatformAndroid()) {
+      this.callNumber.callNumber(user.phoneNumber, true)
+        .then(console.log)
+        .catch(console.log);
+    }
+  }
 
   addMember(): void {
   //  TODO: Ajouter un membre en canRead + canWrite
