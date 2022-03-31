@@ -23,12 +23,12 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.userService.getObservableUser().subscribe(user => {
-      if (user === undefined) {return;}
-      this.projectService.getRelatedProjects(user).subscribe(projects => {
-        this.userProjects = projects.filter(val => val.admin === user.uid);
-        this.otherProjects = projects.filter(val => val.admin !== user.uid);
-        console.log(projects, this.userProjects, this.otherProjects);
-      });
+      if (user != null) {
+        this.projectService.getRelatedProjects(user).subscribe(projects => {
+          this.userProjects = projects.filter(val => val.admin === user.uid);
+          this.otherProjects = projects.filter(val => val.admin !== user.uid);
+        });
+      }
     });
   }
 

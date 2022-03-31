@@ -52,7 +52,7 @@ export class ProjectService {
     const docRef = doc(this.db, 'projects', projectId);
     onSnapshot(docRef, snapshot => {
       this.mSelectedProject.next(snapshot.data() as Project);
-    });
+    }, console.log);
   }
 
   getSelectedProjectObservable(): Observable<Project> {

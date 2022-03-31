@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 import {MenuController} from '@ionic/angular';
 import {UserService} from '../../services/user.service';
 import {ProjectService} from '../../services/project.service';
@@ -22,6 +22,18 @@ export class MenuComponent implements OnInit {
               private menu: MenuController) { }
 
   ngOnInit() {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        // Hide progress spinner or progress bar
+        if (event.url === '/projects' || event.url === 'profile'
+          || event.url === 'login' || event.url === 'register'
+          || event.url === 'password-recovery') {
+          this.menu.enable(false);
+        } else {
+          this.menu.enable(true);
+        }
+      }
+    });
     this.userService.getObservableUser().subscribe(user => this.user = user);
     this.projectService.getSelectedProjectObservable().subscribe(project => this.project = project);
   }
