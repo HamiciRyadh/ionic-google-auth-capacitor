@@ -48,7 +48,7 @@ export class MenuComponent implements OnInit {
 
   logout(): void {
     // TODO: Clear routing history
-    this.userService.logout().then(() => this.router.navigate(['/login']));
+    this.userService.logout().then(() => this.router.navigate(['/login'])).then(() => this.closeMenu());
   }
 
   closeMenu(): Promise<boolean> {

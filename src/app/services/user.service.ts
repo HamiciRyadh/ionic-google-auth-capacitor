@@ -31,7 +31,10 @@ export class UserService {
     this.mUsers = new BehaviorSubject<User[]>([]);
 
     this.auth.onAuthStateChanged(newUser => {
-      this.mUser.next(newUser);
+      if (newUser != null) {
+        const docRef = doc(this.db, 'users', newUser.email);
+        onSnapshot(docRef, snapshot => this.mUser.next(snapshot.data() as User));
+      } else {this.mUser.next(newUser);}
     });
 
     this.projectService.getSelectedProjectObservable().subscribe(selectedProject => {
@@ -78,12 +81,6 @@ export class UserService {
     const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
     if(userCredential){
       if (userCredential.user.emailVerified) {
-        // this.user = userCredential.user;
-        // Todo: Observe user from fireStore
-        // const docRef = doc(this.db, 'users', email);
-        // onSnapshot(docRef, snapshot => {
-        //   this.mUser = snapshot.data();
-        // });
         return true;
       } else {
         // TODO: If the email is not verified display error message without redirecting the user to another page.
@@ -106,10 +103,15 @@ export class UserService {
     await sendPasswordResetEmail(this.auth, email);
   }
 
-  public updateUser(user: User): void{
-    updateDoc(doc(collection(this.db, 'users'), user.email), {
-      ...user,
-    });
+  public updateUser(user: User, name: string = '', phone: string = ''): Promise<boolean> {
+    return updateDoc(doc(collection(this.db, 'users'), user.email), {
+      displayName: name,
+      phoneNumber: phone
+    }).then(() => true)
+      .catch((err) => {
+        console.log(err);
+        return false;
+      });
   }
 
   getLoginCredentials(): string[] {

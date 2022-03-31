@@ -9,33 +9,21 @@
 
 <ion-content>
   <div class="profile__header">
-    <ion-img class="image__icon__profile"
-             src="{{'assets/icon/user.png'}}">
-    </ion-img>
+    <ion-img class="image__icon__profile" src="{{ this.user?.photoURL ?? 'assets/icon/user.png'}}"></ion-img>
     <ion-label>
-      {{this.user.email}}
+      {{this.user?.email}}
     </ion-label>
   </div>
-  <form [formGroup]="profileForm"
-        (ngSubmit)="this.updateUser()"
-        class="form__login">
-    <ion-label class="message__primary">
-      Username
-    </ion-label>
-    <ion-input placeholder="Full name"
-               formControlName="fullName"
-               class="input__primary">
+  <form [formGroup]="profileForm" (ngSubmit)="this.updateUser()" class="form__login">
+    <ion-label class="message__primary">Username</ion-label>
+    <ion-input placeholder="Full name" formControlName="fullName" class="input__primary">
     </ion-input>
-    <ion-label class="message__primary">
-      Phone number
-    </ion-label>
-    <ion-input placeholder="telephone"
-               formControlName="telephone"
-               class="input__primary">
+
+    <ion-label class="message__primary">Phone number</ion-label>
+    <ion-input placeholder="telephone" formControlName="telephone" class="input__primary">
     </ion-input>
-    <ion-button class="button__primary"
-                type="submit"
-                [disabled]="!profileForm.valid">
+
+    <ion-button class="button__primary" type="submit" [disabled]="!profileForm.valid">
       Update
     </ion-button>
   </form>

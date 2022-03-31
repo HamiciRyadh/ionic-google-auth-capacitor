@@ -3,6 +3,7 @@ import {UserService} from '../../services/user.service';
 import {Router} from '@angular/router';
 import {User} from '@firebase/auth';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ToastController} from "@ionic/angular";
 
 @Component({
   selector: 'app-profile',
@@ -15,21 +16,29 @@ export class ProfilePage implements OnInit {
 
   constructor(private userService: UserService,
               private router: Router,
-              private fb: FormBuilder) { }
+              private fb: FormBuilder,
+              private toastController: ToastController) { }
 
   ngOnInit() {
-    this.user = this.userService.getUser();
-    this.profileForm = this.fb.group({
-      fullName: [this.user?.displayName ?? '', [Validators.required]],
-      telephone: [this.user?.phoneNumber] ?? '',
+    this.userService.getObservableUser().subscribe(user => {
+      this.user = user;
+      this.profileForm = this.fb.group({
+        fullName: [this.user?.displayName ?? '', [Validators.required]],
+        telephone: [this.user?.phoneNumber] ?? '',
+      });
     });
   }
 
   public updateUser(): void {
-    const fullName = this.profileForm.get('fullName').value;
-    const telephone = this.profileForm.get('telephone').value;
-    // this.user.name = fullName;
-    // this.user.phoneNumber = telephone;
-    // this.userService.updateUser(this.user);
+    const name = this.profileForm.get('fullName').value;
+    const phoneNumber = this.profileForm.get('telephone').value;
+    this.userService.updateUser(this.user, name, phoneNumber)
+      .then(value => {
+        const msg = value ? 'Profile modifié avec succès.' : 'Une erreur est survenue.';
+        this.toastController.create({
+          message: msg,
+          duration: 2000
+        }).then(toast => toast.present());
+      });
   }
 }
