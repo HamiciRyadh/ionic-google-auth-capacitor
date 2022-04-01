@@ -27,15 +27,20 @@
     </div>
 
     <ion-list class="list__email__container" *ngIf="this.listUsers.length > 0">
-      <ion-item-sliding *ngFor="let email of this.listUsers.reverse(); index as i;">
+      <ion-item-sliding *ngFor="let u of this.listUsers.reverse(); index as i;">
+
         <ion-item class="list__email" color="white">
-          <ion-label>{{email}}</ion-label>
+          <ion-label>{{u.email}}</ion-label>
+          <ion-toggle slot="end"
+                      name="blueberry"
+                      (click)="changeDroit(u)"></ion-toggle>
         </ion-item>
         <ion-item-options side="end">
-          <ion-item-option (click)="deleteUser(email)" color="danger">Delete{{i}}</ion-item-option>
+          <ion-item-option (click)="deleteUser(u)" color="danger">Delete</ion-item-option>
         </ion-item-options>
       </ion-item-sliding>
     </ion-list>
+
 
     <ion-button class="button__primary" type="submit" [disabled]="!projectForm.valid">
       Ajouter

@@ -12,7 +12,7 @@ import {UserService} from '../../services/user.service';
 })
 export class CreateProjectComponent implements OnInit {
   projectForm: FormGroup ;
-  listUsers: string[] = [];
+  listUsers: any[] = [];
 
   constructor(private modalController: ModalController,
               private projectService: ProjectService,
@@ -31,21 +31,29 @@ export class CreateProjectComponent implements OnInit {
   addUser(){
     const invalid = this.projectForm.get('email').invalid;
     const email = this.projectForm.get('email').value;
-    const index = this.listUsers.indexOf(email);
-
-    if(index === -1 && !invalid){
-      this.listUsers.push(email);
+    const t = this.listUsers.filter((e)=>{return e.email === email});
+    if(t.length === 0 && !invalid && email!== '' && email !== this.userService.getUser().email){
+      this.listUsers.push({email:email, canWrite: false});
       this.projectForm.controls.email.setValue('');
-    }else if(index !== -1){
+    }else if(t.length !== 0){
       this.projectForm.controls.email.setValue('');
+      // Todo: show error message!
     }else if (invalid){
+      // Todo: show error message!
+    }else if (email === this.userService.getUser().email){
+      this.projectForm.controls.email.setValue('');
       // Todo: show error message!
     }
   }
 
-  deleteUser(email): void {
-    const index = this.listUsers.indexOf(email);
+  deleteUser(u): void {
+    const index = this.listUsers.indexOf(u);
     this.listUsers.splice(index,1);
+  }
+
+  changeDroit(u){
+    const index = this.listUsers.indexOf(u);
+    this.listUsers[index].canWrite = !this.listUsers[index].canWrite;
   }
 
   createProject(): void {
