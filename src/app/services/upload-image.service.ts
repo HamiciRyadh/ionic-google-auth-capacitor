@@ -37,7 +37,12 @@ export class UploadImageService {
       let imageRef = firebase.storage().ref(`${IMAGE_DIR}/${fileName}`);
       imageRef.getDownloadURL().then((res)=>{
         // Probleme ici !
-        updateProfile(this.userService.getUser(), {photoURL: res});
+        updateProfile(this.userService.getUser(), {photoURL: res})
+          .then((res)=>{
+            console.log('succes:' ,res);
+          }).catch((error)=>{
+            console.log('error bizarre:',error)
+        });
       })
       //Todo: Update in database.
     })
