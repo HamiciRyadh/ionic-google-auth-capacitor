@@ -15,6 +15,10 @@ import { getStorage, provideStorage } from '@angular/fire/storage';
 import {SharedModule} from './shared/shared.module';
 import { CallNumber } from '@awesome-cordova-plugins/call-number/ngx';
 import { WebIntent } from '@awesome-cordova-plugins/web-intent/ngx';
+import firebase from "firebase/compat/app";
+import {AngularFireStorageModule} from "@angular/fire/compat/storage";
+
+firebase.initializeApp(environment.firebaseConfig);
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +28,9 @@ import { WebIntent } from '@awesome-cordova-plugins/web-intent/ngx';
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
-    provideAuth(() => getAuth()), SharedModule],
+    provideAuth(() => getAuth()),
+    SharedModule,
+    AngularFireStorageModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, CallNumber, WebIntent],
   bootstrap: [AppComponent],
 })

@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {User} from '@firebase/auth';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ToastController} from '@ionic/angular';
+import {UploadImageService} from "../../services/upload-image.service";
 
 @Component({
   selector: 'app-profile',
@@ -17,7 +18,8 @@ export class ProfilePage implements OnInit {
   constructor(private userService: UserService,
               private router: Router,
               private fb: FormBuilder,
-              private toastController: ToastController) { }
+              private toastController: ToastController,
+              private uploadImageService: UploadImageService) { }
 
   ngOnInit() {
     this.userService.getObservableUser().subscribe(user => {
