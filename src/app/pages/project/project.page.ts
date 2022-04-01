@@ -6,6 +6,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {TicketService} from '../../services/ticket.service';
 import {ModalController, ToastController} from '@ionic/angular';
 import {CreateTicketComponent} from '../../modals/create-ticket/create-ticket.component';
+import {User} from '@firebase/auth';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-project',
@@ -20,6 +22,7 @@ export class ProjectPage implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private modalController: ModalController,
+              private userService: UserService,
               private projectService: ProjectService,
               private ticketService: TicketService,
               private toastController: ToastController) { }
@@ -53,5 +56,9 @@ export class ProjectPage implements OnInit {
       swipeToClose: true,
     });
     await modal.present();
+  }
+
+  findUserFromUid(uid: string): User | undefined {
+    return this.userService.findUserFromUid(uid);
   }
 }

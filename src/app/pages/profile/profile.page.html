@@ -9,7 +9,9 @@
 
 <ion-content>
   <div class="profile__header">
-    <ion-img class="image__icon__profile" src="{{ this.user?.photoURL ?? 'assets/icon/user.png'}}"></ion-img>
+    <ion-avatar slot="start">
+      <ion-img src="{{ this.user?.photoURL ?? 'assets/icon/user.png'}}"></ion-img>
+    </ion-avatar>
     <ion-label>
       {{this.user?.email}}
     </ion-label>

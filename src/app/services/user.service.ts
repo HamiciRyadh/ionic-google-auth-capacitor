@@ -94,11 +94,6 @@ export class UserService {
     await signOut(this.auth);
   }
 
-  async findByEmail(email: string): Promise<User> {
-    const snapshot = await getDoc(doc(this.db, 'users', email));
-    return snapshot.data() as User;
-  }
-
   async recoverPassword(email: string): Promise<void> {
     await sendPasswordResetEmail(this.auth, email);
   }
@@ -128,5 +123,9 @@ export class UserService {
 
   getObservableUsers(): Observable<User[]> {
     return this.mUsers;
+  }
+
+  findUserFromUid(uid: string): User | undefined {
+    return this.mUsers.getValue().find(user => user.uid === uid);
   }
 }

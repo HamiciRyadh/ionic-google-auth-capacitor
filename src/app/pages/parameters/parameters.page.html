@@ -22,9 +22,12 @@
     </ion-card-content>
     <ion-card-content class="ticket__container__creator">
       <ion-label>Admin :</ion-label>
-      <ion-img class="image__icon" src="{{'assets/icon/user.png'}}">
-      </ion-img>
-      <ion-label>Walid BOUKRIS</ion-label>
+      <ion-chip>
+        <ion-avatar>
+          <ion-img src="{{ this.findUserFromUid(this.project.admin)?.photoURL ?? 'assets/icon/user.png' }}"></ion-img>
+        </ion-avatar>
+      <ion-label>{{ this.findUserFromUid(this.project.admin)?.displayName ?? 'Personne' }}</ion-label>
+      </ion-chip>
     </ion-card-content>
   </ion-card>
 

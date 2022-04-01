@@ -4,6 +4,7 @@ import {Project} from '../../models/project';
 import {ProjectService} from '../../services/project.service';
 import {UserService} from '../../services/user.service';
 import {AlertController, ToastController} from '@ionic/angular';
+import {User} from "@firebase/auth";
 
 @Component({
   selector: 'app-parameters',
@@ -86,5 +87,9 @@ export class ParametersPage implements OnInit {
 
   isAdmin(): boolean {
     return this.project.admin === this.userService.getUser()?.uid;
+  }
+
+  findUserFromUid(uid: string): User | undefined {
+    return this.userService.findUserFromUid(uid);
   }
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {TicketService} from "../../services/ticket.service";
+import {ActivatedRoute, Router} from '@angular/router';
+import {TicketService} from '../../services/ticket.service';
+import {User} from '@firebase/auth';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-ticket',
@@ -9,10 +11,12 @@ import {TicketService} from "../../services/ticket.service";
 })
 export class TicketPage implements OnInit {
 
+  ticket;
   private projectId = '';
-  public ticket;
+
   constructor(private router: Router,
               private route: ActivatedRoute,
+              private userService: UserService,
               private ticketService: TicketService) { }
 
   ngOnInit() {
@@ -21,7 +25,7 @@ export class TicketPage implements OnInit {
     const ticketId = routeParams.get('ticketId');
     this.ticketService.getTicket(this.projectId, ticketId).subscribe((t)=>{
       this.ticket = t;
-    })
+    });
   }
 
   goBackToProject(): void {
@@ -29,6 +33,10 @@ export class TicketPage implements OnInit {
   }
 
   goToEditTicket(): void {
-    console.log('Todo: Edit Todo!')
+    console.log('Todo: Edit Todo!');
+  }
+
+  findUserFromUid(uid: string): User | undefined {
+    return this.userService.findUserFromUid(uid);
   }
 }

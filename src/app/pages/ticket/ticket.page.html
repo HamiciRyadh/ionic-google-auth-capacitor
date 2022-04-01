@@ -41,8 +41,11 @@
           <ion-label class="ticket__status {{this.ticket.status}}" >
             {{this.ticket.status}}
           </ion-label>
-          <ion-img class="image__icon" src="{{'assets/icon/user.png'}}">
-          </ion-img>
+          <ion-item>
+            <ion-avatar slot="start">
+              <ion-img src="{{ this.findUserFromUid(this.ticket.owner)?.photoURL ?? 'assets/icon/user.png' }}"></ion-img>
+            </ion-avatar>
+          </ion-item>
         </div>
       </div>
     </ion-card-header>
@@ -51,10 +54,13 @@
       {{this.ticket.description}}
     </ion-card-content>
     <ion-card-content class="ticket__container__creator">
-      <ion-label>Created by:</ion-label>
-      <ion-img class="image__icon" src="{{'assets/icon/user.png'}}">
-      </ion-img>
-      <ion-label>Walid BOUKRIS</ion-label>
+      <ion-label>Ajouté par:</ion-label>
+      <ion-chip>
+        <ion-avatar>
+          <ion-img src="{{ this.findUserFromUid(this.ticket.createdBy)?.photoURL ?? 'assets/icon/user.png' }}"></ion-img>
+        </ion-avatar>
+        <ion-label>{{ this.findUserFromUid(this.ticket.createdBy)?.displayName ?? 'Personne' }}</ion-label>
+      </ion-chip>
     </ion-card-content>
   </ion-card>
   <ion-list class="list__project__container">

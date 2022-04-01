@@ -5,6 +5,7 @@ import {ModalController} from '@ionic/angular';
 import {CreateProjectComponent} from '../../modals/create-project/create-project.component';
 import {ProjectService} from '../../services/project.service';
 import {Project} from '../../models/project';
+import {User} from "@firebase/auth";
 
 @Component({
   selector: 'app-home',
@@ -15,6 +16,7 @@ export class HomePage implements OnInit {
 
   userProjects = [];
   otherProjects = [];
+  user: User;
 
   constructor(private router: Router,
               private userService: UserService,
@@ -23,6 +25,7 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.userService.getObservableUser().subscribe(user => {
+      this.user = user;
       if (user != null) {
         this.projectService.getRelatedProjects(user).subscribe(projects => {
           this.userProjects = projects.filter(val => val.admin === user.uid);

@@ -1,18 +1,14 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="this.redirectToProfile()">
-        <ion-img class="image__icon" src="{{'assets/icon/user.png'}}">
-        </ion-img>
-      </ion-button>
-    </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button color="danger" (click)="this.logOut()">
-        <ion-img class="image__icon" src="{{'assets/icon/logout.png'}}">
-        </ion-img>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Accueil</ion-title>
+    <ion-item slot="start">
+      <ion-avatar>
+        <ion-img src="{{this.user?.photoURL ?? 'assets/icon/user.png'}}"></ion-img>
+      </ion-avatar>
+      <ion-title>Accueil</ion-title>
+    </ion-item>
+    <ion-button slot="end" color="danger" (click)="this.logOut()" >
+      <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
