@@ -6,7 +6,7 @@ export class Ticket {
   name: string;
   description: string;
   type: string;       // (bug/task)
-  status: string;     // (open, started, blocked, finished)
+  status: string;     // (open, started, blocked, closed)
   priority: string;   // (high, medium, low)
   owner: string;
   createdBy: string;

@@ -70,12 +70,8 @@ export class CreateProjectComponent implements OnInit {
         if (success) {
           this.closeModal();
         }
-      }).then(() => {
-      console.log('Project created!');
-      console.log('name :',name);
-      console.log('description :',description);
-      console.log('list Users :',this.listUsers);
-    }).catch(console.log);
+      }).then()
+      .catch(console.log);
   }
 
   closeModal(): void {

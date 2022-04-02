@@ -39,7 +39,18 @@
                    src="{{'assets/icon/low.svg'}}">
           </ion-img>
           <ion-label class="ticket__status {{this.ticket.status}}" >
-            {{this.ticket.status}}
+            <div *ngIf="this.ticket.status === 'open'">
+              Ouvert
+            </div>
+            <div *ngIf="this.ticket.status === 'started'">
+              En cours
+            </div>
+            <div *ngIf="this.ticket.status === 'blocked'">
+              Bloqué
+            </div>
+            <div *ngIf="this.ticket.status === 'closed'">
+              Fermé
+            </div>
           </ion-label>
           <ion-item>
             <ion-avatar slot="start">
