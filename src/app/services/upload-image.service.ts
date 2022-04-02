@@ -1,75 +1,55 @@
 import { Injectable } from '@angular/core';
-import {Camera, CameraResultType, CameraSource, Photo} from "@capacitor/camera";
-import firebase from "firebase/compat/app";
-import {Platform} from "@ionic/angular";
-import {UserService} from "./user.service";
-import {Filesystem} from "@capacitor/filesystem";
-import {updateProfile} from "@angular/fire/auth";
+import {Camera, CameraResultType, CameraSource, Photo} from '@capacitor/camera';
+import {getStorage, ref, getDownloadURL, uploadBytes} from '@angular/fire/storage';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class UploadImageService {
 
-  constructor(private platform: Platform,
-              private userService: UserService)  { }
+  constructor() { }
 
-  public async selectImage(){
-    const image: Photo = await Camera.getPhoto({
+  public async selectAndUploadImage(path: string, fileName: string): Promise<string> {
+    const image: Photo = await this.getBase64Image();
+    if (image) {
+      return await this.uploadImage(image, path, fileName);
+    } else {return undefined;}
+  }
+
+  public async getBase64Image(): Promise<Photo> {
+    return Camera.getPhoto({
       quality: 90,
       allowEditing: false,
-      resultType: CameraResultType.Uri,
+      resultType: CameraResultType.Base64,
       source: CameraSource.Photos
     });
-    if(image){
-      this.saveImage(image);
-    }
   }
 
-  private async saveImage(photo: Photo){
-    const base64Data = await this.readAsBase64(photo);
-    const fileName = new Date().getTime() + this.userService.getUser().uid + '.jpeg';
-    const IMAGE_DIR = 'profile-images';
+  public async uploadImage(photo: Photo, path: string, fileName: string): Promise<string> {
+    const storage = getStorage();
+    const imageRef = ref(storage, `${path}/${fileName}`);
 
-    firebase.storage().ref(IMAGE_DIR).child(fileName)
-      .putString(base64Data.substring(22), 'base64').then(()=>{
-
-      let imageRef = firebase.storage().ref(`${IMAGE_DIR}/${fileName}`);
-      imageRef.getDownloadURL().then((res)=>{
-        // Probleme ici !
-        updateProfile(this.userService.getUser(), {photoURL: res})
-          .then((res)=>{
-            console.log('succes:' ,res);
-          }).catch((error)=>{
-            console.log('error bizarre:',error)
-        });
-      })
-      //Todo: Update in database.
-    })
+    const snapshot = await uploadBytes(imageRef, this.b64toBlob(photo.base64String, 'image/jpg'));
+    return await getDownloadURL(snapshot.ref);
   }
 
-  private async readAsBase64(photo: Photo) {
-    // "hybrid" will detect Cordova or Capacitor
-    if (this.platform.is('hybrid')) {
-      const file = await Filesystem.readFile({
-        path: photo.path
-      });
-      return file.data;
-    }
-    else {
-      // Fetch the photo, read as a blob, then convert to base64 format
-      const response = await fetch(photo.webPath);
-      const blob = await response.blob();
-      return await this.convertBlobToBase64(blob) as string;
-    }
-  }
+  private b64toBlob(b64Data, contentType='', sliceSize=512) {
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
 
-  private convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onerror = reject;
-    reader.onload = () => {
-      resolve(reader.result);
-    };
-    reader.readAsDataURL(blob);
-  });
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    return new Blob(byteArrays, {type: contentType});
+  }
 }

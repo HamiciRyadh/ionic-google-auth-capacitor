@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {collection, doc, Firestore, getDoc, onSnapshot, query, setDoc, updateDoc, where} from '@angular/fire/firestore';
+import {collection, doc, Firestore, onSnapshot, query, setDoc, updateDoc, where} from '@angular/fire/firestore';
 import {
   Auth,
   createUserWithEmailAndPassword,
@@ -10,6 +10,7 @@ import {
 import {User} from '@firebase/auth';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {ProjectService} from './project.service';
+import {UploadImageService} from './upload-image.service';
 
 
 @Injectable({
@@ -26,7 +27,8 @@ export class UserService {
 
   constructor(private db: Firestore,
               private auth: Auth,
-              private projectService: ProjectService) {
+              private projectService: ProjectService,
+              private uploadImageService: UploadImageService) {
     this.mUser = new BehaviorSubject(undefined);
     this.mUsers = new BehaviorSubject<User[]>([]);
 
@@ -98,6 +100,21 @@ export class UserService {
     await sendPasswordResetEmail(this.auth, email);
   }
 
+  public async changeProfilePicture(): Promise<boolean> {
+    const user: User = this.auth.currentUser;
+    if (!user) {return false;}
+
+    const imagePath: string = await this.uploadImageService.selectAndUploadImage('profile-picture', this.getUser().uid);
+    if (!imagePath) {return false;}
+
+    return Promise.all([updateProfile(user, {photoURL: imagePath}),
+      updateDoc(doc(collection(this.db, 'users'), user.email), {photoURL: imagePath})])
+      .then(() => true)
+      .catch((err) => {
+        console.log(err);
+        return false;
+      });
+  }
   public updateUser(user: User, name: string = '', phone: string = ''): Promise<boolean> {
     return updateDoc(doc(collection(this.db, 'users'), user.email), {
       displayName: name,
