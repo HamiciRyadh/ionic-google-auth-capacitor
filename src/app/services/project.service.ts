@@ -39,6 +39,16 @@ export class ProjectService {
       });
   }
 
+  updateProject(project: Project): Promise<boolean> {
+    const newDocRef = doc(this.db, 'projects', project.id);
+    return updateDoc(newDocRef, {...project})
+      .then(() => true)
+      .catch((err) => {
+        console.log(err);
+        return false;
+      });
+  }
+
   getRelatedProjects(user: User): Observable<Project[]> {
     return new Observable<Project[]>(subscriber => {
       const q = query(collection(this.db, 'projects'), where('canRead', 'array-contains', user.uid));

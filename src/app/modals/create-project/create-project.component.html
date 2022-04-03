@@ -17,7 +17,7 @@
     <ion-textarea class="textarea__primary" placeholder="Description" formControlName="description"></ion-textarea>
 
     <ion-button class="button__primary" type="submit" [disabled]="!projectForm.valid">
-      Ajouter
+      {{this.projectId?'Modifier':'Ajouter'}}
     </ion-button>
   </form>
 </ion-content>

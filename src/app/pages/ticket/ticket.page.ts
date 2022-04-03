@@ -36,7 +36,6 @@ export class TicketPage implements OnInit {
   }
 
   async goToEditTicket(): Promise<void> {
-    console.log('Todo: Edit Todo!');
     const modal = await this.modalController.create({
       component: CreateTicketComponent,
       swipeToClose: true,

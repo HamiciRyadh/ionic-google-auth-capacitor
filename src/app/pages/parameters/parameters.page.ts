@@ -3,8 +3,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Project} from '../../models/project';
 import {ProjectService} from '../../services/project.service';
 import {UserService} from '../../services/user.service';
-import {AlertController, ToastController} from '@ionic/angular';
+import {AlertController, ModalController, ToastController} from '@ionic/angular';
 import {User} from "@firebase/auth";
+import {CreateProjectComponent} from "../../modals/create-project/create-project.component";
 
 @Component({
   selector: 'app-parameters',
@@ -19,9 +20,11 @@ export class ParametersPage implements OnInit {
               private route: ActivatedRoute,
               private userService: UserService,
               private toastController: ToastController,
-              private alertController: AlertController) { }
+              private alertController: AlertController,
+              private modalController: ModalController) {}
 
-  ngOnInit() {
+
+ngOnInit() {
     const routeParams = this.route.snapshot.paramMap;
     const projectId = routeParams.get('projectId');
     this.projectService.selectProject(projectId);
@@ -81,8 +84,15 @@ export class ParametersPage implements OnInit {
     await alert.present();
   }
 
-  goToEditProject(): void{
-    console.log('Todo: Edit project!');
+  async goToEditProject(): Promise<void>{
+    const modal = await this.modalController.create({
+      component: CreateProjectComponent,
+      swipeToClose: true,
+      componentProps: {
+        projectId: this.project.id,
+      }
+    });
+    await modal.present();
   }
 
   isAdmin(): boolean {
