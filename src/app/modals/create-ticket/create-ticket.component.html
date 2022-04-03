@@ -33,6 +33,7 @@
       <ion-item>
         <ion-label>Responsable</ion-label>
         <ion-select interface="popover" formControlName="owner">
+          <ion-select-option value="undefined">Personne</ion-select-option>
           <ion-select-option *ngFor="let user of this.projectParticipants" value="{{user.uid}}">{{user.displayName}}</ion-select-option>
         </ion-select>
       </ion-item>

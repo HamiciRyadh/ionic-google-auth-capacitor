@@ -6,11 +6,11 @@ import {
   collection,
   deleteDoc,
   doc,
-  Firestore,
+  Firestore, getDocs,
   onSnapshot,
   query,
   setDoc, updateDoc,
-  where
+  where, writeBatch
 } from '@angular/fire/firestore';
 import {User} from '@firebase/auth';
 import {BehaviorSubject, Observable} from 'rxjs';
@@ -98,10 +98,42 @@ export class ProjectService {
       });
   }
 
-  removeMember(user: User): Promise<boolean> {
-    // TODO: Remove from canRead and canWrite and check for tickets where that member was owner/creator and .. deal with it.
-    // TODO: Use a firestore transaction.
-    return undefined;
+  async removeMember(user: User): Promise<boolean> {
+    const batch = writeBatch(this.db);
+    const projectId: string =  this.mSelectedProject.getValue().id;
+
+    // Removing the user from the members of the project.
+    batch.update(doc(this.db, 'projects', projectId), {
+      canRead: arrayRemove(user.uid),
+      canWrite: arrayRemove(user.uid),
+    });
+
+    // Removing the user from the tickets where he is defined as the owner.
+    const queryOwner = query(collection(this.db, 'projects', projectId, 'tickets'),
+      where('owner', '==', user.uid));
+    const queryOwnerSnapshot = await getDocs(queryOwner);
+    queryOwnerSnapshot.forEach((document) => {
+      batch.update(document.ref, {
+        owner: 'undefined',
+      });
+    });
+
+    // Removing the user from the tickets where he is defined as the creator.
+    const queryCreator = query(collection(this.db, 'projects', projectId, 'tickets'),
+      where('createdBy', '==', user.uid));
+    const queryCreatorSnapshot = await getDocs(queryCreator);
+    queryCreatorSnapshot.forEach((document) => {
+      batch.update(document.ref, {
+        createdBy: 'undefined',
+      });
+    });
+
+    return batch.commit()
+      .then(() => true)
+      .catch((err) => {
+        console.log(err);
+        return false;
+      });
   }
 
   canMemberWrite(uid: string): boolean {
