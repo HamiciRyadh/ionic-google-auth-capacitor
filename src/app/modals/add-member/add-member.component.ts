@@ -42,7 +42,16 @@ export class AddMemberComponent implements OnInit {
   }
 
   async verifyMember(): Promise<void> {
-    this.user = await this.userService.findByEmail(this.memberForm.get('email').value);
+    const email = this.memberForm.get('email').value;
+    if (this.userService.isMember(email)) {
+      this.toastController.create({
+        message: 'Cet utilisateur est déjà membre du projet.',
+        duration: 4000
+      }).then(toast => toast.present());
+      this.prospectiveMemberExists = false;
+      return;
+    }
+    this.user = await this.userService.findByEmail(email);
     if (this.user) {
       this.prospectiveMemberExists = true;
     } else {

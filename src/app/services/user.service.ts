@@ -125,6 +125,10 @@ export class UserService {
       });
   }
 
+  isMember(email: string): boolean {
+    return this.mUsers.getValue().find(user => user.email === email) != null;
+  }
+
   getLoginCredentials(): string[] {
     return [this.email ?? '', this.password ?? ''];
   }
