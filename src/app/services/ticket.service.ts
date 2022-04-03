@@ -24,6 +24,17 @@ export class TicketService {
       });
   }
 
+  updateTicketToProject(ticket: Ticket, projectId: string): Promise<boolean> {
+    const newDocRef = doc(collection(this.db, 'projects', projectId, 'tickets'),ticket.id);
+    return setDoc(newDocRef, {
+      ...ticket
+    }).then(() => true)
+      .catch((err) => {
+        console.log(err);
+        return false;
+      });
+  }
+
   getRelatedTicketsOfProject(projectId: string): Observable<Ticket[]> {
     return new Observable<Ticket[]>(subscriber => {
       const q = query(collection(this.db, 'projects', projectId, 'tickets'));

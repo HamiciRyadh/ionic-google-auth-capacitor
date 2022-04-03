@@ -36,7 +36,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+}
+
+.form__login > ion-list{
+  width: 80%;
 }
 
 .button__primary {

@@ -47,9 +47,19 @@
         </ion-select>
       </ion-item>
 
+      <ion-item>
+        <ion-label>Status</ion-label>
+        <ion-select interface="popover" formControlName="status" >
+          <ion-select-option value="open">Ouvert</ion-select-option>
+          <ion-select-option value="started">En cours</ion-select-option>
+          <ion-select-option value="blocked">Bloqué</ion-select-option>
+          <ion-select-option value="finished">Fermé</ion-select-option>
+        </ion-select>
+      </ion-item>
+
     </ion-list>
     <ion-button class="button__primary" type="submit" [disabled]="!this.ticketForm.valid">
-      Ajouter
+      {{this.ticketId?'Modifier':'Ajouter'}}
     </ion-button>
   </form>
 </ion-content>

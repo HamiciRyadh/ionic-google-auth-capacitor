@@ -13,10 +13,14 @@ import {Ticket} from '../../models/ticket';
   styleUrls: ['./create-ticket.component.scss'],
 })
 export class CreateTicketComponent implements OnInit {
-
   ticketForm: FormGroup;
   userUid: string;
   projectParticipants: User[] = [];
+
+  /* Needed to Update a Ticket */
+  ticketId = undefined;
+  projectId = undefined;
+  currentTicket: Ticket = undefined;
 
   constructor(private modalController: ModalController,
               private projectService: ProjectService,
@@ -31,6 +35,7 @@ export class CreateTicketComponent implements OnInit {
       description: ['', Validators.required],
       type: ['task', Validators.required],
       priority: ['medium', Validators.required],
+      status: ['open', Validators.required],
       owner: [this.userUid, [Validators.required]],
     });
 
@@ -41,19 +46,33 @@ export class CreateTicketComponent implements OnInit {
     this.userService.getObservableUsers().subscribe(projectUsers => {
       this.projectParticipants = projectUsers;
     });
+
+    /* If we want to Update a Ticket */
+    if(this.ticketId){
+      this.ticketService.getTicket(this.projectId,this.ticketId).subscribe((ticketRes: Ticket)=>{
+        this.currentTicket = ticketRes;
+        this.ticketForm = this.fb.group({
+          name: [ticketRes.name, Validators.required],
+          description: [ticketRes.description, Validators.required],
+          type: [ticketRes.type, Validators.required],
+          priority: [ticketRes.priority, Validators.required],
+          status: [ticketRes.status, Validators.required],
+          owner: [ticketRes.owner, [Validators.required]],
+        });
+      })
+    }
   }
 
   async createTicker(): Promise<void> {
-    const project = this.projectService.getSelectedProject();
-    this.ticketService.addTicketToProject(new Ticket(this.ticketForm.get('name').value,
-      this.ticketForm.get('description').value,
-      this.ticketForm.get('type').value,
-      this.ticketForm.get('priority').value,
-      this.ticketForm.get('owner').value,
-      this.userUid,
-        project),
-      project)
-      .then((success) => {
+    if(this.currentTicket){
+      this.currentTicket.name = this.ticketForm.get('name').value,
+      this.currentTicket.description = this.ticketForm.get('description').value,
+      this.currentTicket.type =  this.ticketForm.get('type').value,
+      this.currentTicket.priority = this.ticketForm.get('priority').value,
+      this.currentTicket.owner = this.ticketForm.get('owner').value,
+      this.currentTicket.status = this.ticketForm.get('status').value,
+      this.ticketService.updateTicketToProject(this.currentTicket,this.projectId)
+        .then((success) => {
         const msg = success ? 'Ticket créé avec succès.' : 'Une erreur est survenue.';
         this.toastController.create({
           message: msg,
@@ -64,11 +83,34 @@ export class CreateTicketComponent implements OnInit {
           this.closeModal();
         }
       }).then(() => {})
-      .catch(console.log);
+        .catch(console.log);
+    }else {
+      const project = this.projectService.getSelectedProject();
+      this.ticketService.addTicketToProject(new Ticket(this.ticketForm.get('name').value,
+          this.ticketForm.get('description').value,
+          this.ticketForm.get('type').value,
+          this.ticketForm.get('priority').value,
+          this.ticketForm.get('owner').value,
+          this.ticketForm.get('status').value,
+          this.userUid,
+          project),
+        project)
+        .then((success) => {
+          const msg = success ? 'Ticket créé avec succès.' : 'Une erreur est survenue.';
+          this.toastController.create({
+            message: msg,
+            duration: 2000
+          }).then(toast => toast.present());
+
+          if (success) {
+            this.closeModal();
+          }
+        }).then(() => {})
+        .catch(console.log);
+    }
   }
 
   closeModal(): void {
     this.modalController.dismiss().then(() => {});
   }
-
 }

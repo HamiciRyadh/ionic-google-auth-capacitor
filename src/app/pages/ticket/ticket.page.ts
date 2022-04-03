@@ -3,6 +3,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {TicketService} from '../../services/ticket.service';
 import {User} from '@firebase/auth';
 import {UserService} from '../../services/user.service';
+import {ModalController} from "@ionic/angular";
+import {CreateTicketComponent} from "../../modals/create-ticket/create-ticket.component";
 
 @Component({
   selector: 'app-ticket',
@@ -17,7 +19,8 @@ export class TicketPage implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private userService: UserService,
-              private ticketService: TicketService) { }
+              private ticketService: TicketService,
+              private modalController: ModalController) {}
 
   ngOnInit() {
     const routeParams = this.route.snapshot.paramMap;
@@ -32,8 +35,17 @@ export class TicketPage implements OnInit {
     this.router.navigate([`/projects/${this.projectId}`], {replaceUrl: true}).then();
   }
 
-  goToEditTicket(): void {
+  async goToEditTicket(): Promise<void> {
     console.log('Todo: Edit Todo!');
+    const modal = await this.modalController.create({
+      component: CreateTicketComponent,
+      swipeToClose: true,
+      componentProps: {
+        projectId: this.projectId,
+        ticketId: this.ticket.id,
+      }
+    });
+    await modal.present();
   }
 
   findUserFromUid(uid: string): User | undefined {
