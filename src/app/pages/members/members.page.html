@@ -22,15 +22,19 @@
           <h2> {{ user.email }}</h2>
           <p> {{ user.phoneNumber }}</p>
         </ion-label>
-        <ion-button slot="end" (click)="this.updateMember(user)" *ngIf="user.uid !== ownerId && this.userId === this.ownerId">
+        <ion-button slot="end" (click)="this.updateMember(user)" *ngIf="!this.isAdmin(user.uid) && this.isAdmin(this.userId)">
           <ion-icon slot="icon-only" name="pencil"></ion-icon>
         </ion-button>
-        <div class="ticket__container__header__element" *ngIf="user.uid === this.ownerId">
+        <div class="ticket__container__header__element" *ngIf="this.isAdmin(user.uid)">
           <ion-label class="ticket__status started" >Admin</ion-label>
+        </div>
+        <div class="ticket__container__header__element" *ngIf="!this.isAdmin(user.uid)">
+          <ion-label class="ticket__status open" *ngIf="!this.isMemberWithFullRights(user)" >Invité</ion-label>
+          <ion-label class="ticket__status finished" *ngIf="this.isMemberWithFullRights(user)">Membre</ion-label>
         </div>
       </ion-item>
 
-      <ion-item-options side="end" *ngIf="this.userId === this.ownerId && this.ownerId !== user.uid">
+      <ion-item-options side="end" *ngIf="this.isAdmin(this.userId) && !this.isAdmin(user.uid)">
         <ion-item-option (click)="this.removeFromProject(user)" color="danger"><ion-icon slot="icon-only" name="trash-outline"></ion-icon></ion-item-option>
       </ion-item-options>
       <ion-item-options side="start" *ngIf="this.isPlatformAndroid()">

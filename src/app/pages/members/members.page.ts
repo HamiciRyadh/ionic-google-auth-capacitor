@@ -45,6 +45,15 @@ export class MembersPage implements OnInit {
   isPlatformAndroid(): boolean {
     return this.platform.is('android');
   }
+
+  isMemberWithFullRights(user: User): boolean {
+    return this.projectService.canMemberWrite(user.uid);
+  }
+
+  isAdmin(uid: string) {
+    return this.ownerId === uid;
+  }
+
   async call(user: User): Promise<void> {
     if (this.isPlatformAndroid()) {
       this.callNumber.callNumber(user.phoneNumber, true)
