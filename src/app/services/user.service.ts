@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {collection, doc, Firestore, onSnapshot, query, setDoc, updateDoc, where} from '@angular/fire/firestore';
+import {collection, doc, Firestore, getDoc, onSnapshot, query, setDoc, updateDoc, where} from '@angular/fire/firestore';
 import {
   Auth,
   createUserWithEmailAndPassword,
@@ -73,12 +73,6 @@ export class UserService {
     }
   }
 
-  removeMember(user: User): Promise<boolean> {
-    // TODO: Remove from canRead and canWrite and check for tickets where that member was owner/creator and .. deal with it.
-    // TODO: Use a firestore transaction.
-    return undefined;
-  }
-
   async logIn(email: string, password: string): Promise<boolean> {
     const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
     if(userCredential){
@@ -98,6 +92,11 @@ export class UserService {
 
   async recoverPassword(email: string): Promise<void> {
     await sendPasswordResetEmail(this.auth, email);
+  }
+
+  async findByEmail(email: string): Promise<User> {
+    const snapshot = await getDoc(doc(this.db, 'users', email));
+    return snapshot.data() as User;
   }
 
   public async changeProfilePicture(): Promise<boolean> {

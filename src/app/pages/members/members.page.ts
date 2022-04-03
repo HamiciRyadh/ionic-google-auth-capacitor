@@ -4,10 +4,9 @@ import {User} from '@firebase/auth';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ProjectService} from '../../services/project.service';
 import {Project} from '../../models/project';
-import {AlertController, Platform, ToastController} from '@ionic/angular';
+import {AlertController, ModalController, Platform, ToastController} from '@ionic/angular';
 import { CallNumber } from '@awesome-cordova-plugins/call-number/ngx';
-import { AppLauncher } from '@capacitor/app-launcher';
-import { WebIntent } from '@awesome-cordova-plugins/web-intent/ngx';
+import {AddMemberComponent} from '../../modals/add-member/add-member.component';
 
 @Component({
   selector: 'app-members',
@@ -26,6 +25,7 @@ export class MembersPage implements OnInit {
               private projectService: ProjectService,
               private alertController: AlertController,
               private toastController: ToastController,
+              private modalController: ModalController,
               private callNumber: CallNumber,
               public platform: Platform) { }
 
@@ -38,7 +38,7 @@ export class MembersPage implements OnInit {
     }
 
     this.userService.getObservableUsers().subscribe(users => this.users = users);
-    this.userService.getObservableUser().subscribe(user => this.userId = user.uid);
+    this.userService.getObservableUser().subscribe(user => this.userId = user?.uid);
     this.projectService.getSelectedProjectObservable().subscribe(project => this.ownerId = project?.admin ?? '');
   }
 
@@ -53,11 +53,16 @@ export class MembersPage implements OnInit {
     }
   }
 
-  addMember(): void {
-  //  TODO: Ajouter un membre en canRead + canWrite
+  async addMember(): Promise<void> {
+    //  TODO: Ajouter un membre en canRead + canWrite
+    const modal = await this.modalController.create({
+      component: AddMemberComponent,
+      swipeToClose: true,
+    });
+    await modal.present();
   }
 
-  addVisitor(): void {
+  updateMember(): void {
   //  TODO: Ajouter un membre en canRead seulement
   }
 
@@ -77,7 +82,7 @@ export class MembersPage implements OnInit {
           text: 'Confirmer',
           id: 'confirm-button',
           handler: () => {
-            this.userService.removeMember(user).then(value => {
+            this.projectService.removeMember(user).then(value => {
               const msg = value ? 'Membre supprimé avec succès.' : 'Une erreur est survenue.';
               this.toastController.create({
                 message: msg,

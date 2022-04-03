@@ -5,7 +5,7 @@ import {ModalController} from '@ionic/angular';
 import {CreateProjectComponent} from '../../modals/create-project/create-project.component';
 import {ProjectService} from '../../services/project.service';
 import {Project} from '../../models/project';
-import {User} from "@firebase/auth";
+import {User} from '@firebase/auth';
 
 @Component({
   selector: 'app-home',

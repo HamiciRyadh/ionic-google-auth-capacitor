@@ -4,6 +4,9 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Membres</ion-title>
+    <ion-button slot="end" (click)="this.addMember();">
+      <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -19,6 +22,12 @@
           <h2> {{ user.email }}</h2>
           <p> {{ user.phoneNumber }}</p>
         </ion-label>
+        <ion-button slot="end" (click)="this.updateMember()" *ngIf="user.uid !== ownerId && this.userId === this.ownerId">
+          <ion-icon slot="icon-only" name="pencil"></ion-icon>
+        </ion-button>
+        <div class="ticket__container__header__element" *ngIf="user.uid === this.ownerId">
+          <ion-label class="ticket__status started" >Admin</ion-label>
+        </div>
       </ion-item>
 
       <ion-item-options side="end" *ngIf="this.userId === this.ownerId && this.ownerId !== user.uid">
