@@ -22,7 +22,7 @@
           <h2> {{ user.email }}</h2>
           <p> {{ user.phoneNumber }}</p>
         </ion-label>
-        <ion-button slot="end" (click)="this.updateMember()" *ngIf="user.uid !== ownerId && this.userId === this.ownerId">
+        <ion-button slot="end" (click)="this.updateMember(user)" *ngIf="user.uid !== ownerId && this.userId === this.ownerId">
           <ion-icon slot="icon-only" name="pencil"></ion-icon>
         </ion-button>
         <div class="ticket__container__header__element" *ngIf="user.uid === this.ownerId">

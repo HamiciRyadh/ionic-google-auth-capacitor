@@ -54,7 +54,6 @@ export class MembersPage implements OnInit {
   }
 
   async addMember(): Promise<void> {
-    //  TODO: Ajouter un membre en canRead + canWrite
     const modal = await this.modalController.create({
       component: AddMemberComponent,
       swipeToClose: true,
@@ -62,8 +61,52 @@ export class MembersPage implements OnInit {
     await modal.present();
   }
 
-  updateMember(): void {
-  //  TODO: Ajouter un membre en canRead seulement
+  async updateMember(user: User): Promise<void> {
+    const currentStatus: boolean = this.projectService.canMemberWrite(user.uid);
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Status',
+      inputs: [
+        {
+          name: 'visitor',
+          type: 'radio',
+          label: 'Invité',
+          value: false,
+          checked: !currentStatus,
+          handler: () => {},
+        },
+        {
+          name: 'member',
+          type: 'radio',
+          label: 'Membre',
+          value: true,
+          checked: currentStatus,
+          handler: () => {}
+        },
+      ],
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {}
+        }, {
+          text: 'Ok',
+          handler: (memberStatus) => {
+            this.projectService.updateMemberRights(user, memberStatus)
+              .then(value => {
+                const msg = value ? 'Status modifié avec succès.' : 'Une erreur est survenue.';
+                this.toastController.create({
+                  message: msg,
+                  duration: 2000
+                }).then(toast => toast.present());
+              });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   async removeFromProject(user: User): Promise<void> {

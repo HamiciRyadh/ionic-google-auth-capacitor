@@ -125,8 +125,8 @@ export class UserService {
       });
   }
 
-  isMember(email: string): boolean {
-    return this.mUsers.getValue().find(user => user.email === email) != null;
+  findMember(email: string): User | undefined {
+    return this.mUsers.getValue().find(user => user.email === email);
   }
 
   getLoginCredentials(): string[] {

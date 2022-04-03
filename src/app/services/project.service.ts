@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Project} from '../models/project';
 import {
+  arrayRemove,
   arrayUnion,
   collection,
   deleteDoc,
@@ -76,10 +77,35 @@ export class ProjectService {
       });
   }
 
+  async updateMemberRights(user: User, hasWriteRight: boolean = false): Promise<boolean> {
+    let data;
+    if (hasWriteRight) {
+      data = {
+        canRead: arrayUnion(user.uid),
+        canWrite: arrayUnion(user.uid),
+      };
+    } else {
+      data = {
+        canRead: arrayUnion(user.uid),
+        canWrite: arrayRemove(user.uid),
+      };
+    }
+    return updateDoc(doc(this.db, 'projects', this.mSelectedProject.getValue().id), data)
+      .then(() => true)
+      .catch(err => {
+        console.log(err);
+        return false;
+      });
+  }
+
   removeMember(user: User): Promise<boolean> {
     // TODO: Remove from canRead and canWrite and check for tickets where that member was owner/creator and .. deal with it.
     // TODO: Use a firestore transaction.
     return undefined;
+  }
+
+  canMemberWrite(uid: string): boolean {
+    return this.mSelectedProject.getValue()?.canWrite.find(mUid => mUid === uid) != null;
   }
 
   getSelectedProjectObservable(): Observable<Project> {
