@@ -30,7 +30,7 @@ export class AddMemberComponent implements OnInit {
   }
 
   addMember(): void {
-    this.projectService.addMember(this.user, this.memberForm.get('canWrite').value)
+    this.projectService.addMember(this.user, this.memberForm.get('canWrite').value === 'true')
       .then(value => {
         const msg = value ? 'Membre ajouté avec succès.' : 'Une erreur est survenue.';
         this.toastController.create({
