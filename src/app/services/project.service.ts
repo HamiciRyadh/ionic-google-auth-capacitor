@@ -4,7 +4,6 @@ import {
   arrayRemove,
   arrayUnion,
   collection,
-  deleteDoc,
   doc,
   Firestore, getDocs,
   onSnapshot,
@@ -160,8 +159,18 @@ export class ProjectService {
     return this.mSelectedProject.getValue();
   }
 
-  deleteProject(project: Project): Promise<boolean> {
-    return deleteDoc(doc(this.db, 'projects', project.id))
+  async deleteProject(project: Project): Promise<boolean> {
+    const batch = writeBatch(this.db);
+    const projectId: string =  project.id;
+    batch.delete(doc(this.db, 'projects', projectId));
+
+    const q = query(collection(this.db, 'projects', projectId, 'tickets'));
+    const queryCreatorSnapshot = await getDocs(q);
+    queryCreatorSnapshot.forEach((document) => {
+      batch.delete(document.ref);
+    });
+
+    return batch.commit()
       .then(() => true)
       .catch((err) => {
         console.log(err);
