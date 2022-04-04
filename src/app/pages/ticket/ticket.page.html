@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-icon slot="icon-only" name="arrow-back-outline" color="primary" (click)="this.goBackToProject()"></ion-icon>
     </ion-buttons>
-    <ion-buttons slot="end" (click)="this.goToEditTicket()">
+    <ion-buttons *ngIf="this.projectService.userCanWrite()" slot="end" (click)="this.goToEditTicket()">
       <ion-icon slot="icon-only" name="create-outline" color="primary"></ion-icon>
     </ion-buttons>
     <ion-title>Ticket</ion-title>

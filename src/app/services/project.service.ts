@@ -13,6 +13,7 @@ import {
   where, writeBatch
 } from '@angular/fire/firestore';
 import {User} from '@firebase/auth';
+import { Auth } from '@angular/fire/auth';
 import {BehaviorSubject, Observable} from 'rxjs';
 
 @Injectable({
@@ -22,7 +23,8 @@ export class ProjectService {
 
   private readonly mSelectedProject: BehaviorSubject<Project>;
 
-  constructor(private db: Firestore) {
+  constructor(private db: Firestore,
+              private auth:Auth) {
     this.mSelectedProject = new BehaviorSubject(new Project('', '', ''));
   }
 
@@ -165,5 +167,9 @@ export class ProjectService {
         console.log(err);
         return false;
       });
+  }
+
+  userCanWrite(): boolean{
+    return this.getSelectedProject().canWrite.includes(this.auth.currentUser.uid);
   }
 }

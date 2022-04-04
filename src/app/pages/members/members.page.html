@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Membres</ion-title>
-    <ion-button slot="end" (click)="this.addMember();">
+    <ion-button *ngIf="this.projectService.userCanWrite()" slot="end" (click)="this.addMember();">
       <ion-icon slot="icon-only" name="add-outline"></ion-icon>
     </ion-button>
   </ion-toolbar>

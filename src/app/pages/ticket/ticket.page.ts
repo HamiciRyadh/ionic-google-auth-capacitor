@@ -5,6 +5,7 @@ import {User} from '@firebase/auth';
 import {UserService} from '../../services/user.service';
 import {ModalController} from "@ionic/angular";
 import {CreateTicketComponent} from "../../modals/create-ticket/create-ticket.component";
+import {ProjectService} from "../../services/project.service";
 
 @Component({
   selector: 'app-ticket',
@@ -20,7 +21,8 @@ export class TicketPage implements OnInit {
               private route: ActivatedRoute,
               private userService: UserService,
               private ticketService: TicketService,
-              private modalController: ModalController) {}
+              private modalController: ModalController,
+              private projectService: ProjectService) {}
 
   ngOnInit() {
     const routeParams = this.route.snapshot.paramMap;
