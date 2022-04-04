@@ -51,8 +51,8 @@ export class CreateProjectComponent implements OnInit {
   }
 
   private createProject(): void {
-    const name = this.projectForm.get('name').value;
-    const description = this.projectForm.get('description').value;
+    const name = this.projectForm.get('name').value.trim();
+    const description = this.projectForm.get('description').value.trim();
 
     this.projectService.createProject(new Project(name, description, this.userService.getUser().uid))
       .then((success) => {
@@ -70,8 +70,8 @@ export class CreateProjectComponent implements OnInit {
   }
 
   private updateProject(): void {
-    const name = this.projectForm.get('name').value;
-    const description = this.projectForm.get('description').value;
+    const name = this.projectForm.get('name').value.trim();
+    const description = this.projectForm.get('description').value.trim();
 
     this.project.name = name;
     this.project.description = description;

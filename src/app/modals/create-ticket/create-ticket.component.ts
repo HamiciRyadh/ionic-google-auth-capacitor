@@ -77,8 +77,8 @@ export class CreateTicketComponent implements OnInit {
 
   private createTicket(): void {
     const project = this.projectService.getSelectedProject();
-    this.ticketService.addTicketToProject(new Ticket(this.ticketForm.get('name').value,
-        this.ticketForm.get('description').value,
+    this.ticketService.addTicketToProject(new Ticket(this.ticketForm.get('name').value.trim(),
+        this.ticketForm.get('description').value.trim(),
         this.ticketForm.get('type').value,
         this.ticketForm.get('priority').value,
         this.ticketForm.get('owner').value,
@@ -102,8 +102,8 @@ export class CreateTicketComponent implements OnInit {
   }
 
   private updateTicket(): void {
-    this.currentTicket.name = this.ticketForm.get('name').value;
-    this.currentTicket.description = this.ticketForm.get('description').value;
+    this.currentTicket.name = this.ticketForm.get('name').value.trim();
+    this.currentTicket.description = this.ticketForm.get('description').value.trim();
     this.currentTicket.type = this.ticketForm.get('type').value;
     this.currentTicket.priority = this.ticketForm.get('priority').value;
     this.currentTicket.owner = this.ticketForm.get('owner').value;

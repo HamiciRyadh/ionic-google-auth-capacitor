@@ -13,10 +13,9 @@
 </ion-header>
 
 <ion-content>
-
-  <ion-text *ngIf="userProjects.length === 0 && otherProjects.length === 0">
-    Aucun projet à afficher.
-  </ion-text>
+  <div id="container" *ngIf="userProjects.length === 0 && otherProjects.length === 0">
+    <strong>Aucun projet à afficher.</strong>
+  </div>
 
   <!-- Personal Projects!-->
   <ion-label class="list__header"

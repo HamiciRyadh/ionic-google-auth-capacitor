@@ -67,7 +67,7 @@ export class ProjectService {
   selectProject(projectId: string): void {
     const docRef = doc(this.db, 'projects', projectId);
     onSnapshot(docRef, snapshot => {
-      this.mSelectedProject.next(snapshot.data() as Project);
+      this.mSelectedProject.next(snapshot.exists() ? snapshot.data() as Project : new Project('', '', ''));
     }, console.log);
   }
 

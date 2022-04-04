@@ -40,6 +40,11 @@ export class UserService {
     });
 
     this.projectService.getSelectedProjectObservable().subscribe(selectedProject => {
+      if (selectedProject === undefined || selectedProject.id === '') {
+        this.mUsers.next([]);
+        return;
+      }
+
       const projectUsers = [...new Set([...selectedProject.canRead,...selectedProject.canWrite])];
       const q = query(collection(this.db, 'users'), where('uid', 'in', projectUsers));
       onSnapshot(q, querySnapshot => {

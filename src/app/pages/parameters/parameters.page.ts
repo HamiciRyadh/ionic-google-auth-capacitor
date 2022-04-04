@@ -35,7 +35,7 @@ export class ParametersPage implements OnInit {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Attention !',
-      message: `Pour confirmer la suppression du projet veuillez saisir son nom <strong>"${this.project.name}"</strong>.`,
+      message: `Pour confirmer la suppression du projet veuillez saisir son nom <strong>"${this.project?.name}"</strong>.`,
       inputs: [
         {
           name: 'projectName',
@@ -52,7 +52,7 @@ export class ParametersPage implements OnInit {
         }, {
           text: 'Confirmer',
           handler: (data) => {
-            if (this.isAdmin() && data.projectName === this.project.name) {
+            if (this.isAdmin() && data.projectName === this.project?.name) {
               this.projectService.deleteProject(this.project)
                 .then(value => {
                   const msg = value ? 'Projet supprimé avec succès.' : 'Une erreur est survenue.';
@@ -80,7 +80,7 @@ export class ParametersPage implements OnInit {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Attention !',
-      message: `Pour confirmer le désistement du projet veuillez saisir son nom <strong>"${this.project.name}"</strong>.`,
+      message: `Pour confirmer le désistement du projet veuillez saisir son nom <strong>"${this.project?.name}"</strong>.`,
       inputs: [
         {
           name: 'projectName',
@@ -97,7 +97,7 @@ export class ParametersPage implements OnInit {
         }, {
           text: 'Confirmer',
           handler: (data) => {
-            if (data.projectName === this.project.name) {
+            if (data.projectName === this.project?.name) {
               this.projectService.leaveProject(this.userService.getUser())
                 .then(value => {
                   const msg = value ? 'Projet quitté avec succès.' : 'Une erreur est survenue.';
@@ -121,19 +121,21 @@ export class ParametersPage implements OnInit {
     await alert.present();
   }
 
-  async goToEditProject(): Promise<void>{
+  async goToEditProject(): Promise<void> {
     const modal = await this.modalController.create({
       component: CreateProjectComponent,
       swipeToClose: true,
       componentProps: {
-        projectId: this.project.id,
+        projectId: this.project?.id,
       }
     });
     await modal.present();
   }
 
   isAdmin(): boolean {
-    return this.project.admin === this.userService.getUser()?.uid;
+    const user: User = this.userService.getUser();
+    if (this.project === undefined || user === undefined) {return false;}
+    return this.project.admin === user.uid;
   }
 
   findUserFromUid(uid: string): User | undefined {

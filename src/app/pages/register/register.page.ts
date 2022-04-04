@@ -17,7 +17,7 @@ export class RegisterPage implements OnInit {
 
   ngOnInit() {
     this.registerForm = this.fb.group({
-      fullName: ['', [Validators.required, Validators.minLength(6)]],
+      fullName: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       telephone: [''],
       password: ['', Validators.required],
@@ -26,9 +26,9 @@ export class RegisterPage implements OnInit {
   }
 
   public register(): void {
-    const fullName = this.registerForm.get('fullName').value;
-    const email = this.registerForm.get('email').value;
-    const telephone = this.registerForm.get('telephone').value;
+    const fullName = this.registerForm.get('fullName').value.trim();
+    const email = this.registerForm.get('email').value.trim();
+    const telephone = this.registerForm.get('telephone').value.trim();
     const password = this.registerForm.get('password').value;
     const confirmPassword = this.registerForm.get('confirmPassword').value;
 
