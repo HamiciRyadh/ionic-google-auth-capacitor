@@ -48,8 +48,8 @@ export class CreateTicketComponent implements OnInit {
     });
 
     /* If we want to Update a Ticket */
-    if(this.ticketId){
-      this.ticketService.getTicket(this.projectId,this.ticketId).subscribe((ticketRes: Ticket)=>{
+    if (this.ticketId) {
+      this.ticketService.getTicket(this.projectId, this.ticketId).subscribe((ticketRes: Ticket) => {
         this.currentTicket = ticketRes;
         this.ticketForm = this.fb.group({
           name: [ticketRes.name, Validators.required],
@@ -59,20 +59,30 @@ export class CreateTicketComponent implements OnInit {
           status: [ticketRes.status, Validators.required],
           owner: [ticketRes.owner, [Validators.required]],
         });
-      })
+      });
     }
   }
 
-  async createTicker(): Promise<void> {
-    if(this.currentTicket){
-      this.currentTicket.name = this.ticketForm.get('name').value,
-      this.currentTicket.description = this.ticketForm.get('description').value,
-      this.currentTicket.type =  this.ticketForm.get('type').value,
-      this.currentTicket.priority = this.ticketForm.get('priority').value,
-      this.currentTicket.owner = this.ticketForm.get('owner').value,
-      this.currentTicket.status = this.ticketForm.get('status').value,
-      this.ticketService.updateTicketToProject(this.currentTicket,this.projectId)
-        .then((success) => {
+  createOrUpdateTicket(): void {
+    if (this.currentTicket != null) {
+      this.updateTicket();
+    } else {
+      this.createTicket();
+    }
+  }
+
+  async createTicket(): Promise<void> {
+    const project = this.projectService.getSelectedProject();
+    this.ticketService.addTicketToProject(new Ticket(this.ticketForm.get('name').value,
+        this.ticketForm.get('description').value,
+        this.ticketForm.get('type').value,
+        this.ticketForm.get('priority').value,
+        this.ticketForm.get('owner').value,
+        'open',
+        this.userUid,
+        project),
+      project)
+      .then((success) => {
         const msg = success ? 'Ticket créé avec succès.' : 'Une erreur est survenue.';
         this.toastController.create({
           message: msg,
@@ -82,31 +92,33 @@ export class CreateTicketComponent implements OnInit {
         if (success) {
           this.closeModal();
         }
-      }).then(() => {})
-        .catch(console.log);
-    }else {
-      const project = this.projectService.getSelectedProject();
-      this.ticketService.addTicketToProject(new Ticket(this.ticketForm.get('name').value,
-          this.ticketForm.get('description').value,
-          this.ticketForm.get('type').value,
-          this.ticketForm.get('priority').value,
-          this.ticketForm.get('owner').value,
-          this.ticketForm.get('status').value,
-          this.userUid,
-          project),
-        project)
-        .then((success) => {
-          const msg = success ? 'Ticket créé avec succès.' : 'Une erreur est survenue.';
-          this.toastController.create({
-            message: msg,
-            duration: 2000
-          }).then(toast => toast.present());
+      }).then(() => {
+    })
+      .catch(console.log);
+  }
 
-          if (success) {
-            this.closeModal();
-          }
-        }).then(() => {})
-        .catch(console.log);
+  async updateTicket(): Promise<void> {
+    if (this.currentTicket) {
+      this.currentTicket.name = this.ticketForm.get('name').value,
+        this.currentTicket.description = this.ticketForm.get('description').value,
+        this.currentTicket.type = this.ticketForm.get('type').value,
+        this.currentTicket.priority = this.ticketForm.get('priority').value,
+        this.currentTicket.owner = this.ticketForm.get('owner').value,
+        this.currentTicket.status = this.ticketForm.get('status').value,
+        this.ticketService.updateTicketToProject(this.currentTicket, this.projectId)
+          .then((success) => {
+            const msg = success ? 'Ticket modifié avec succès.' : 'Une erreur est survenue.';
+            this.toastController.create({
+              message: msg,
+              duration: 2000
+            }).then(toast => toast.present());
+
+            if (success) {
+              this.closeModal();
+            }
+          }).then(() => {
+        })
+          .catch(console.log);
     }
   }
 
