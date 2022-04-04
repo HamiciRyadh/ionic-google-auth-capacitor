@@ -31,11 +31,19 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-fab class="button__quit__project" vertical="bottom">
+  <ion-fab class="button__quit__project" vertical="bottom" *ngIf="this.isAdmin()">
     <ion-button color="danger"
                 expand="block"
                 (click)="this.deleteProject()">
-      {{this.isAdmin()?'Supprimer ':'Quitter '}}projet
+      Supprimer
+    </ion-button>
+  </ion-fab>
+
+  <ion-fab class="button__quit__project" vertical="bottom" *ngIf="!this.isAdmin()">
+    <ion-button color="danger"
+                expand="block"
+                (click)="this.leaveProject()">
+      Quitter
     </ion-button>
   </ion-fab>
 

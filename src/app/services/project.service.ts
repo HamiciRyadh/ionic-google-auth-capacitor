@@ -24,7 +24,7 @@ export class ProjectService {
   private readonly mSelectedProject: BehaviorSubject<Project>;
 
   constructor(private db: Firestore,
-              private auth:Auth) {
+              private auth: Auth) {
     this.mSelectedProject = new BehaviorSubject(new Project('', '', ''));
   }
 
@@ -169,19 +169,11 @@ export class ProjectService {
       });
   }
 
-  quitProject(project: Project, uid: string): Promise<boolean> {
-    let newProject: Project = project;
-    newProject.canWrite = newProject.canWrite.filter((u)=>u!==uid);
-    newProject.canRead = newProject.canRead.filter((u)=>u!==uid);
-    return updateDoc(doc(this.db, 'projects', project.id), {...newProject})
-      .then(() => true)
-      .catch((err) => {
-        console.log(err);
-        return false;
-      });
+  leaveProject(user: User): Promise<boolean> {
+    return this.removeMember(user);
   }
 
-  userCanWrite(): boolean{
-    return this.getSelectedProject().canWrite.includes(this.auth.currentUser.uid);
+  userCanWrite(): boolean {
+    return this.getSelectedProject()?.canWrite.includes(this.auth.currentUser?.uid);
   }
 }

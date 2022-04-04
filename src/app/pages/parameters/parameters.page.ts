@@ -4,8 +4,8 @@ import {Project} from '../../models/project';
 import {ProjectService} from '../../services/project.service';
 import {UserService} from '../../services/user.service';
 import {AlertController, ModalController, ToastController} from '@ionic/angular';
-import {User} from "@firebase/auth";
-import {CreateProjectComponent} from "../../modals/create-project/create-project.component";
+import {User} from '@firebase/auth';
+import {CreateProjectComponent} from '../../modals/create-project/create-project.component';
 
 @Component({
   selector: 'app-parameters',
@@ -24,19 +24,11 @@ export class ParametersPage implements OnInit {
               private modalController: ModalController) {}
 
 
-ngOnInit() {
+  ngOnInit() {
     const routeParams = this.route.snapshot.paramMap;
     const projectId = routeParams.get('projectId');
     this.projectService.selectProject(projectId);
     this.projectService.getSelectedProjectObservable().subscribe(selectedProject => this.project = selectedProject);
-  }
-
-  leaveProject(): void {
-    if(this.isAdmin()){
-      console.log('Todo: Supprimer project!');
-    }else{
-      console.log('Todo: Quitter project!');
-    }
   }
 
   async deleteProject(): Promise<void> {
@@ -60,20 +52,9 @@ ngOnInit() {
         }, {
           text: 'Confirmer',
           handler: (data) => {
-            if (data.projectName === this.project.name) {
-              if(this.isAdmin()){
-                this.projectService.deleteProject(this.project)
-                  .then(value => {
-                    const msg = value ? 'Projet supprimé avec succès.' : 'Une erreur est survenue.';
-                    this.toastController.create({
-                      message: msg,
-                      duration: 2000
-                    }).then(toast => toast.present())
-                      .then(() => this.router.navigate(['/projects'], {replaceUrl: true}));
-                  });
-              }else{ // Normal user quit project
-                this.projectService.quitProject(this.project,this.userService.getUser().uid)
-                  .then(value => {
+            if (this.isAdmin() && data.projectName === this.project.name) {
+              this.projectService.deleteProject(this.project)
+                .then(value => {
                   const msg = value ? 'Projet supprimé avec succès.' : 'Une erreur est survenue.';
                   this.toastController.create({
                     message: msg,
@@ -81,11 +62,54 @@ ngOnInit() {
                   }).then(toast => toast.present())
                     .then(() => this.router.navigate(['/projects'], {replaceUrl: true}));
                 });
-              }
-
             } else {
               this.toastController.create({
                 message: 'Projet non supprimé.',
+                duration: 2000
+              }).then(toast => toast.present());
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async leaveProject(): Promise<void> {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Attention !',
+      message: `Pour confirmer le désistement du projet veuillez saisir son nom <strong>"${this.project.name}"</strong>.`,
+      inputs: [
+        {
+          name: 'projectName',
+          type: 'text',
+          placeholder: 'Nom du projet'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {}
+        }, {
+          text: 'Confirmer',
+          handler: (data) => {
+            if (data.projectName === this.project.name) {
+              this.projectService.leaveProject(this.userService.getUser())
+                .then(value => {
+                  const msg = value ? 'Projet quitté avec succès.' : 'Une erreur est survenue.';
+                  this.toastController.create({
+                    message: msg,
+                    duration: 2000
+                  }).then(toast => toast.present())
+                    .then(() => this.router.navigate(['/projects'], {replaceUrl: true}));
+                });
+            } else {
+              this.toastController.create({
+                message: 'Projet non quitté.',
                 duration: 2000
               }).then(toast => toast.present());
             }
