@@ -13,50 +13,46 @@
     <ion-list-header class="list__header">{{this.project.name}}</ion-list-header>
     <ion-item-sliding *ngFor="let ticket of this.tickets" >
       <ion-item (click)="this.redirectToTicket(ticket)">
-          <div class="ticket__container__header__element">
-            <ion-img *ngIf="ticket.type === 'task'"
-                     class="image__icon"
-                     src="{{'assets/icon/task.svg'}}">
-            </ion-img>
-            <ion-img *ngIf="ticket.type === 'bug'"
-                     class="image__icon"
-                     src="{{'assets/icon/bug.svg'}}">
-            </ion-img>
-            <ion-card-title>{{ticket.name}}</ion-card-title>
-          </div>
-          <div slot="end" class="ticket__container__header__element">
-            <ion-img *ngIf="ticket.priority === 'high'"
-                     class="image__icon"
-                     src="{{'assets/icon/high.svg'}}">
-            </ion-img>
-            <ion-img *ngIf="ticket.priority === 'medium'"
-                     class="image__icon"
-                     src="{{'assets/icon/medium.svg'}}">
-            </ion-img>
-            <ion-img *ngIf="ticket.priority === 'low'"
-                     class="image__icon"
-                     src="{{'assets/icon/low.svg'}}">
-            </ion-img>
-            <ion-label class="ticket__status {{ticket.status}}" >
-              <div *ngIf="this.ticket.status === 'open'">
-                Ouvert
-              </div>
-              <div *ngIf="this.ticket.status === 'started'">
-                En cours
-              </div>
-              <div *ngIf="this.ticket.status === 'blocked'">
-                Bloqué
-              </div>
-              <div *ngIf="this.ticket.status === 'finished'">
-                Fermé
-              </div>
-            </ion-label>
-            <ion-item>
-              <ion-avatar slot="start">
-                <ion-img src="{{ this.findUserFromUid(ticket.owner)?.photoURL ?? 'assets/icon/user.png'}}"></ion-img>
-              </ion-avatar>
-            </ion-item>
-          </div>
+        <ion-item>
+          <ion-img *ngIf="ticket.type === 'task'"
+                   class="image__icon"
+                   src="{{'assets/icon/task.svg'}}">
+          </ion-img>
+          <ion-img *ngIf="ticket.type === 'bug'"
+                   class="image__icon"
+                   src="{{'assets/icon/bug.svg'}}">
+          </ion-img>
+          <ion-label class="ticket__label">{{ticket.name}}</ion-label>
+        </ion-item>
+        <ion-note style="display: flex; flex-direction: row; align-items: center" slot="end" color="primary">
+          <ion-label class="ticket__status {{ticket.status}}" *ngIf="this.ticket.status === 'open'">
+            Ouvert
+          </ion-label>
+          <ion-label class="ticket__status {{ticket.status}}" *ngIf="this.ticket.status === 'started'">
+            En cours
+          </ion-label>
+          <ion-label class="ticket__status {{ticket.status}}" *ngIf="this.ticket.status === 'blocked'">
+            Bloqué
+          </ion-label>
+          <ion-label class="ticket__status {{ticket.status}}" *ngIf="this.ticket.status === 'finished'">
+            Fermé
+          </ion-label>
+          <ion-img *ngIf="ticket.priority === 'high'"
+                   class="image__icon"
+                   src="{{'assets/icon/high.svg'}}">
+          </ion-img>
+          <ion-img *ngIf="ticket.priority === 'medium'"
+                   class="image__icon"
+                   src="{{'assets/icon/medium.svg'}}">
+          </ion-img>
+          <ion-img *ngIf="ticket.priority === 'low'"
+                   class="image__icon"
+                   src="{{'assets/icon/low.svg'}}">
+          </ion-img>
+          <ion-avatar style="padding: 10px">
+            <ion-img src="{{ this.findUserFromUid(ticket.owner)?.photoURL ?? 'assets/icon/user.png'}}"></ion-img>
+          </ion-avatar>
+        </ion-note>
       </ion-item>
       <ion-item-options side="end">
         <ion-item-option (click)="this.deleteTicket(ticket)" color="danger"><ion-icon slot="icon-only" name="trash-outline"></ion-icon></ion-item-option>

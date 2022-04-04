@@ -96,11 +96,11 @@
 
 /* Home Page*/
 .image__icon{
-  height: 30px;
+  height: 20px;
 }
 
 .list__project__container{
-  margin: 40px 0;
+  margin: 40px 0px;
 }
 
 .list__header{
@@ -172,15 +172,6 @@
   flex-direction: column;
 }
 
-.ticket__container__header, .ticket__container__header__element{
-  display: flex;
-  align-items: center;
-}
-
-.ticket__container__header{
-  justify-content: space-between !important;
-  flex-wrap: wrap;
-}
 
 .ticket__title{
   font-size: 24px;
@@ -195,12 +186,11 @@
 .ticket__status{
   margin: 5px;
   padding: 2px 5px;
-  width: fit-content;
   border-radius: 5px;
-  display: flex;
-  align-items: center;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 12px !important;
+  display: flex;
+  width: fit-content;
 }
 
 .open{
@@ -225,11 +215,14 @@
 
 .ticket__label{
   margin-left: 5px;
+  font-weight: bold;
+  font-size: 18px !important;
 }
 
 .ticket__container__creator{
   display: flex;
   align-items: center;
+  padding: 10px;
 }
 
 .ticket__container__creator > ion-img {

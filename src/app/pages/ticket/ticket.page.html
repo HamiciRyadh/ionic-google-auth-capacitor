@@ -12,20 +12,30 @@
 
 <ion-content *ngIf="this.ticket">
   <ion-card>
-    <ion-card-header>
-      <div class="ticket__container__header">
-        <div class="ticket__container__header__element">
-          <ion-img *ngIf="this.ticket.type === 'task'"
-                   class="image__icon"
-                   src="{{'assets/icon/task.svg'}}">
-          </ion-img>
-          <ion-img *ngIf="this.ticket.type === 'bug'"
-                   class="image__icon"
-                   src="{{'assets/icon/bug.svg'}}">
-          </ion-img>
-          <ion-card-title>{{this.ticket.name}}</ion-card-title>
-        </div>
-        <div class="ticket__container__header__element">
+    <ion-card-header style="padding: 0">
+      <ion-item color="success">
+        <ion-img *ngIf="this.ticket.type === 'task'"
+                 class="image__icon"
+                 src="{{'assets/icon/task.svg'}}">
+        </ion-img>
+        <ion-img *ngIf="this.ticket.type === 'bug'"
+                 class="image__icon"
+                 src="{{'assets/icon/bug.svg'}}">
+        </ion-img>
+        <ion-label class="ticket__label">{{ticket.name}}</ion-label>
+        <ion-note style="display: flex; flex-direction: row; align-items: center" slot="end" >
+          <ion-label class="ticket__status {{this.ticket.status}}" *ngIf="this.ticket.status === 'open'">
+            Ouvert
+          </ion-label>
+          <ion-label class="ticket__status {{this.ticket.status}}" *ngIf="this.ticket.status === 'started'">
+            En cours
+          </ion-label>
+          <ion-label class="ticket__status {{this.ticket.status}}" *ngIf="this.ticket.status === 'blocked'">
+            Bloqué
+          </ion-label>
+          <ion-label class="ticket__status {{this.ticket.status}}" *ngIf="this.ticket.status === 'finished'">
+            Fermé
+          </ion-label>
           <ion-img *ngIf="this.ticket.priority === 'high'"
                    class="image__icon"
                    src="{{'assets/icon/high.svg'}}">
@@ -38,30 +48,15 @@
                    class="image__icon"
                    src="{{'assets/icon/low.svg'}}">
           </ion-img>
-          <ion-label class="ticket__status {{this.ticket.status}}" >
-            <div *ngIf="this.ticket.status === 'open'">
-              Ouvert
-            </div>
-            <div *ngIf="this.ticket.status === 'started'">
-              En cours
-            </div>
-            <div *ngIf="this.ticket.status === 'blocked'">
-              Bloqué
-            </div>
-            <div *ngIf="this.ticket.status === 'finished'">
-              Fermé
-            </div>
-          </ion-label>
-          <ion-item>
-            <ion-avatar slot="start">
-              <ion-img src="{{ this.findUserFromUid(this.ticket.owner)?.photoURL ?? 'assets/icon/user.png' }}"></ion-img>
-            </ion-avatar>
-          </ion-item>
-        </div>
-      </div>
+
+          <ion-avatar style="padding: 10px">
+            <ion-img src="{{ this.findUserFromUid(this.ticket.owner)?.photoURL ?? 'assets/icon/user.png' }}"></ion-img>
+          </ion-avatar>
+        </ion-note>
+      </ion-item>
     </ion-card-header>
 
-    <ion-card-content>
+    <ion-card-content style="padding: 10px">
       {{this.ticket.description}}
     </ion-card-content>
     <ion-card-content class="ticket__container__creator">
