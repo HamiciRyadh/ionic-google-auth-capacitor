@@ -71,7 +71,11 @@ export class CreateTicketComponent implements OnInit {
     }
   }
 
-  async createTicket(): Promise<void> {
+  closeModal(): void {
+    this.modalController.dismiss().then(() => {});
+  }
+
+  private createTicket(): void {
     const project = this.projectService.getSelectedProject();
     this.ticketService.addTicketToProject(new Ticket(this.ticketForm.get('name').value,
         this.ticketForm.get('description').value,
@@ -97,32 +101,26 @@ export class CreateTicketComponent implements OnInit {
       .catch(console.log);
   }
 
-  async updateTicket(): Promise<void> {
-    if (this.currentTicket) {
-      this.currentTicket.name = this.ticketForm.get('name').value,
-        this.currentTicket.description = this.ticketForm.get('description').value,
-        this.currentTicket.type = this.ticketForm.get('type').value,
-        this.currentTicket.priority = this.ticketForm.get('priority').value,
-        this.currentTicket.owner = this.ticketForm.get('owner').value,
-        this.currentTicket.status = this.ticketForm.get('status').value,
-        this.ticketService.updateTicketToProject(this.currentTicket, this.projectId)
-          .then((success) => {
-            const msg = success ? 'Ticket modifié avec succès.' : 'Une erreur est survenue.';
-            this.toastController.create({
-              message: msg,
-              duration: 2000
-            }).then(toast => toast.present());
+  private updateTicket(): void {
+    this.currentTicket.name = this.ticketForm.get('name').value;
+    this.currentTicket.description = this.ticketForm.get('description').value;
+    this.currentTicket.type = this.ticketForm.get('type').value;
+    this.currentTicket.priority = this.ticketForm.get('priority').value;
+    this.currentTicket.owner = this.ticketForm.get('owner').value;
+    this.currentTicket.status = this.ticketForm.get('status').value;
+    this.ticketService.updateTicketToProject(this.currentTicket, this.projectId)
+      .then((success) => {
+        const msg = success ? 'Ticket modifié avec succès.' : 'Une erreur est survenue.';
+        this.toastController.create({
+          message: msg,
+          duration: 2000
+        }).then(toast => toast.present());
 
-            if (success) {
-              this.closeModal();
-            }
-          }).then(() => {
-        })
-          .catch(console.log);
-    }
-  }
-
-  closeModal(): void {
-    this.modalController.dismiss().then(() => {});
+        if (success) {
+          this.closeModal();
+        }
+      }).then(() => {
+    })
+      .catch(console.log);
   }
 }

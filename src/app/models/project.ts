@@ -1,10 +1,7 @@
-import {Ticket} from './ticket';
-
 export class Project {
   id: string;
   name: string;
   description: string;
-  tickets: Ticket[];
   admin: string;
   canRead: string[];
   canWrite: string[];
@@ -19,6 +16,5 @@ export class Project {
     this.canRead.push(uid);
     this.canWrite = [];
     this.canWrite.push(uid);
-    this.tickets = [];
   }
 }

@@ -13,10 +13,10 @@ export class Ticket {
   creationDateTime: Date;
   attachments: string[];
 
-  constructor(name: string, description: string, type: string, priority: string, ownerUid: string, status: string,creatorUid,
-              project: Project) {
+  constructor(name: string, description: string, type: string, priority: string, ownerUid: string, status: string,
+              creatorUid: string, project: Project) {
     this.id = '';
-    this.label = project.name + '-' + project.tickets.length;
+    this.label = project.name + '-' + project.id;
     this.name = name;
     this.description = description;
     this.type = type;

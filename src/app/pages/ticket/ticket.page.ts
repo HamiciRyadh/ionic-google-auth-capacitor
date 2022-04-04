@@ -3,9 +3,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {TicketService} from '../../services/ticket.service';
 import {User} from '@firebase/auth';
 import {UserService} from '../../services/user.service';
-import {ModalController} from "@ionic/angular";
-import {CreateTicketComponent} from "../../modals/create-ticket/create-ticket.component";
-import {ProjectService} from "../../services/project.service";
+import {ModalController} from '@ionic/angular';
+import {CreateTicketComponent} from '../../modals/create-ticket/create-ticket.component';
+import {ProjectService} from '../../services/project.service';
 
 @Component({
   selector: 'app-ticket',

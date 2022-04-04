@@ -42,7 +42,10 @@ export class ProjectService {
 
   updateProject(project: Project): Promise<boolean> {
     const newDocRef = doc(this.db, 'projects', project.id);
-    return updateDoc(newDocRef, {...project})
+    return updateDoc(newDocRef, {
+      name: project.name,
+      description: project.description
+    })
       .then(() => true)
       .catch((err) => {
         console.log(err);

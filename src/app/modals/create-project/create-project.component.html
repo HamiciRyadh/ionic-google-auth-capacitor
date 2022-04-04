@@ -12,7 +12,7 @@
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="projectForm" (ngSubmit)="this.createProject()" class="form__login">
+  <form [formGroup]="projectForm" (ngSubmit)="this.createOrUpdateProject()" class="form__login">
     <ion-input class="input__primary" placeholder="Nom" formControlName="name"></ion-input>
     <ion-textarea class="textarea__primary" placeholder="Description" formControlName="description"></ion-textarea>
 

@@ -15,7 +15,7 @@ export class CreateProjectComponent implements OnInit {
 
   // Needed to update a Project
   projectId = undefined;
-  project: Project = undefined
+  project: Project = undefined;
 
   constructor(private modalController: ModalController,
               private projectService: ProjectService,
@@ -38,44 +38,55 @@ export class CreateProjectComponent implements OnInit {
     }
   }
 
-  createProject(): void {
-    const name = this.projectForm.get('name').value;
-    const description = this.projectForm.get('description').value;
-
-    if(this.projectId) {
-      this.project.name = name;
-      this.project.description = description;
-      this.projectService.updateProject(this.project)
-        .then((success) => {
-          const msg = success ? 'Projet créé avec succès.' : 'Une erreur est survenue.';
-          this.toastController.create({
-            message: msg,
-            duration: 2000
-          }).then(toast => toast.present());
-
-          if (success) {
-            this.closeModal();
-          }
-        }).then()
-        .catch(console.log);
-    }else {
-      this.projectService.createProject(new Project(name, description, this.userService.getUser().uid))
-        .then((success) => {
-          const msg = success ? 'Projet créé avec succès.' : 'Une erreur est survenue.';
-          this.toastController.create({
-            message: msg,
-            duration: 2000
-          }).then(toast => toast.present());
-
-          if (success) {
-            this.closeModal();
-          }
-        }).then()
-        .catch(console.log);
+  createOrUpdateProject(): void {
+    if (this.projectId) {
+      this.updateProject();
+    } else {
+      this.createProject();
     }
   }
 
   closeModal(): void {
     this.modalController.dismiss().then(() => {});
+  }
+
+  private createProject(): void {
+    const name = this.projectForm.get('name').value;
+    const description = this.projectForm.get('description').value;
+
+    this.projectService.createProject(new Project(name, description, this.userService.getUser().uid))
+      .then((success) => {
+        const msg = success ? 'Projet créé avec succès.' : 'Une erreur est survenue.';
+        this.toastController.create({
+          message: msg,
+          duration: 2000
+        }).then(toast => toast.present());
+
+        if (success) {
+          this.closeModal();
+        }
+      }).then()
+      .catch(console.log);
+  }
+
+  private updateProject(): void {
+    const name = this.projectForm.get('name').value;
+    const description = this.projectForm.get('description').value;
+
+    this.project.name = name;
+    this.project.description = description;
+    this.projectService.updateProject(this.project)
+      .then((success) => {
+        const msg = success ? 'Projet modifié avec succès.' : 'Une erreur est survenue.';
+        this.toastController.create({
+          message: msg,
+          duration: 2000
+        }).then(toast => toast.present());
+
+        if (success) {
+          this.closeModal();
+        }
+      }).then()
+      .catch(console.log);
   }
 }
