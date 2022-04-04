@@ -11,9 +11,18 @@
   <!-- Project's tickets !-->
   <ion-list class="list__project__container" *ngIf="this.project !== undefined">
     <ion-list-header class="list__header">{{this.project.name}}</ion-list-header>
+    <ion-item>
+      <ion-label>Filtrer par</ion-label>
+      <ion-select interface="popover" (ionChange)="this.changeOrder($event)">
+        <ion-select-option value="creationDateTime">Date</ion-select-option>
+        <ion-select-option value="status">Status</ion-select-option>
+        <ion-select-option value="type">Type</ion-select-option>
+        <ion-select-option value="priority">Priorité</ion-select-option>
+      </ion-select>
+    </ion-item>
     <ion-item-sliding *ngFor="let ticket of this.tickets" >
       <ion-item (click)="this.redirectToTicket(ticket)">
-        <ion-item>
+        <ion-label style="display: flex; flex-direction: row; align-items: center">
           <ion-img *ngIf="ticket.type === 'task'"
                    class="image__icon"
                    src="{{'assets/icon/task.svg'}}">
@@ -23,7 +32,7 @@
                    src="{{'assets/icon/bug.svg'}}">
           </ion-img>
           <ion-label class="ticket__label">{{ticket.name}}</ion-label>
-        </ion-item>
+        </ion-label>
         <ion-note style="display: flex; flex-direction: row; align-items: center" slot="end" color="primary">
           <ion-label class="ticket__status {{ticket.status}}" *ngIf="this.ticket.status === 'open'">
             Ouvert

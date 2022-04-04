@@ -61,4 +61,53 @@ export class ProjectPage implements OnInit {
   findUserFromUid(uid: string): User | undefined {
     return this.userService.findUserFromUid(uid);
   }
+
+  changeOrder(e): void{
+    switch (e.detail.value){
+      case 'creationDateTime':
+        this.tickets.sort((t1:Ticket,t2:Ticket)=> {
+          if(t1.creationDateTime === t2.creationDateTime){
+            return 0;
+          }else if(t1.creationDateTime < t2.creationDateTime){
+            return 1;
+          }else {
+            return -1;
+          }
+        })
+        break;
+      case 'status':
+        this.tickets.sort((t1:Ticket,t2:Ticket)=> {
+          if(t1.status === t2.status){
+            return 0;
+          }else if(t1.status < t2.status){
+            return 1;
+          }else {
+            return -1;
+          }
+        })
+        break;
+      case 'type':
+        this.tickets.sort((t1:Ticket,t2:Ticket)=> {
+          if(t1.type === t2.type){
+            return 0;
+          }else if(t1.type === 'task'){
+            return 1;
+          }else {
+            return -1;
+          }
+        })
+        break;
+      case 'priority':
+        this.tickets.sort((t1:Ticket,t2:Ticket)=> {
+          if(t1.priority === t2.priority){
+            return 0;
+          }else if(t1.priority === 'high' || (t1.priority === 'medium' && t2.priority === 'low')){
+            return -1;
+          }else if(t1.priority === 'low'){
+            return 1;
+          }
+        })
+        break;
+    }
+  }
 }
