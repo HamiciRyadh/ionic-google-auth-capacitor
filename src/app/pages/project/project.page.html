@@ -54,7 +54,7 @@
           </ion-avatar>
         </ion-note>
       </ion-item>
-      <ion-item-options side="end">
+      <ion-item-options side="end" *ngIf="this.projectService.userCanWrite()">
         <ion-item-option (click)="this.deleteTicket(ticket)" color="danger"><ion-icon slot="icon-only" name="trash-outline"></ion-icon></ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
