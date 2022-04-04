@@ -110,4 +110,40 @@ export class ProjectPage implements OnInit {
         break;
     }
   }
+
+  applyFilterType(e): void{
+    document.getElementById('orderId').setAttribute("value",'');
+    document.getElementById('filterStatus').setAttribute("value",'');
+    document.getElementById('filterPriority').setAttribute("value",'');
+    this.ticketService.getRelatedTicketsOfProject(this.project.id).subscribe(relatedTickets => {
+      this.tickets = relatedTickets.filter((t)=> t.type === e.detail.value);
+    });
+  }
+
+  applyFilterPriority(e): void{
+    document.getElementById('orderId').setAttribute("value",'');
+    document.getElementById('filterType').setAttribute("value",'');
+    document.getElementById('filterStatus').setAttribute("value",'');
+    this.ticketService.getRelatedTicketsOfProject(this.project.id).subscribe(relatedTickets => {
+      this.tickets = relatedTickets.filter((t)=> t.priority === e.detail.value);
+    });
+  }
+
+  applyFilterStatus(e): void{
+    document.getElementById('orderId').setAttribute("value",'');
+    document.getElementById('filterType').setAttribute("value",'');
+    document.getElementById('filterPriority').setAttribute("value",'');
+    this.ticketService.getRelatedTicketsOfProject(this.project.id).subscribe(relatedTickets => {
+      this.tickets = relatedTickets.filter((t)=> t.status === e.detail.value);
+    });
+  }
+
+  resetFilter(){
+    document.getElementById('orderId').setAttribute("value",'');
+    document.getElementById('filterType').setAttribute("value",'');
+    document.getElementById('filterPriority').setAttribute("value",'');
+    document.getElementById('filterStatus').setAttribute("value",'');
+
+    this.ticketService.getRelatedTicketsOfProject(this.project.id).subscribe(relatedTickets => this.tickets = relatedTickets);
+  }
 }
