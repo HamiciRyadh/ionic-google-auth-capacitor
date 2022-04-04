@@ -61,8 +61,19 @@ ngOnInit() {
           text: 'Confirmer',
           handler: (data) => {
             if (data.projectName === this.project.name) {
-              this.projectService.deleteProject(this.project)
-                .then(value => {
+              if(this.isAdmin()){
+                this.projectService.deleteProject(this.project)
+                  .then(value => {
+                    const msg = value ? 'Projet supprimé avec succès.' : 'Une erreur est survenue.';
+                    this.toastController.create({
+                      message: msg,
+                      duration: 2000
+                    }).then(toast => toast.present())
+                      .then(() => this.router.navigate(['/projects'], {replaceUrl: true}));
+                  });
+              }else{ // Normal user quit project
+                this.projectService.quitProject(this.project,this.userService.getUser().uid)
+                  .then(value => {
                   const msg = value ? 'Projet supprimé avec succès.' : 'Une erreur est survenue.';
                   this.toastController.create({
                     message: msg,
@@ -70,6 +81,8 @@ ngOnInit() {
                   }).then(toast => toast.present())
                     .then(() => this.router.navigate(['/projects'], {replaceUrl: true}));
                 });
+              }
+
             } else {
               this.toastController.create({
                 message: 'Projet non supprimé.',

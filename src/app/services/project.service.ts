@@ -169,6 +169,18 @@ export class ProjectService {
       });
   }
 
+  quitProject(project: Project, uid: string): Promise<boolean> {
+    let newProject: Project = project;
+    newProject.canWrite = newProject.canWrite.filter((u)=>u!==uid);
+    newProject.canRead = newProject.canRead.filter((u)=>u!==uid);
+    return updateDoc(doc(this.db, 'projects', project.id), {...newProject})
+      .then(() => true)
+      .catch((err) => {
+        console.log(err);
+        return false;
+      });
+  }
+
   userCanWrite(): boolean{
     return this.getSelectedProject().canWrite.includes(this.auth.currentUser.uid);
   }
