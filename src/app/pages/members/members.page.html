@@ -19,19 +19,24 @@
           <img src="{{ user?.photoURL ?? 'assets/icon/user.png'}}" alt="Photo de profile">
         </ion-avatar>
         <ion-label>
-          <h2> {{ user.email }}</h2>
+          <h2><a href="mailto:{{ user.email }}" style="color: black; text-decoration: none; cursor: auto;">
+            {{ user.email }}
+          </a></h2>
           <p> {{ user.phoneNumber }}</p>
         </ion-label>
-        <ion-button slot="end" (click)="this.updateMember(user)" *ngIf="!this.isAdmin(user.uid) && this.isAdmin(this.userId)">
-          <ion-icon slot="icon-only" name="pencil"></ion-icon>
-        </ion-button>
-        <div class="ticket__container__header__element" *ngIf="this.isAdmin(user.uid)">
-          <ion-label class="ticket__status started" >Admin</ion-label>
-        </div>
-        <div class="ticket__container__header__element" *ngIf="!this.isAdmin(user.uid)">
-          <ion-label class="ticket__status open" *ngIf="!this.isMemberWithFullRights(user)" >Invité</ion-label>
-          <ion-label class="ticket__status finished" *ngIf="this.isMemberWithFullRights(user)">Membre</ion-label>
-        </div>
+        <ion-note style="display: flex; flex-direction: column; align-items: center" slot="end" color="primary">
+          <div class="ticket__container__header__element" *ngIf="this.isAdmin(user.uid)">
+            <ion-label class="ticket__status started" >Admin</ion-label>
+          </div>
+          <div class="ticket__container__header__element" *ngIf="!this.isAdmin(user.uid)">
+            <ion-label class="ticket__status open" *ngIf="!this.isMemberWithFullRights(user)" >Invité</ion-label>
+            <ion-label class="ticket__status finished" *ngIf="this.isMemberWithFullRights(user)">Membre</ion-label>
+          </div>
+
+          <ion-button (click)="this.updateMember(user)" *ngIf="!this.isAdmin(user.uid) && this.isAdmin(this.userId)">
+            <ion-icon slot="icon-only" name="pencil"></ion-icon>
+          </ion-button>
+        </ion-note>
       </ion-item>
 
       <ion-item-options side="end" *ngIf="this.isAdmin(this.userId) && !this.isAdmin(user.uid)">
