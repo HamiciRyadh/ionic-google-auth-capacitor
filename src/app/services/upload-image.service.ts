@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Camera, CameraResultType, CameraSource, Photo} from '@capacitor/camera';
-import {getStorage, ref, getDownloadURL, uploadBytes, getBlob} from '@angular/fire/storage';
+import {getStorage, ref, getDownloadURL, uploadBytes, deleteObject} from '@angular/fire/storage';
 import {Directory, Filesystem} from '@capacitor/filesystem';
 
 
@@ -16,6 +16,12 @@ export class UploadImageService {
     if (image) {
       return await this.uploadImage(image, path, fileName);
     } else {return undefined;}
+  }
+
+  public deleteFile(path: string, fileName: string): Promise<void> {
+    const storage = getStorage();
+    const fileRef = ref(storage, `${path}/${fileName}`);
+    return deleteObject(fileRef);
   }
 
   public async getBase64Image(): Promise<Photo> {

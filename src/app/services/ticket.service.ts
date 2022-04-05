@@ -67,7 +67,8 @@ export class TicketService {
   }
 
   deleteAttachment(projectId: string, ticketId: string, attachment: Attachment): Promise<boolean> {
-    return deleteDoc(doc(this.db, 'projects', projectId, 'tickets', ticketId, 'attachments', attachment.id))
+    return Promise.all([this.uploadImageService.deleteFile(`attachments/${projectId}`, attachment.name),
+      deleteDoc(doc(this.db, 'projects', projectId, 'tickets', ticketId, 'attachments', attachment.id))])
       .then(() => true)
       .catch((err) => {
         console.log(err);
