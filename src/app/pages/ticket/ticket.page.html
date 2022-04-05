@@ -83,7 +83,10 @@
       </a>
       <ion-buttons slot="end" style="margin-right: 10px;">
         <ion-icon slot="icon-only" name="cloud-download-outline" color="primary" (click)="this.download(attachment)"
-                  style="margin-right: 10px;"></ion-icon>
+                  style="margin-right: 10px;" *ngIf="false"></ion-icon>
+        <a href="{{attachment.fileURL}}" download="{{attachment.id}}" target="_blank">
+          <ion-icon slot="icon-only" name="expand-outline" color="primary" style="margin-right: 10px;"></ion-icon>
+        </a>
         <ion-icon slot="icon-only" name="trash-outline" color="danger" (click)="this.deleteAttachment(attachment)"></ion-icon>
       </ion-buttons>
     </ion-item>
