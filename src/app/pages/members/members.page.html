@@ -19,6 +19,7 @@
           <img src="{{ user?.photoURL ?? 'assets/icon/user.png'}}" alt="Photo de profile">
         </ion-avatar>
         <ion-label>
+          {{ user.displayName }}
           <h2><a href="mailto:{{ user.email }}" style="color: black; text-decoration: none; cursor: auto;">
             {{ user.email }}
           </a></h2>
@@ -42,7 +43,7 @@
       <ion-item-options side="end" *ngIf="this.isAdmin(this.userId) && !this.isAdmin(user.uid)">
         <ion-item-option (click)="this.removeFromProject(user)" color="danger"><ion-icon slot="icon-only" name="trash-outline"></ion-icon></ion-item-option>
       </ion-item-options>
-      <ion-item-options side="start" *ngIf="this.isPlatformAndroid()">
+      <ion-item-options side="start" *ngIf="this.isPlatformAndroid() && user.phoneNumber !== ''">
         <ion-item-option (click)="this.call(user)" color="success"><ion-icon slot="icon-only" name="call-outline"></ion-icon></ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
