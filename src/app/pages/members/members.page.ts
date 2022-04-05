@@ -22,7 +22,7 @@ export class MembersPage implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private userService: UserService,
-              private projectService: ProjectService,
+              public projectService: ProjectService,
               private alertController: AlertController,
               private toastController: ToastController,
               private modalController: ModalController,

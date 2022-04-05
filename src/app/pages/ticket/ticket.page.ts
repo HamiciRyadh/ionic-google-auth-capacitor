@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {TicketService} from '../../services/ticket.service';
 import {User} from '@firebase/auth';
 import {UserService} from '../../services/user.service';
-import {ModalController, ToastController} from '@ionic/angular';
+import {ModalController, Platform, ToastController} from '@ionic/angular';
 import {CreateTicketComponent} from '../../modals/create-ticket/create-ticket.component';
 import {ProjectService} from '../../services/project.service';
 import {Attachment} from '../../models/attachment';
@@ -27,7 +27,8 @@ export class TicketPage implements OnInit {
               private modalController: ModalController,
               private toastController: ToastController,
               private uploadImageService: UploadImageService,
-              public projectService: ProjectService) {}
+              public projectService: ProjectService,
+              public platform: Platform) {}
 
   ngOnInit() {
     const routeParams = this.route.snapshot.paramMap;
@@ -89,6 +90,17 @@ export class TicketPage implements OnInit {
   }
 
   download(attachment: Attachment): void {
-    this.uploadImageService.download(attachment.fileURL, attachment.name).then();
+    this.uploadImageService.download(attachment.fileURL, attachment.name)
+      .then(value => {
+        const msg = value ? 'Téléchargement terminé.' : 'Une erreur est survenue.';
+        this.toastController.create({
+          message: msg,
+          duration: 2000
+        }).then(toast => toast.present());
+      });
+  }
+
+  isPlatformAndroid(): boolean {
+    return this.platform.is('android');
   }
 }

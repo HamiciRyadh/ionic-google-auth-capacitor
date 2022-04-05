@@ -35,13 +35,15 @@ export class UploadImageService {
     return await getDownloadURL(snapshot.ref);
   }
 
-  public async download(url: string, fileName: string) {
+  public async download(url: string, fileName: string): Promise<boolean> {
     const base64Data = await this.readAsBase64(url);
     const image = await Filesystem.writeFile({
       path: fileName,
       data: base64Data,
       directory: Directory.Documents
     });
+    if (image === undefined || image.uri === undefined || image.uri === '') {return false;}
+    else {return true;}
   }
 
   private async readAsBase64(url: string): Promise<string> {

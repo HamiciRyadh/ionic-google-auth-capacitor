@@ -74,7 +74,7 @@
 
 
   <ion-list class="list__project__container">
-    <ion-list-header class="list__header">Attachments:</ion-list-header>
+    <ion-list-header class="list__header">Pièces jointes:</ion-list-header>
     <ion-item *ngFor="let attachment of attachments">
       <a href="{{attachment.fileURL}}" download="{{attachment.id}}" target="_blank">
         <ion-thumbnail>
@@ -83,8 +83,8 @@
       </a>
       <ion-buttons slot="end" style="margin-right: 10px;">
         <ion-icon slot="icon-only" name="cloud-download-outline" color="primary" (click)="this.download(attachment)"
-                  style="margin-right: 10px;" *ngIf="false"></ion-icon>
-        <a href="{{attachment.fileURL}}" download="{{attachment.id}}" target="_blank">
+                  style="margin-right: 10px;" *ngIf="this.isPlatformAndroid()"></ion-icon>
+        <a href="{{attachment.fileURL}}" download="{{attachment.id}}" target="_blank" *ngIf="!this.isPlatformAndroid()">
           <ion-icon slot="icon-only" name="expand-outline" color="primary" style="margin-right: 10px;"></ion-icon>
         </a>
         <ion-icon slot="icon-only" name="trash-outline" color="danger" (click)="this.deleteAttachment(attachment)"
