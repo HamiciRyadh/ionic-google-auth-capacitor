@@ -87,7 +87,8 @@
         <a href="{{attachment.fileURL}}" download="{{attachment.id}}" target="_blank">
           <ion-icon slot="icon-only" name="expand-outline" color="primary" style="margin-right: 10px;"></ion-icon>
         </a>
-        <ion-icon slot="icon-only" name="trash-outline" color="danger" (click)="this.deleteAttachment(attachment)"></ion-icon>
+        <ion-icon slot="icon-only" name="trash-outline" color="danger" (click)="this.deleteAttachment(attachment)"
+                  *ngIf="this.projectService.userCanWrite()"></ion-icon>
       </ion-buttons>
     </ion-item>
   </ion-list>
