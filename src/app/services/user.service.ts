@@ -11,6 +11,7 @@ import {User} from '@firebase/auth';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {ProjectService} from './project.service';
 import {UploadImageService} from './upload-image.service';
+import {ToastController} from '@ionic/angular';
 
 
 @Injectable({
@@ -28,6 +29,7 @@ export class UserService {
   constructor(private db: Firestore,
               private auth: Auth,
               private projectService: ProjectService,
+              private toastController: ToastController,
               private uploadImageService: UploadImageService) {
     this.mUser = new BehaviorSubject(undefined);
     this.mUsers = new BehaviorSubject<User[]>([]);
@@ -84,8 +86,10 @@ export class UserService {
       if (userCredential.user.emailVerified) {
         return true;
       } else {
-        // TODO: If the email is not verified display error message without redirecting the user to another page.
-        alert('Email not verified');
+        this.toastController.create({
+          message: 'Connexion interdite: Adresse mail non vérifiée.',
+          duration: 5000
+        }).then(toast => toast.present());
         return false;
       }
     }
