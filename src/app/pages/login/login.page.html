@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>login</ion-title>
+    <ion-title>Connexion</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -12,7 +12,8 @@
 
     <ion-input class="input__primary"
                placeholder="Email"
-               formControlName="email">
+               formControlName="email"
+               type="email">
     </ion-input>
     <ion-input class="input__primary"
                placeholder="Password"
@@ -22,12 +23,12 @@
 
     <ion-label class="message__primary"
                (click)="this.redirectToPasswordRecovery()">
-      Forgot password?
+      Mot de passe oublié ?
     </ion-label>
     <ion-button class="button__primary"
                 type="submit"
                 [disabled]="!loginForm.valid">
-      Log In
+      Connexion
     </ion-button>
     <ion-card-content class="social__login">
       <ion-img class="logo__secondary"
@@ -39,12 +40,12 @@
     </ion-card-content>
 
     <ion-label class="message__primary">
-      Don't have an account? Create one!
+      Pas encore de compte ? Inscrivez vous !
     </ion-label>
     <ion-button class="button__primary"
                 color="light"
                 (click)="this.redirectToRegister()" >
-      Sign Up page
+      S'inscrire
     </ion-button>
   </form>
 </ion-content>

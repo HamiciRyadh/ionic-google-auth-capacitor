@@ -99,8 +99,8 @@ export class UserService {
     await signOut(this.auth);
   }
 
-  async recoverPassword(email: string): Promise<void> {
-    await sendPasswordResetEmail(this.auth, email);
+  recoverPassword(email: string): Promise<void> {
+    return sendPasswordResetEmail(this.auth, email);
   }
 
   async findByEmail(email: string): Promise<User> {

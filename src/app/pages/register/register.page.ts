@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {UserService} from '../../services/user.service';
+import {ToastController} from "@ionic/angular";
 
 @Component({
   selector: 'app-register',
@@ -13,7 +14,8 @@ export class RegisterPage implements OnInit {
 
   constructor(private fb: FormBuilder,
               private router: Router,
-              private userService: UserService) { }
+              private userService: UserService,
+              private toastController: ToastController) { }
 
   ngOnInit() {
     this.registerForm = this.fb.group({
@@ -32,9 +34,14 @@ export class RegisterPage implements OnInit {
     const password = this.registerForm.get('password').value;
     const confirmPassword = this.registerForm.get('confirmPassword').value;
 
-    if(password === confirmPassword){
+    if (password === confirmPassword) {
       this.userService.createAccount(fullName, email, telephone, password)
         .then(() => this.redirectToLogin(true));
+    } else {
+      this.toastController.create({
+        message: 'Mots de passes différents.',
+        duration: 3000
+      }).then(toast => toast.present());
     }
   }
 
