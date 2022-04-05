@@ -23,7 +23,7 @@ export class ProjectPage implements OnInit {
               private route: ActivatedRoute,
               private modalController: ModalController,
               private userService: UserService,
-              private projectService: ProjectService,
+              public projectService: ProjectService,
               private ticketService: TicketService,
               private toastController: ToastController) { }
 
@@ -36,7 +36,7 @@ export class ProjectPage implements OnInit {
   }
 
   redirectToTicket(ticket: Ticket): void {
-    this.router.navigate([`/projects/${this.project.id}/tickets/${ticket.id}`], { replaceUrl: true }).then(() =>{});
+    this.router.navigate([`/projects/${this.project.id}/tickets/${ticket.id}`]).then(() =>{});
   }
 
   deleteTicket(ticket: Ticket): void {
@@ -62,87 +62,70 @@ export class ProjectPage implements OnInit {
     return this.userService.findUserFromUid(uid);
   }
 
-  changeOrder(e): void{
-    switch (e.detail.value){
+  changeOrder(attribute: string): void {
+    switch (attribute) {
       case 'creationDateTime':
-        this.tickets.sort((t1:Ticket,t2:Ticket)=> {
-          if(t1.creationDateTime === t2.creationDateTime){
-            return 0;
-          }else if(t1.creationDateTime < t2.creationDateTime){
-            return 1;
-          }else {
-            return -1;
-          }
-        })
+        this.tickets.sort((t1: Ticket, t2: Ticket) => {
+          if (t1.creationDateTime === t2.creationDateTime) {return 0;}
+          else if (t1.creationDateTime < t2.creationDateTime) {return 1;}
+          else {return -1;}
+        });
         break;
       case 'status':
-        this.tickets.sort((t1:Ticket,t2:Ticket)=> {
-          if(t1.status === t2.status){
-            return 0;
-          }else if(t1.status < t2.status){
-            return 1;
-          }else {
+        this.tickets.sort((t1: Ticket, t2: Ticket) => {
+          if (t1.status === t2.status) {return 0;}
+          else if ((t1.status === 'open') || (t1.status === 'started' && t2.status !== 'open') ||
+            (t1.status === 'blocked' && t2.status === 'finished')) {
             return -1;
-          }
-        })
+          } else {return 1;}
+        });
         break;
       case 'type':
-        this.tickets.sort((t1:Ticket,t2:Ticket)=> {
-          if(t1.type === t2.type){
-            return 0;
-          }else if(t1.type === 'task'){
-            return 1;
-          }else {
-            return -1;
-          }
-        })
+        this.tickets.sort((t1: Ticket, t2: Ticket) => {
+          if (t1.type === t2.type) {return 0;}
+          else if (t1.type === 'task') {return 1;}
+          else {return -1;}
+        });
         break;
       case 'priority':
-        this.tickets.sort((t1:Ticket,t2:Ticket)=> {
-          if(t1.priority === t2.priority){
-            return 0;
-          }else if(t1.priority === 'high' || (t1.priority === 'medium' && t2.priority === 'low')){
+        this.tickets.sort((t1: Ticket, t2: Ticket) => {
+          if (t1.priority === t2.priority) {return 0;}
+          else if (t1.priority === 'high' || (t1.priority === 'medium' && t2.priority === 'low')) {
             return -1;
-          }else if(t1.priority === 'low'){
-            return 1;
-          }
-        })
+          } else if (t1.priority === 'low') {return 1;}
+        });
         break;
     }
   }
 
   applyFilterType(e): void{
-    document.getElementById('orderId').setAttribute("value",'');
-    document.getElementById('filterStatus').setAttribute("value",'');
-    document.getElementById('filterPriority').setAttribute("value",'');
+    document.getElementById('filterStatus').setAttribute('value','');
+    document.getElementById('filterPriority').setAttribute('value','');
     this.ticketService.getRelatedTicketsOfProject(this.project.id).subscribe(relatedTickets => {
       this.tickets = relatedTickets.filter((t)=> t.type === e.detail.value);
     });
   }
 
   applyFilterPriority(e): void{
-    document.getElementById('orderId').setAttribute("value",'');
-    document.getElementById('filterType').setAttribute("value",'');
-    document.getElementById('filterStatus').setAttribute("value",'');
+    document.getElementById('filterType').setAttribute('value','');
+    document.getElementById('filterStatus').setAttribute('value','');
     this.ticketService.getRelatedTicketsOfProject(this.project.id).subscribe(relatedTickets => {
       this.tickets = relatedTickets.filter((t)=> t.priority === e.detail.value);
     });
   }
 
   applyFilterStatus(e): void{
-    document.getElementById('orderId').setAttribute("value",'');
-    document.getElementById('filterType').setAttribute("value",'');
-    document.getElementById('filterPriority').setAttribute("value",'');
+    document.getElementById('filterType').setAttribute('value','');
+    document.getElementById('filterPriority').setAttribute('value','');
     this.ticketService.getRelatedTicketsOfProject(this.project.id).subscribe(relatedTickets => {
       this.tickets = relatedTickets.filter((t)=> t.status === e.detail.value);
     });
   }
 
   resetFilter(){
-    document.getElementById('orderId').setAttribute("value",'');
-    document.getElementById('filterType').setAttribute("value",'');
-    document.getElementById('filterPriority').setAttribute("value",'');
-    document.getElementById('filterStatus').setAttribute("value",'');
+    document.getElementById('filterType').setAttribute('value','');
+    document.getElementById('filterPriority').setAttribute('value','');
+    document.getElementById('filterStatus').setAttribute('value','');
 
     this.ticketService.getRelatedTicketsOfProject(this.project.id).subscribe(relatedTickets => this.tickets = relatedTickets);
   }

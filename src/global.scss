@@ -98,18 +98,19 @@
 .image__icon{
   height: 30px;
   width: 30px;
+  min-width: 30px;
 }
 
 .list__project__container{
-  margin: 40px 0px;
+  margin: 15px 0px;
 }
 
 .list__header{
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .list__project{
-  font-size: 22px !important;
+  font-size: 16px !important;
 }
 
 /* Modal create Project */
@@ -157,7 +158,7 @@
   padding: 20px 0px;
   width: 100%;
   margin: 0% 10%;
-  font-size: 18px;
+  font-size: 14px;
 }
 
 .image__icon__profile{
@@ -175,11 +176,11 @@
 
 
 .ticket__title{
-  font-size: 24px;
+  font-size: 18px;
 }
 
 .ticket__subtitle{
-  font-size: 20px;
+  font-size: 14px;
   border-radius: 5px;
   padding: 5px;
 }
@@ -189,7 +190,7 @@
   padding: 2px 5px;
   border-radius: 5px;
   font-weight: bold;
-  font-size: 12px !important;
+  font-size: 11px !important;
   display: flex;
   width: fit-content;
 }
@@ -217,7 +218,7 @@
 .ticket__label{
   margin-left: 5px;
   font-weight: bold;
-  font-size: 18px !important;
+  font-size: 14px !important;
 }
 
 .ticket__container__creator{

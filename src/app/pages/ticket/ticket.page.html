@@ -22,7 +22,7 @@
                  class="image__icon"
                  src="{{'assets/icon/bug.svg'}}">
         </ion-img>
-        <ion-label class="ticket__label">{{ticket.name}}</ion-label>
+        <ion-text class="ticket__label">{{ticket.name}}</ion-text>
         <ion-note style="display: flex; flex-direction: column; align-items: center" slot="end" >
           <ion-img *ngIf="ticket.priority === 'high'"
                    class="image__icon"

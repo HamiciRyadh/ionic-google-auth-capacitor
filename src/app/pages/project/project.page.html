@@ -4,31 +4,36 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Projet</ion-title>
+    <ion-buttons slot="end">
+      <ion-icon slot="icon-only" name="refresh-outline" style="padding-right: 10px;" (click)="this.resetFilter()"></ion-icon>
+      <ion-icon slot="icon-only" id="icon_sort_tickets" name="swap-vertical-outline"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <!-- Project's tickets !-->
+  <ion-popover trigger="icon_sort_tickets" reference="event" [dismissOnSelect]="true">
+    <ng-template>
+      <ion-content>
+        <ion-list>
+          <ion-list-header>Options de tris</ion-list-header>
+          <ion-item button (click)="this.changeOrder('status')">Status</ion-item>
+          <ion-item button (click)="this.changeOrder('type')">Type</ion-item>
+          <ion-item button (click)="this.changeOrder('priority')">Priorité</ion-item>
+          <ion-item button (click)="this.changeOrder('creationDateTime')"
+                    lines="none" detail="false">Date</ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-popover>
   <ion-list class="list__project__container" *ngIf="this.project !== undefined">
     <ion-list-header class="list__header">{{this.project.name}}</ion-list-header>
 
-    <ion-item>
-      <ion-label>Trier par</ion-label>
-      <ion-select id="orderId" interface="popover" (ionChange)="this.changeOrder($event)">
-        <ion-select-option value="creationDateTime">Date</ion-select-option>
-        <ion-select-option value="status">Status</ion-select-option>
-        <ion-select-option value="type">Type</ion-select-option>
-        <ion-select-option value="priority">Priorité</ion-select-option>
-      </ion-select>
-    </ion-item>
     <ion-accordion-group>
       <ion-accordion value="numbers">
         <ion-item slot="header">
-          <ion-label>Filtrer</ion-label>
-
-          <ion-button color="danger" (click)="this.resetFilter()">
-            annuler
-          </ion-button>
+          <ion-label>Filtres</ion-label>
         </ion-item>
 
         <ion-list slot="content">
@@ -100,7 +105,7 @@
 
     <ion-item-sliding *ngFor="let ticket of this.tickets" >
       <ion-item (click)="this.redirectToTicket(ticket)">
-        <ion-label style="display: flex; flex-direction: row; align-items: center">
+        <ion-text style="display: flex; flex-direction: row; align-items: center">
           <ion-img *ngIf="ticket.type === 'task'"
                    class="image__icon"
                    src="{{'assets/icon/task.svg'}}">
@@ -109,8 +114,8 @@
                    class="image__icon"
                    src="{{'assets/icon/bug.svg'}}">
           </ion-img>
-          <ion-label class="ticket__label">{{ticket.name}}</ion-label>
-        </ion-label>
+          <ion-text class="ticket__label">{{ticket.name}}</ion-text>
+        </ion-text>
         <ion-note style="display: flex; flex-direction: column; align-items: center" slot="end" color="primary">
           <ion-img *ngIf="ticket.priority === 'high'"
                    class="image__icon"
