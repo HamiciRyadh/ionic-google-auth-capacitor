@@ -11,6 +11,7 @@
   <!-- Project's tickets !-->
   <ion-list class="list__project__container" *ngIf="this.project !== undefined">
     <ion-list-header class="list__header">{{this.project.name}}</ion-list-header>
+
     <ion-item>
       <ion-label>Trier par</ion-label>
       <ion-select id="orderId" interface="popover" (ionChange)="this.changeOrder($event)">
@@ -21,80 +22,80 @@
       </ion-select>
     </ion-item>
     <ion-accordion-group>
-    <ion-accordion value="numbers">
-      <ion-item slot="header">
-        <ion-label>Filtrer</ion-label>
+      <ion-accordion value="numbers">
+        <ion-item slot="header">
+          <ion-label>Filtrer</ion-label>
 
-        <ion-button color="danger" (click)="this.resetFilter()">
-          annuler
-        </ion-button>
-      </ion-item>
+          <ion-button color="danger" (click)="this.resetFilter()">
+            annuler
+          </ion-button>
+        </ion-item>
 
-      <ion-list slot="content">
-        <ion-item>
-          <ion-segment id="filterType" (ionChange)="this.applyFilterType($event)">
-            <ion-segment-button value="bug" layout="icon-start">
-              <ion-img class="image__icon"
-                       src="{{'assets/icon/bug.svg'}}">
-              </ion-img>
-              <ion-label>Bug</ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="task" layout="icon-start">
-              <ion-img class="image__icon"
-                       src="{{'assets/icon/task.svg'}}">
-              </ion-img>
-              <ion-label>Task</ion-label>
-            </ion-segment-button>
-          </ion-segment>
-        </ion-item>
-        <ion-item>
-          <ion-segment id="filterPriority"  (ionChange)="this.applyFilterPriority($event)">
-            <ion-segment-button value="high" layout="icon-start">
-              <ion-img class="image__icon"
-                       src="{{'assets/icon/high.svg'}}">
-              </ion-img>
-              <ion-label>High</ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="medium" layout="icon-start">
-              <ion-img class="image__icon"
-                       src="{{'assets/icon/medium.svg'}}">
-              </ion-img>
-              <ion-label>Medium</ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="low" layout="icon-start">
-              <ion-img class="image__icon"
-                       src="{{'assets/icon/low.svg'}}">
-              </ion-img>
-              <ion-label>Low</ion-label>
-            </ion-segment-button>
-          </ion-segment>
-        </ion-item>
-        <ion-item>
-          <ion-segment id="filterStatus" (ionChange)="this.applyFilterStatus($event)">
-            <ion-segment-button value="open">
-              <ion-label class="ticket__status open">
-                Ouvert
-              </ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="started">
-              <ion-label class="ticket__status started">
-                En cours
-              </ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="blocked">
-              <ion-label class="ticket__status blocked">
-                Bloqué
-              </ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="finished">
-              <ion-label class="ticket__status finished">
-                Fermé
-              </ion-label>
-            </ion-segment-button>
-          </ion-segment>
-        </ion-item>
-      </ion-list>
-    </ion-accordion>
+        <ion-list slot="content">
+          <ion-item>
+            <ion-segment id="filterType" (ionChange)="this.applyFilterType($event)">
+              <ion-segment-button value="bug" layout="icon-start">
+                <ion-img class="image__icon"
+                         src="{{'assets/icon/bug.svg'}}">
+                </ion-img>
+                <ion-label>Bug</ion-label>
+              </ion-segment-button>
+              <ion-segment-button value="task" layout="icon-start">
+                <ion-img class="image__icon"
+                         src="{{'assets/icon/task.svg'}}">
+                </ion-img>
+                <ion-label>Task</ion-label>
+              </ion-segment-button>
+            </ion-segment>
+          </ion-item>
+          <ion-item>
+            <ion-segment id="filterPriority"  (ionChange)="this.applyFilterPriority($event)">
+              <ion-segment-button value="high" layout="icon-start">
+                <ion-img class="image__icon"
+                         src="{{'assets/icon/high.svg'}}">
+                </ion-img>
+<!--                <ion-label>High</ion-label>-->
+              </ion-segment-button>
+              <ion-segment-button value="medium" layout="icon-start">
+                <ion-img class="image__icon"
+                         src="{{'assets/icon/medium.svg'}}">
+                </ion-img>
+<!--                <ion-label>Medium</ion-label>-->
+              </ion-segment-button>
+              <ion-segment-button value="low" layout="icon-start">
+                <ion-img class="image__icon"
+                         src="{{'assets/icon/low.svg'}}">
+                </ion-img>
+<!--                <ion-label>Low</ion-label>-->
+              </ion-segment-button>
+            </ion-segment>
+          </ion-item>
+          <ion-item>
+            <ion-segment id="filterStatus" (ionChange)="this.applyFilterStatus($event)">
+              <ion-segment-button value="open">
+                <ion-label class="ticket__status open">
+                  Ouvert
+                </ion-label>
+              </ion-segment-button>
+              <ion-segment-button value="started">
+                <ion-label class="ticket__status started">
+                  En cours
+                </ion-label>
+              </ion-segment-button>
+              <ion-segment-button value="blocked">
+                <ion-label class="ticket__status blocked">
+                  Bloqué
+                </ion-label>
+              </ion-segment-button>
+              <ion-segment-button value="finished">
+                <ion-label class="ticket__status finished">
+                  Fermé
+                </ion-label>
+              </ion-segment-button>
+            </ion-segment>
+          </ion-item>
+        </ion-list>
+      </ion-accordion>
     </ion-accordion-group>
 
     <ion-item-sliding *ngFor="let ticket of this.tickets" >
@@ -110,19 +111,7 @@
           </ion-img>
           <ion-label class="ticket__label">{{ticket.name}}</ion-label>
         </ion-label>
-        <ion-note style="display: flex; flex-direction: row; align-items: center" slot="end" color="primary">
-          <ion-label class="ticket__status {{ticket.status}}" *ngIf="this.ticket.status === 'open'">
-            Ouvert
-          </ion-label>
-          <ion-label class="ticket__status {{ticket.status}}" *ngIf="this.ticket.status === 'started'">
-            En cours
-          </ion-label>
-          <ion-label class="ticket__status {{ticket.status}}" *ngIf="this.ticket.status === 'blocked'">
-            Bloqué
-          </ion-label>
-          <ion-label class="ticket__status {{ticket.status}}" *ngIf="this.ticket.status === 'finished'">
-            Fermé
-          </ion-label>
+        <ion-note style="display: flex; flex-direction: column; align-items: center" slot="end" color="primary">
           <ion-img *ngIf="ticket.priority === 'high'"
                    class="image__icon"
                    src="{{'assets/icon/high.svg'}}">
@@ -138,6 +127,18 @@
           <ion-avatar style="padding: 10px">
             <ion-img src="{{ this.findUserFromUid(ticket.owner)?.photoURL ?? 'assets/icon/user.png'}}"></ion-img>
           </ion-avatar>
+          <ion-label class="ticket__status {{ticket.status}}" *ngIf="this.ticket.status === 'open'">
+            Ouvert
+          </ion-label>
+          <ion-label class="ticket__status {{ticket.status}}" *ngIf="this.ticket.status === 'started'">
+            En cours
+          </ion-label>
+          <ion-label class="ticket__status {{ticket.status}}" *ngIf="this.ticket.status === 'blocked'">
+            Bloqué
+          </ion-label>
+          <ion-label class="ticket__status {{ticket.status}}" *ngIf="this.ticket.status === 'finished'">
+            Fermé
+          </ion-label>
         </ion-note>
       </ion-item>
       <ion-item-options side="end" *ngIf="this.projectService.userCanWrite()">

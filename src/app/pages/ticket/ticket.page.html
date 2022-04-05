@@ -23,7 +23,22 @@
                  src="{{'assets/icon/bug.svg'}}">
         </ion-img>
         <ion-label class="ticket__label">{{ticket.name}}</ion-label>
-        <ion-note style="display: flex; flex-direction: row; align-items: center" slot="end" >
+        <ion-note style="display: flex; flex-direction: column; align-items: center" slot="end" >
+          <ion-img *ngIf="ticket.priority === 'high'"
+                   class="image__icon"
+                   src="{{'assets/icon/high.svg'}}">
+          </ion-img>
+          <ion-img *ngIf="ticket.priority === 'medium'"
+                   class="image__icon"
+                   src="{{'assets/icon/medium.svg'}}">
+          </ion-img>
+          <ion-img *ngIf="ticket.priority === 'low'"
+                   class="image__icon"
+                   src="{{'assets/icon/low.svg'}}">
+          </ion-img>
+          <ion-avatar style="padding: 10px">
+            <ion-img src="{{ this.findUserFromUid(this.ticket.owner)?.photoURL ?? 'assets/icon/user.png' }}"></ion-img>
+          </ion-avatar>
           <ion-label class="ticket__status {{this.ticket.status}}" *ngIf="this.ticket.status === 'open'">
             Ouvert
           </ion-label>
@@ -36,22 +51,6 @@
           <ion-label class="ticket__status {{this.ticket.status}}" *ngIf="this.ticket.status === 'finished'">
             Fermé
           </ion-label>
-          <ion-img *ngIf="this.ticket.priority === 'high'"
-                   class="image__icon"
-                   src="{{'assets/icon/high.svg'}}">
-          </ion-img>
-          <ion-img *ngIf="this.ticket.priority === 'medium'"
-                   class="image__icon"
-                   src="{{'assets/icon/medium.svg'}}">
-          </ion-img>
-          <ion-img *ngIf="this.ticket.priority === 'low'"
-                   class="image__icon"
-                   src="{{'assets/icon/low.svg'}}">
-          </ion-img>
-
-          <ion-avatar style="padding: 10px">
-            <ion-img src="{{ this.findUserFromUid(this.ticket.owner)?.photoURL ?? 'assets/icon/user.png' }}"></ion-img>
-          </ion-avatar>
         </ion-note>
       </ion-item>
     </ion-card-header>

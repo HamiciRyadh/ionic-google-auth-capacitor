@@ -9,7 +9,7 @@
 
 <ion-content>
   <div class="profile__header">
-    <ion-avatar slot="start" (click)="this.updateProfilePicture()">
+    <ion-avatar slot="start" (click)="this.updateProfilePicture()" style="margin-right: 10px;">
       <ion-img src="{{ this.user?.photoURL ?? 'assets/icon/user.png'}}"></ion-img>
     </ion-avatar>
     <ion-label>
