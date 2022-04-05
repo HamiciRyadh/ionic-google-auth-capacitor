@@ -11,7 +11,6 @@ export class Ticket {
   owner: string;
   createdBy: string;
   creationDateTime: Date;
-  attachments: string[];
 
   constructor(name: string, description: string, type: string, priority: string, ownerUid: string, status: string,
               creatorUid: string, project: Project) {
@@ -24,7 +23,6 @@ export class Ticket {
     this.priority = priority;
     this.owner = ownerUid;
     this.createdBy = creatorUid;
-    this.creationDateTime = new Date(); //TODO: Use timestamp UTC to unify.
-    this.attachments = [];
+    this.creationDateTime = new Date();
   }
 }

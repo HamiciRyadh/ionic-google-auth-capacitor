@@ -3,8 +3,11 @@
     <ion-buttons slot="start">
       <ion-icon slot="icon-only" name="arrow-back-outline" color="primary" (click)="this.goBackToProject()"></ion-icon>
     </ion-buttons>
-    <ion-buttons *ngIf="this.projectService.userCanWrite()" slot="end" (click)="this.goToEditTicket()">
-      <ion-icon slot="icon-only" name="create-outline" color="primary"></ion-icon>
+    <ion-buttons *ngIf="this.projectService.userCanWrite()" slot="end" style="margin-right: 10px;">
+      <ion-icon slot="icon-only" name="cloud-upload-outline" style="margin-right: 10px;" color="primary"
+                (click)="this.addAttachment()"></ion-icon>
+      <ion-icon slot="icon-only" name="create-outline" color="primary"
+                (click)="this.goToEditTicket()"></ion-icon>
     </ion-buttons>
     <ion-title>Ticket</ion-title>
   </ion-toolbar>
@@ -68,8 +71,22 @@
       </ion-chip>
     </ion-card-content>
   </ion-card>
+
+
   <ion-list class="list__project__container">
     <ion-list-header class="list__header">Attachments:</ion-list-header>
+    <ion-item *ngFor="let attachment of attachments">
+      <a href="{{attachment.fileURL}}" download="{{attachment.id}}" target="_blank">
+        <ion-thumbnail>
+          <img src="{{attachment.fileURL}}">
+        </ion-thumbnail>
+      </a>
+      <ion-buttons slot="end" style="margin-right: 10px;">
+        <ion-icon slot="icon-only" name="cloud-download-outline" color="primary" (click)="this.download(attachment)"
+                  style="margin-right: 10px;"></ion-icon>
+        <ion-icon slot="icon-only" name="trash-outline" color="danger" (click)="this.deleteAttachment(attachment)"></ion-icon>
+      </ion-buttons>
+    </ion-item>
   </ion-list>
 
 

@@ -112,7 +112,8 @@ export class UserService {
     const user: User = this.auth.currentUser;
     if (!user) {return false;}
 
-    const imagePath: string = await this.uploadImageService.selectAndUploadImage('profile-picture', this.getUser().uid);
+    const imagePath: string = await this.uploadImageService.selectAndUploadImage('profile-picture',
+      `${this.getUser().uid}.jpg`);
     if (!imagePath) {return false;}
 
     return Promise.all([updateProfile(user, {photoURL: imagePath}),

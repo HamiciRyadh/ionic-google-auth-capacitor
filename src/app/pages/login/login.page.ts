@@ -47,11 +47,11 @@ export class LoginPage implements OnInit {
   }
 
   loginWithGoogle(): void {
-    console.log('TODO: Login with Google');
+    console.log('Login with Google');
   }
 
   loginWithGithub(): void {
-    console.log('TODO: Login with Github');
+    console.log('Login with Github');
   }
 
   redirectToPasswordRecovery(): void {

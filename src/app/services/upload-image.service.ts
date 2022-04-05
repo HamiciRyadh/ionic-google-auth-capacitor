@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Camera, CameraResultType, CameraSource, Photo} from '@capacitor/camera';
-import {getStorage, ref, getDownloadURL, uploadBytes} from '@angular/fire/storage';
+import {getStorage, ref, getDownloadURL, uploadBytes, getBlob} from '@angular/fire/storage';
+import {Directory, Filesystem} from '@capacitor/filesystem';
 
 
 @Injectable({
@@ -32,6 +33,30 @@ export class UploadImageService {
 
     const snapshot = await uploadBytes(imageRef, this.b64toBlob(photo.base64String, 'image/jpg'));
     return await getDownloadURL(snapshot.ref);
+  }
+
+  public async download(url: string, fileName: string) {
+    const base64Data = await this.readAsBase64(url);
+    const image = await Filesystem.writeFile({
+      path: fileName,
+      data: base64Data,
+      directory: Directory.Documents
+    });
+  }
+
+  private async readAsBase64(url: string): Promise<string> {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return await this.convertBlobToBase64(blob);
+  }
+
+  private async convertBlobToBase64(blob: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = () => reject();
+      reader.onload = () => resolve(reader.result as string);
+      reader.readAsDataURL(blob);
+    });
   }
 
   private b64toBlob(b64Data, contentType='', sliceSize=512) {
