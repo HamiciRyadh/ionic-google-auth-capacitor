@@ -40,7 +40,8 @@ export class TicketPage implements OnInit {
   async goToEditTicket(): Promise<void> {
     const modal = await this.modalController.create({
       component: CreateTicketComponent,
-      swipeToClose: true,
+      breakpoints: [0, 0.3, 0.7, 1],
+      initialBreakpoint: 0.7,
       componentProps: {
         projectId: this.projectId,
         ticketId: this.ticket.id,
