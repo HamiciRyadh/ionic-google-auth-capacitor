@@ -12,9 +12,9 @@
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="projectForm" (ngSubmit)="this.createOrUpdateProject()" class="form__login">
+  <form [formGroup]="projectForm" (ngSubmit)="this.createOrUpdateProject()" class="modal__form">
     <ion-input class="input__primary" placeholder="Nom" formControlName="name"></ion-input>
-    <ion-textarea class="textarea__primary" placeholder="Description" formControlName="description"></ion-textarea>
+    <ion-textarea rows="5" class="textarea__primary" placeholder="Description" formControlName="description"></ion-textarea>
 
     <ion-button class="button__primary" type="submit" [disabled]="!projectForm.valid">
       {{this.projectId?'Modifier':'Ajouter'}}

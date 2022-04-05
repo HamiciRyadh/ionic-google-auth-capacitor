@@ -53,7 +53,8 @@ export class ProjectPage implements OnInit {
   async modalCreateTicket(): Promise<void> {
     const modal = await this.modalController.create({
       component: CreateTicketComponent,
-      swipeToClose: true,
+      breakpoints: [0, 0.3, 0.7, 1],
+      initialBreakpoint: 0.7,
     });
     await modal.present();
   }

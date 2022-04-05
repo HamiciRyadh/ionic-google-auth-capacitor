@@ -50,7 +50,8 @@ export class HomePage implements OnInit {
   async modalCreateProject(): Promise<void>{
     const modal = await this.modalController.create({
       component: CreateProjectComponent,
-      swipeToClose: true,
+      breakpoints: [0, 0.4, 0.6, 1],
+      initialBreakpoint: 0.6,
     });
     await modal.present();
   }

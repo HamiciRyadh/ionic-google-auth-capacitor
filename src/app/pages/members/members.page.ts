@@ -65,7 +65,8 @@ export class MembersPage implements OnInit {
   async addMember(): Promise<void> {
     const modal = await this.modalController.create({
       component: AddMemberComponent,
-      swipeToClose: true,
+      breakpoints: [0, 0.5, 0.7, 1],
+      initialBreakpoint: 0.7,
     });
     await modal.present();
   }

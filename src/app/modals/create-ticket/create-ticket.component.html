@@ -12,16 +12,12 @@
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="this.ticketForm" (ngSubmit)="this.createOrUpdateTicket()" class="form__login">
+  <form [formGroup]="this.ticketForm" (ngSubmit)="this.createOrUpdateTicket()" class="modal__form">
+
+    <ion-input class="input__primary" placeholder="Nom" formControlName="name"></ion-input>
+    <ion-textarea rows="5" class="textarea__primary" placeholder="Description" formControlName="description"></ion-textarea>
+
     <ion-list>
-      <ion-item>
-        <ion-input class="input__primary" placeholder="Nom" formControlName="name"></ion-input>
-      </ion-item>
-
-      <ion-item>
-       <ion-textarea class="textarea__primary" placeholder="Description" formControlName="description"></ion-textarea>
-      </ion-item>
-
       <ion-item>
         <ion-label>Type</ion-label>
         <ion-select interface="popover" formControlName="type" >

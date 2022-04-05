@@ -42,6 +42,18 @@
   width: 80%;
 }
 
+.modal__form{
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal__form > ion-list{
+  width: 90%;
+}
+
+
 .button__primary {
   background: var(--jira-color-primary);
   border: 1px solid var(--jira-color-primary);
